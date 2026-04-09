@@ -6,6 +6,7 @@ import {
   Rocket, Crown, Users, TrendingUp, Award,
   MessageCircle, Sparkles, Shield
 } from 'lucide-react'
+import Footer from '../components/layout/Footer'
 
 /* ─────────────────────────────────────────
    GLOBAL STYLES
@@ -277,7 +278,7 @@ function PlanCard({ plan, index }) {
       {/* CTA */}
       <div style={{ padding: '16px 28px 28px', marginTop: 'auto' }}>
         <a
-          href={`https://wa.me/91XXXXXXXXXX?text=Hi%20ToFly!%20I'm%20interested%20in%20the%20${encodeURIComponent(plan.label)}%20Plan`}
+          href={`https://wa.me/919752523894?text=Hi%20ToFly!%20I'm%20interested%20in%20the%20${encodeURIComponent(plan.label)}%20Plan`}
           target="_blank"
           rel="noopener noreferrer"
           style={{
@@ -386,7 +387,21 @@ export default function PricingPage() {
         <div style={{ position: 'relative', zIndex: 2 }}>
 
           {/* ── HERO ── */}
-          <div ref={heroRef} style={{ textAlign: 'center', padding: '96px 24px 72px', maxWidth: 860, margin: '0 auto' }}>
+          <div ref={heroRef} style={{ textAlign: 'center', padding: '72px 24px 72px', maxWidth: 860, margin: '0 auto' }}>
+
+            {/* Logo */}
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={heroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              style={{ marginBottom: 36, display: 'flex', justifyContent: 'center' }}
+            >
+              <img
+                src="/hero/logo.jpg"
+                alt="ToFly Media"
+                style={{ height: 56, width: 'auto', objectFit: 'contain', borderRadius: 12 }}
+              />
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: -16 }}
@@ -547,7 +562,7 @@ export default function PricingPage() {
               </p>
               <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
                 <a
-                  href="https://wa.me/91XXXXXXXXXX?text=Hi%20ToFly!%20I'd%20like%20a%20free%20strategy%20call"
+                  href="https://wa.me/919752523894?text=Hi%20ToFly!%20I'd%20like%20a%20free%20strategy%20call"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -564,7 +579,7 @@ export default function PricingPage() {
                   Book Free Strategy Call <Rocket size={16} />
                 </a>
                 <a
-                  href="https://wa.me/91XXXXXXXXXX"
+                  href="https://wa.me/919752523894"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -584,15 +599,16 @@ export default function PricingPage() {
             </div>
           </motion.div>
 
-          <div style={{ textAlign: 'center', padding: '64px 24px 48px', fontSize: 12, color: 'rgba(255,255,255,0.18)' }}>
-            © 2026 ToFly Media &nbsp;·&nbsp; All prices exclude GST &nbsp;·&nbsp; Results may vary by industry
-          </div>
         </div>
+      </div>
+
+      <div style={{ paddingTop: 80 }}>
+        <Footer />
       </div>
 
       {/* Sticky WhatsApp */}
       <motion.a
-        href="https://wa.me/91XXXXXXXXXX?text=Hi%20ToFly!%20I'm%20interested%20in%20your%20services"
+        href="https://wa.me/919752523894?text=Hi%20ToFly!%20I'm%20interested%20in%20your%20services"
         target="_blank"
         rel="noopener noreferrer"
         initial={{ opacity: 0, scale: 0.8 }}
