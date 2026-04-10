@@ -3,18 +3,19 @@ import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, Users, FileText, Briefcase, Star,
-  BookOpen, LogOut, Menu, X, ChevronRight
+  BookOpen, LogOut, Menu, X, ChevronRight, CreditCard
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { toast } from 'react-hot-toast'
 
 const NAV_ITEMS = [
-  { label: 'Dashboard', path: '/admin', icon: LayoutDashboard, exact: true },
-  { label: 'Leads', path: '/admin/leads', icon: Users },
-  { label: 'Blog Posts', path: '/admin/blogs', icon: FileText },
-  { label: 'Services', path: '/admin/services', icon: Briefcase },
-  { label: 'Testimonials', path: '/admin/testimonials', icon: Star },
-  { label: 'Case Studies', path: '/admin/case-studies', icon: BookOpen },
+  { label: 'Dashboard',   path: '/admin',               icon: LayoutDashboard, exact: true },
+  { label: 'Payments',    path: '/admin/payments',       icon: CreditCard },
+  { label: 'Leads',       path: '/admin/leads',          icon: Users },
+  { label: 'Blog Posts',  path: '/admin/blogs',          icon: FileText },
+  { label: 'Services',    path: '/admin/services',       icon: Briefcase },
+  { label: 'Testimonials',path: '/admin/testimonials',   icon: Star },
+  { label: 'Case Studies',path: '/admin/case-studies',   icon: BookOpen },
 ]
 
 function SidebarContent({ sidebarOpen, onClose, user, handleLogout, isDesktop }) {

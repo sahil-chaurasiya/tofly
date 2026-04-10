@@ -27,6 +27,7 @@ import AdminBlogEditor from './pages/admin/AdminBlogEditor'
 import AdminServices from './pages/admin/AdminServices'
 import AdminTestimonials from './pages/admin/AdminTestimonials'
 import AdminCaseStudies from './pages/admin/AdminCaseStudies'
+import AdminPayments from './pages/admin/AdminPayments'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 
 export default function App() {
@@ -84,6 +85,7 @@ export default function App() {
             <Route path="services" element={<AdminServices />} />
             <Route path="testimonials" element={<AdminTestimonials />} />
             <Route path="case-studies" element={<AdminCaseStudies />} />
+            <Route path="payments" element={<AdminPayments />} />
           </Route>
 
         </Routes>
