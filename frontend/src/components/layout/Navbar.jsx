@@ -52,7 +52,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center group" style={{ textDecoration: 'none' }}>
           <img
-            src="/hero/logo.jpg"
+            src="/hero/logo.png"
             alt="To Fly Media"
             style={{ height: '45px', width: 'auto', objectFit: 'contain' }}
           />

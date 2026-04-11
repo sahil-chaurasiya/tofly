@@ -103,7 +103,7 @@ export default function PaymentModal({ plan, onClose }) {
         order_id:    data.orderId,
         name:        'ToFly Media',
         description: `${data.planLabel} Plan`,
-        image:       'https://www.toflymedia.com/hero/logo.jpg',
+        image:       'https://www.toflymedia.com/hero/logo.png',
         prefill: {
           name:    form.name,
           email:   form.email,

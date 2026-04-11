@@ -31,7 +31,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <Link to="/" className="flex items-center mb-5 w-fit">
               <img
-                src="/hero/logo.jpg"
+                src="/hero/logo.png"
                 alt="To Fly Media"
                 style={{ height: '45px', width: 'auto', objectFit: 'contain' }}
               />

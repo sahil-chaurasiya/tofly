@@ -614,7 +614,7 @@ export default function PricingPage() {
               style={{ marginBottom: 32, display: 'flex', justifyContent: 'center' }}
             >
               <img
-                src="/hero/logo.jpg"
+                src="/hero/logo.png"
                 alt="ToFly Media"
                 style={{ height: 52, width: 'auto', objectFit: 'contain', borderRadius: 12 }}
               />
