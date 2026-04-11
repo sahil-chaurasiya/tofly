@@ -34,8 +34,8 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
   'https://tofly.vercel.app',
-  'https://www.toflymedia.com',
-  'https://toflymedia.com',
+  'https://www.toflymediaa.com',
+  'https://toflymediaa.com',
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
