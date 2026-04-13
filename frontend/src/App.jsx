@@ -38,7 +38,7 @@ export default function App() {
     const handleKey = (e) => {
       if (e.ctrlKey && e.key === 'm') {
         e.preventDefault()
-        navigate('/pricing')
+        navigate('/astrology-pricing')
       }
     }
     window.addEventListener('keydown', handleKey)
@@ -65,7 +65,7 @@ export default function App() {
           </Route>
 
           {/* ── Standalone (no Navbar / Footer) ── */}
-          <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/astrology-pricing" element={<PricingPage />} />
 
           {/* ── Admin Routes ── */}
           <Route path="/admin/login" element={<AdminLogin />} />

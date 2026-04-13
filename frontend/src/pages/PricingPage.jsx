@@ -789,25 +789,34 @@ export default function AstrologyLandingPage() {
             </div>
           </div>
           
-          {/* ── WHY THE STARS CHOOSE US (Existing) ───────────────────────────────────── */}
-          <div className="section-wrap" style={{ marginBottom: 80 }}>
-            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 40 }}>
-              <div style={{ fontSize: 11, color: '#F6C90E', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10, fontFamily: 'Cinzel, serif' }}>Why the Stars Choose Us</div>
-              <h2 style={{ fontSize: 'clamp(24px, 4.5vw, 40px)', fontWeight: 800, margin: '0 0 12px' }}>Your cosmic practice deserves a <span className="gtext">cosmic presence</span></h2>
-            </motion.div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 32, alignItems: 'center' }}>
-              <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-                <img src="/hero/cosmic.jpg" alt="Cosmic astrology chart with glowing elements" className="astro-image" style={{ margin: 0 }} />
-              </motion.div>
-              <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-                  <div><div style={{ fontSize: 14, fontWeight: 700, color: '#F6C90E', marginBottom: 8 }}>🔮 Beyond the Birth Chart</div><p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: 0 }}>We don't just build websites. We craft digital sanctuaries that reflect the depth of your work — from Vedic astrology to tarot, numerology to energy healing. Your unique gifts deserve a platform that does them justice.</p></div>
-                  <div><div style={{ fontSize: 14, fontWeight: 700, color: '#F6C90E', marginBottom: 8 }}>✨ Attract Aligned Souls</div><p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: 0 }}>Stop attracting clients who want free readings or quick fixes. Our strategic approach attracts those who are ready for transformation and understand the value of your time and wisdom.</p></div>
-                  <div><div style={{ fontSize: 14, fontWeight: 700, color: '#F6C90E', marginBottom: 8 }}>🌙 We Speak Your Language</div><p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: 0 }}>From Mercury retrograde to Saturn returns, our team understands the astrological landscape. We create messaging that resonates with your ideal clients on a soul level.</p></div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
+{/* ── WHY THE STARS CHOOSE US (Existing) ───────────────────────────────────── */}
+<div className="section-wrap" style={{ marginBottom: 80 }}>
+  <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 40 }}>
+    <div style={{ fontSize: 11, color: '#F6C90E', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10, fontFamily: 'Cinzel, serif' }}>Why the Stars Choose Us</div>
+    <h2 style={{ fontSize: 'clamp(24px, 4.5vw, 40px)', fontWeight: 800, margin: '0 0 12px' }}>Your cosmic practice deserves a <span className="gtext">cosmic presence</span></h2>
+  </motion.div>
+  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 32, alignItems: 'stretch' }}>
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      style={{ position: 'relative', minHeight: 300, borderRadius: 24, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 12px 32px rgba(0,0,0,0.4)' }}
+    >
+      <img
+        src="/hero/cosmic.jpeg"
+        alt="Cosmic astrology chart with glowing elements"
+        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+      />
+    </motion.div>
+    <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div><div style={{ fontSize: 14, fontWeight: 700, color: '#F6C90E', marginBottom: 8 }}>🔮 Beyond the Birth Chart</div><p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: 0 }}>We don't just build websites. We craft digital sanctuaries that reflect the depth of your work — from Vedic astrology to tarot, numerology to energy healing. Your unique gifts deserve a platform that does them justice.</p></div>
+        <div><div style={{ fontSize: 14, fontWeight: 700, color: '#F6C90E', marginBottom: 8 }}>✨ Attract Aligned Souls</div><p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: 0 }}>Stop attracting clients who want free readings or quick fixes. Our strategic approach attracts those who are ready for transformation and understand the value of your time and wisdom.</p></div>
+        <div><div style={{ fontSize: 14, fontWeight: 700, color: '#F6C90E', marginBottom: 8 }}>🌙 We Speak Your Language</div><p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: 0 }}>From Mercury retrograde to Saturn returns, our team understands the astrological landscape. We create messaging that resonates with your ideal clients on a soul level.</p></div>
+      </div>
+    </motion.div>
+  </div>
+</div>
 
           {/* ── NEW: WHAT IS ASTROLOGY DIGITAL MARKETING? ────────────────────────────── */}
           <div className="section-wrap" style={{ marginBottom: 80 }}>

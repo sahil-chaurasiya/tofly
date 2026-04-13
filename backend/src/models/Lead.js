@@ -27,12 +27,15 @@ const leadSchema = new mongoose.Schema({
   service: {
     type: String,
     enum: [
-      'graphic-design',
-      'video-editing',
-      'web-development',
-      'app-development',
-      'digital-marketing',
-      'ui-ux-design',
+      'brand-strategy-consulting',
+      'website-development-ecommerce',
+      'social-media-marketing',
+      'google-meta-ads',
+      'influencer-awareness-marketing',
+      'branding-solutions',
+      'seo-local-marketing',
+      'bulk-whatsapp-sms-marketing',
+      'bulk-voice-call-ivr',
       'other'
     ],
     default: 'other'

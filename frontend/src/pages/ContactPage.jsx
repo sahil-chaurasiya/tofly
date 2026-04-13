@@ -8,12 +8,15 @@ import { publicAPI } from '../utils/api'
 import { PageWrapper, SectionWrapper, SectionTag } from '../components/common'
 
 const SERVICES = [
-  { value: 'graphic-design', label: 'Graphic Design' },
-  { value: 'video-editing', label: 'Video Editing' },
-  { value: 'web-development', label: 'Web Development' },
-  { value: 'app-development', label: 'App Development' },
-  { value: 'digital-marketing', label: 'Digital Marketing' },
-  { value: 'ui-ux-design', label: 'UI/UX Design' },
+  { value: 'brand-strategy-consulting', label: 'Brand Strategy & Consulting' },
+  { value: 'website-development-ecommerce', label: 'Website Development & E-Commerce' },
+  { value: 'social-media-marketing', label: 'Social Media Marketing' },
+  { value: 'google-meta-ads', label: 'Google & Meta Ads' },
+  { value: 'influencer-awareness-marketing', label: 'Influencer & Awareness Marketing' },
+  { value: 'branding-solutions', label: 'Branding Solutions' },
+  { value: 'seo-local-marketing', label: 'SEO & Local Marketing' },
+  { value: 'bulk-whatsapp-sms-marketing', label: 'Bulk WhatsApp & SMS Marketing' },
+  { value: 'bulk-voice-call-ivr', label: 'Bulk Voice Call & IVR Services' },
   { value: 'other', label: 'Not Sure Yet' },
 ]
 
@@ -264,26 +267,18 @@ export default function ContactPage() {
               ))}
             </div>
 
-            {/* Working hours */}
+            {/* Availability */}
             <div className="glass-card p-6">
-              <h3 className="font-semibold text-white mb-4">Working Hours</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-white/45">Monday – Friday</span>
-                  <span className="text-white/70">10:30 AM – 6:30 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-white/45">Saturday</span>
-                  <span className="text-white/70">11:00 AM – 5:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-white/45">Sunday</span>
-                  <span className="text-white/45">Closed</span>
+              <h3 className="font-semibold text-white mb-4">Availability</h3>
+              <div className="flex items-center gap-3">
+                <div className="flex flex-col">
+                  <span className="text-white/70 text-sm font-medium">24 / 7</span>
+                  <span className="text-white/40 text-xs mt-0.5">Always available for you</span>
                 </div>
               </div>
               <div className="mt-4 flex items-center gap-2 text-xs text-green-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                Usually replies within 2–4 hours on weekdays
+                We're online right now
               </div>
             </div>
 

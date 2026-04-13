@@ -179,11 +179,16 @@ export default function Navbar() {
                 onMouseLeave={() => setActiveDropdown(null)}
               >
                 {link.children ? (
-                  <button className="btn-ghost flex items-center gap-1 text-sm">
-                    {link.label}
-                    <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === link.label ? 'rotate-180' : ''}`} />
-                  </button>
-                ) : (
+  <NavLink
+    to={link.path}
+    className={({ isActive }) =>
+      `btn-ghost flex items-center gap-1 text-sm ${isActive ? '!text-white !bg-white/8' : ''}`
+    }
+  >
+    {link.label}
+    <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === link.label ? 'rotate-180' : ''}`} />
+  </NavLink>
+) : (
                   <NavLink
                     to={link.path}
                     className={({ isActive }) =>
