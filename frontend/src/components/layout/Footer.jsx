@@ -2,13 +2,16 @@ import { Link } from 'react-router-dom'
 import { MapPin, Phone, Mail, Instagram, Linkedin, Facebook, ArrowUpRight } from 'lucide-react'
 
 const footerLinks = {
-  Services: [
-    { label: 'Graphic Design', href: '/services/graphic-design' },
-    { label: 'Video Editing', href: '/services/video-editing' },
-    { label: 'Web Development', href: '/services/web-development' },
-    { label: 'App Development', href: '/services/app-development' },
-    { label: 'Digital Marketing', href: '/services/digital-marketing' },
-    { label: 'UI/UX Design', href: '/services/ui-ux-design' },
+  Solutions: [
+    { label: 'Brand Strategy & Consulting', href: '/services/brand-strategy-consulting' },
+    { label: 'Website Development & E-Commerce', href: '/services/website-development-ecommerce' },
+    { label: 'Social Media Marketing', href: '/services/social-media-marketing' },
+    { label: 'Google & Meta Ads', href: '/services/google-meta-ads' },
+    { label: 'Influencer & Awareness Marketing', href: '/services/influencer-awareness-marketing' },
+    { label: 'Branding Solutions', href: '/services/branding-solutions' },
+    { label: 'SEO & Local Marketing', href: '/services/seo-local-marketing' },
+    { label: 'Bulk WhatsApp & SMS Marketing', href: '/services/bulk-whatsapp-sms-marketing' },
+    { label: 'Bulk Voice Call & IVR Services', href: '/services/bulk-voice-call-ivr' },
   ],
   Company: [
     { label: 'About Us', href: '/about' },
@@ -37,7 +40,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-white/50 text-sm leading-relaxed mb-6">
-              Performance marketing agency serving Bhopal, Mumbai, Delhi & Ahmedabad. We help brands grow faster with data-driven digital marketing.
+              Performance marketing agency in Bhopal, India. We help brands grow faster with data-driven digital marketing.
             </p>
             <div className="flex items-center gap-3">
               {[
@@ -85,16 +88,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin size={16} className="text-brand-400 mt-0.5 shrink-0" />
-                <div className="flex flex-col gap-1">
-                  <span className="text-xs text-white/30 uppercase tracking-wider">Serving</span>
-                  <div className="flex flex-wrap gap-x-2 gap-y-1">
-                    {['Bhopal', 'Mumbai', 'Delhi', 'Ahmedabad'].map((city, i, arr) => (
-                      <span key={city} className="text-sm text-white/45">
-                        {city}{i < arr.length - 1 ? <span className="text-white/20 ml-2">·</span> : ''}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <span className="text-sm text-white/45">MANYA ARCADE, ISBT, Narmadapuram Rd, behind Nexa Showroom, Habib Ganj, Bhopal, Madhya Pradesh 462024</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={16} className="text-brand-400 shrink-0" />

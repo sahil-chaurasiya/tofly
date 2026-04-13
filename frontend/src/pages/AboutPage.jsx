@@ -3,45 +3,6 @@ import { Helmet } from 'react-helmet-async'
 import { Heart, Target, Eye, Award, MapPin, Users } from 'lucide-react'
 import { PageWrapper, SectionWrapper, SectionTag, CTABanner } from '../components/common'
 
-const TEAM = [
-  {
-    name: 'Aman Bhardwaj',
-    role: 'Founder & CEO',
-    bio: '8+ years in performance marketing. Ex-Google certified partner. Built and scaled 3 agencies before founding To Fly Media.',
-    emoji: '🚀'
-  },
-  {
-    name: 'Shaili Jain',
-    role: 'Project Manager',
-    bio: 'Former digital lead at a top Mumbai agency. Managed ₹10Cr+ monthly ad spends. Google & Meta certified.',
-    emoji: '🎯'
-  },
-  {
-    name: 'Sanket Shrivastava',
-    role: 'Performance Marketing',
-    bio: '6 years building B2B lead gen systems. Specializes in LinkedIn, cold outreach, and funnel automation.',
-    emoji: '⚡'
-  },
-  {
-    name: 'Adesh Sahu',
-    role: 'Social Media Manager',
-    bio: 'Grew 40+ brand accounts from scratch. Viral content strategist. Has built communities of 500K+ followers.',
-    emoji: '✨'
-  },
-  {
-    name: 'Vishal Sothiya',
-    role: 'App Developer',
-    bio: 'Data engineer turned marketer. Builds custom attribution models and dashboards that actually tell the truth.',
-    emoji: '📊'
-  },
-  {
-    name: 'Pratiksha Raghuvanshi',
-    role: 'Human Resources(HR)',
-    bio: 'Award-winning copywriter and creative director. Specializes in direct-response content that converts.',
-    emoji: '🎨'
-  }
-]
-
 const VALUES = [
   { icon: Target, title: 'Results First', desc: "We measure everything. If it doesn't move the needle, we don't do it." },
   { icon: Heart, title: 'Client Obsessed', desc: 'Your business goals become our business goals. We win when you win.' },
@@ -455,57 +416,45 @@ export default function AboutPage() {
         </div>
       </SectionWrapper>
 
-      {/* ── Team ─────────────────────────────────────────────── */}
-      <SectionWrapper className="py-24 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-950/15 to-transparent pointer-events-none" />
-        <div className="container-site relative z-10">
-          <div className="text-center mb-14">
-            <SectionTag>The People</SectionTag>
-            <h2 className="section-heading text-white mt-2">Meet the <span className="gradient-text">Team</span></h2>
-            <p className="text-white/45 mt-4 max-w-lg mx-auto">
-              Specialists, not generalists. Every team member is best-in-class at their specific discipline.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {TEAM.map((member, i) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="glass-card-hover p-7"
-              >
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-500/20 to-brand-700/20 border border-brand-500/20 flex items-center justify-center text-3xl mb-5">
-                  {member.emoji}
-                </div>
-                <h3 className="text-lg font-bold text-white mb-1">{member.name}</h3>
-                <div className="text-sm text-brand-400 font-medium mb-4">{member.role}</div>
-                <p className="text-white/45 text-sm leading-relaxed">{member.bio}</p>
-              </motion.div>
-            ))}
-          </div>
+      {/* ── Location & Reach ───────────────────────────────────── */}
+<SectionWrapper className="container-site pb-24">
+  <div className="glass-card p-10 flex flex-col md:flex-row items-start gap-8">
+    <div className="w-12 h-12 rounded-xl bg-brand-500/15 flex items-center justify-center shrink-0">
+      <MapPin size={24} className="text-brand-400" />
+    </div>
+    <div className="space-y-4">
+      <h3 className="text-2xl font-bold text-white">
+        Rooted in Bhopal. <span className="gradient-text">Serving Everywhere.</span>
+      </h3>
+      <p className="text-white/50 leading-relaxed max-w-2xl">
+        Bhopal is where we started, where our creative studio lives, and where our culture was built. 
+        But we’re not confined by geography. With office hubs in Mumbai, Delhi, and Ahmedabad — 
+        plus a remote‑first team — we work with brands across India and international markets. 
+        Great marketing isn’t about where you sit; it’s about the clarity of your strategy and 
+        the discipline of your execution.
+      </p>
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-white/40 text-sm">
+        <div className="flex items-center gap-1">
+          <MapPin size={14} className="text-brand-400" />
+          <span>HQ: Bhopal, MP – 462024</span>
         </div>
-      </SectionWrapper>
-
-      {/* ── Office location ───────────────────────────────────── */}
-      <SectionWrapper className="container-site pb-24">
-        <div className="glass-card p-10 flex flex-col md:flex-row items-start gap-8">
-          <div className="w-12 h-12 rounded-xl bg-brand-500/15 flex items-center justify-center shrink-0">
-            <MapPin size={24} className="text-brand-400" />
-          </div>
-          <div>
-            <h3 className="text-2xl font-bold text-white mb-3">Proudly Based in Bhopal</h3>
-            <p className="text-white/50 leading-relaxed max-w-2xl">
-              Our office is in the heart of Bhopal, Madhya Pradesh. While we serve clients across India and internationally, we're deeply rooted in the Central Indian business ecosystem. We understand the market, the culture, and the ambition of brands here.
-            </p>
-            <div className="mt-6 flex items-center gap-2 text-white/40 text-sm">
-              <MapPin size={14} className="text-brand-400" />
-              <span>Bhopal, Madhya Pradesh, India – 462001</span>
-            </div>
-          </div>
+        <div className="flex items-center gap-1">
+          <MapPin size={14} className="text-brand-400 opacity-70" />
+          <span>Mumbai</span>
         </div>
-      </SectionWrapper>
+        <div className="flex items-center gap-1">
+          <MapPin size={14} className="text-brand-400 opacity-70" />
+          <span>Delhi</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <MapPin size={14} className="text-brand-400 opacity-70" />
+          <span>Ahmedabad</span>
+        </div>
+        <span className="text-accent-400 text-xs font-medium tracking-wide ml-2">+ Remote‑First</span>
+      </div>
+    </div>
+  </div>
+</SectionWrapper>
 
       <CTABanner />
     </PageWrapper>
