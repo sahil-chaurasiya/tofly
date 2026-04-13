@@ -9,9 +9,9 @@ const router = express.Router();
 
 // Plan prices in paise (INR × 100)
 const PLAN_PRICES = {
-  basic:    { label: 'Basic',    amount: 9900000  }, // ₹99,000
-  standard: { label: 'Standard', amount: 17999800 }, // ₹1,79,998
-  premium:  { label: 'Premium',  amount: 31199800 }, // ₹3,11,998
+  quarterly:  { label: 'Quarterly',   amount: 9900000  }, // ₹99,000
+  halfyearly: { label: 'Half Yearly', amount: 17999800 }, // ₹1,79,998
+  annually:   { label: 'Annually',    amount: 31199800 }, // ₹3,11,998
 };
 
 function getRazorpay() {
@@ -29,7 +29,7 @@ function getRazorpay() {
 // Creates a Razorpay order & saves to DB
 // ─────────────────────────────────────────────
 router.post('/create-order', [
-  body('planId').isIn(['basic', 'standard', 'premium']).withMessage('Invalid plan'),
+  body('planId').isIn(['quarterly', 'halfyearly', 'annually']).withMessage('Invalid plan'),
   body('name').trim().notEmpty().withMessage('Name is required'),
   body('email').isEmail().normalizeEmail().withMessage('Valid email required'),
   body('phone').trim().notEmpty().withMessage('Phone is required'),

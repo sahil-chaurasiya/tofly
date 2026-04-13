@@ -7,7 +7,7 @@ const paymentSchema = new mongoose.Schema({
   razorpaySignature: { type: String, default: null },
 
   // Plan info
-  planId:    { type: String, required: true, enum: ['basic', 'standard', 'premium'] },
+  planId:    { type: String, required: true, enum: ['quarterly', 'halfyearly', 'annually'] },
   planLabel: { type: String, required: true },
   amount:    { type: Number, required: true }, // in paise
   currency:  { type: String, default: 'INR' },

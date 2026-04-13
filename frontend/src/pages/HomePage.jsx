@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight, Play, CheckCircle, TrendingUp, Target, Star, ChevronRight } from 'lucide-react'
+import { ArrowRight, Play, CheckCircle, TrendingUp, Target, Star, ChevronRight, Zap, Layers, Globe, Share2, Users, Palette, Search, MessageSquare, Phone } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 import { publicAPI } from '../utils/api'
@@ -10,6 +10,7 @@ import {
   ServiceCard, TestimonialCard, BlogCard, MetricCounter, CTABanner,
   SkeletonCard
 } from '../components/common'
+import { STATIC_SERVICES } from '../data/services'
 
 // ── Static data ───────────────────────────────────────────────
 const METRICS = [
@@ -644,26 +645,49 @@ export default function HomePage() {
         </div>
       </SectionWrapper>
 
-      {/* ── SERVICES ─────────────────────────────────────────── */}
+      {/* ── SOLUTIONS ────────────────────────────────────────── */}
       <SectionWrapper className="container-site py-14 lg:py-24">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 lg:mb-14">
           <div>
             <SectionTag icon={Target}>What We Do</SectionTag>
             <h2 className="section-heading text-white mt-2">
-              Services Engineered<br /><span className="gradient-text">for Growth</span>
+              Solutions Engineered<br /><span className="gradient-text">for Growth</span>
             </h2>
           </div>
-          <Link to="/services" className="btn-secondary text-sm w-fit">View All Services <ArrowRight size={16} /></Link>
+          <Link to="/services" className="btn-secondary text-sm w-fit">View All Solutions <ArrowRight size={16} /></Link>
         </div>
         {servicesLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
           </div>
-        ) : (
+        ) : servicesData && servicesData.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(servicesData || []).map((service, i) => (
+            {servicesData.map((service, i) => (
               <ServiceCard key={service._id} service={service} delay={i * 0.08} />
             ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {STATIC_SERVICES.slice(0, 6).map((service, i) => {
+              const ICON_MAP = { Layers, Globe, Share2, Target, Users, Palette, Search, MessageSquare, Phone }
+              const Icon = ICON_MAP[service.icon] || Zap
+              return (
+                <motion.div key={service.slug} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.5, delay: i * 0.08 }}>
+                  <Link to={`/services/${service.slug}`} className="glass-card-hover block p-7 h-full group">
+                    <div className="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-5 group-hover:bg-brand-500/20 transition-all duration-300">
+                      <Icon size={22} className="text-brand-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-brand-300 transition-colors">{service.title}</h3>
+                    <p className="text-white/50 text-sm leading-relaxed mb-5">{service.shortDescription}</p>
+                    <div className="flex items-center gap-2 text-brand-400 text-sm font-medium">
+                      <span>Learn more</span>
+                      <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
+                    </div>
+                  </Link>
+                </motion.div>
+              )
+            })}
           </div>
         )}
       </SectionWrapper>

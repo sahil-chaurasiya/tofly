@@ -49,7 +49,7 @@ export default function ContactPage() {
     <PageWrapper>
       <Helmet>
         <title>Contact Us – To Fly Media | Get Your Free Marketing Audit</title>
-        <meta name="description" content="Contact To Fly Media for a free digital marketing audit. Based in Bhopal, India. Get in touch via form, phone, email, or WhatsApp." />
+        <meta name="description" content="Contact To Fly Media for a free digital marketing audit. Serving businesses across Bhopal, Mumbai, Delhi & Ahmedabad. Reach us via form, phone, email, or WhatsApp." />
       </Helmet>
 
       {/* Hero */}
@@ -250,7 +250,6 @@ export default function ContactPage() {
               {[
                 { icon: Phone, label: '+91 9752523894', href: 'tel:+919752523894' },
                 { icon: Mail, label: 'toflymedia@gmail.com', href: 'mailto:toflymedia@gmail.com' },
-                { icon: MapPin, label: 'MANYA ARCADE, ISBT, Narmadapuram Rd, behind Nexa Showroom, Habib Ganj, Bhopal, Madhya Pradesh 462024' },
               ].map(({ icon: Icon, label, href }) => (
                 <div key={label} className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-brand-500/10 flex items-center justify-center shrink-0">
@@ -288,18 +287,62 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Google Maps embed */}
-            <div className="glass-card overflow-hidden rounded-2xl">
-              <iframe
-                src="https://maps.google.com/maps?q=MANYA+ARCADE,+ISBT,+Narmadapuram+Rd,+behind+Nexa+Showroom,+Habib+Ganj,+Bhopal,+Madhya+Pradesh+462024&output=embed"
-                width="100%"
-                height="220"
-                style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)' }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="To Fly Media Location"
-              />
+            {/* Where we work + map */}
+            <div className="glass-card p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <MapPin size={15} className="text-brand-400" />
+                <h3 className="font-semibold text-white">Office Locations</h3>
+              </div>
+
+              {/* City tabs */}
+              {(() => {
+                const cities = [
+                  { city: 'Bhopal', tag: 'HQ', q: 'Bhopal,+Madhya+Pradesh,+India' },
+                  { city: 'Mumbai', tag: null, q: 'Mumbai,+Maharashtra,+India' },
+                  { city: 'Delhi', tag: null, q: 'New+Delhi,+Delhi,+India' },
+                  { city: 'Ahmedabad', tag: null, q: 'Ahmedabad,+Gujarat,+India' },
+                ]
+                const [active, setActive] = useState(0)
+                return (
+                  <>
+                    <div className="grid grid-cols-4 gap-1.5 mb-4">
+                      {cities.map(({ city, tag }, i) => (
+                        <button
+                          key={city}
+                          onClick={() => setActive(i)}
+                          className={`flex flex-col items-center gap-0.5 px-2 py-2 rounded-xl border text-xs font-medium transition-all duration-200 ${
+                            active === i
+                              ? 'border-brand-500/50 bg-brand-500/10 text-brand-300'
+                              : 'border-white/6 bg-white/3 text-white/40 hover:text-white/70 hover:border-white/15'
+                          }`}
+                        >
+                          {city}
+                          {tag && (
+                            <span className="text-[9px] font-semibold uppercase tracking-wider text-brand-400">
+                              {tag}
+                            </span>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="rounded-xl overflow-hidden border border-white/6">
+                      <iframe
+                        key={active}
+                        src={`https://maps.google.com/maps?q=${cities[active].q}&output=embed&z=12`}
+                        width="100%"
+                        height="200"
+                        style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)', display: 'block' }}
+                        allowFullScreen=""
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title={`${cities[active].city} location`}
+                      />
+                    </div>
+                  </>
+                )
+              })()}
+
+              <p className="text-xs text-white/25 mt-3">Remote-first. We work with clients pan-India.</p>
             </div>
           </div>
         </div>
