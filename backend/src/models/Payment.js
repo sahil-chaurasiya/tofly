@@ -7,10 +7,20 @@ const paymentSchema = new mongoose.Schema({
   razorpaySignature: { type: String, default: null },
 
   // Plan info
-  planId:    { type: String, required: true, enum: ['quarterly', 'halfyearly', 'annually'] },
+  planId:    { type: String, required: true },  // 'quarterly' | 'halfyearly' | 'annually' | 'custom'
   planLabel: { type: String, required: true },
   amount:    { type: Number, required: true }, // in paise
   currency:  { type: String, default: 'INR' },
+
+  // Custom plan services selected (only for planId === 'custom')
+  selectedServices: [
+    {
+      id:       { type: String },
+      name:     { type: String },
+      category: { type: String },
+      price:    { type: Number }, // in paise
+    }
+  ],
 
   // Customer info
   name:    { type: String, required: true },

@@ -5,24 +5,47 @@ import { X, CreditCard, User, Mail, Phone, Building2, Shield, CheckCircle2, Aler
 const API_BASE = ''  // Vite proxy handles /api → http://localhost:5000
 
 const MODAL_STYLES = `
+  .pm-wrap {
+    position: fixed; inset: 0; z-index: 9999;
+    display: flex; align-items: flex-end; justify-content: center;
+    padding: 0; pointer-events: none;
+  }
+  @media (min-width: 540px) {
+    .pm-wrap { align-items: center; padding: 16px; }
+  }
+  .pm-card {
+    pointer-events: auto;
+    width: 100%; max-width: 480px;
+    background: #0d0f1a;
+    border-radius: 24px 24px 0 0;
+    overflow: hidden;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+    max-height: 96dvh;
+    display: flex; flex-direction: column;
+  }
+  @media (min-width: 540px) {
+    .pm-card { border-radius: 24px; max-height: 90vh; box-shadow: 0 32px 80px rgba(0,0,0,0.6); }
+  }
+  .pm-scroll { overflow-y: auto; flex: 1; scrollbar-width: none; }
+  .pm-scroll::-webkit-scrollbar { display: none; }
+  .pm-body { padding: 20px 20px 24px; }
+  @media (min-width: 400px) { .pm-body { padding: 24px 28px 28px; } }
   .pm-input {
-    width: 100%;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    padding: 12px 16px 12px 44px;
-    color: #fff;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s, background 0.2s;
-    font-family: 'Inter', sans-serif;
+    width: 100%; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+    padding: 12px 14px 12px 42px; color: #fff; font-size: 14px; outline: none;
+    transition: border-color 0.2s, background 0.2s; font-family: 'Lato', sans-serif;
+    box-sizing: border-box; -webkit-appearance: none;
   }
   .pm-input::placeholder { color: rgba(255,255,255,0.3); }
-  .pm-input:focus {
-    border-color: rgba(0,210,255,0.5);
-    background: rgba(0,210,255,0.05);
-  }
+  .pm-input:focus { border-color: rgba(0,210,255,0.5); background: rgba(0,210,255,0.05); }
   .pm-input.error { border-color: rgba(255,80,80,0.6); }
+  .pm-drag-handle {
+    width: 36px; height: 4px; border-radius: 2px;
+    background: rgba(255,255,255,0.15); margin: 10px auto 0;
+  }
+  @media (min-width: 540px) { .pm-drag-handle { display: none; } }
+  @keyframes pm-spin { to { transform: rotate(360deg); } }
 `
 
 function InputField({ icon: Icon, label, error, ...props }) {
@@ -32,10 +55,10 @@ function InputField({ icon: Icon, label, error, ...props }) {
         {label}
       </label>
       <div style={{ position: 'relative' }}>
-        <Icon size={15} color="rgba(255,255,255,0.3)" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+        <Icon size={14} color="rgba(255,255,255,0.3)" style={{ position: 'absolute', left: 13, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
         <input className={`pm-input${error ? ' error' : ''}`} {...props} />
       </div>
-      {error && <p style={{ fontSize: 11, color: '#ff5050', marginTop: 4 }}>{error}</p>}
+      {error && <p style={{ fontSize: 11, color: '#ff5050', marginTop: 4, marginBottom: 0 }}>{error}</p>}
     </div>
   )
 }
@@ -52,14 +75,13 @@ function loadRazorpayScript() {
 }
 
 export default function PaymentModal({ plan, onClose }) {
-  const [step, setStep] = useState('form') // 'form' | 'processing' | 'success' | 'error'
+  const [step, setStep] = useState('form')
   const [successData, setSuccessData] = useState(null)
   const [errorMsg, setErrorMsg] = useState('')
   const [form, setForm] = useState({ name: '', email: '', phone: '', company: '' })
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
 
-  // Prevent background scroll
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
@@ -77,17 +99,14 @@ export default function PaymentModal({ plan, onClose }) {
   async function handlePay() {
     if (!validate()) return
     setLoading(true)
-
     try {
-      // 1. Load Razorpay SDK
       const loaded = await loadRazorpayScript()
       if (!loaded) throw new Error('Could not load payment gateway. Check your internet connection.')
 
-      // 2. Create order on backend
       const res = await fetch(`${API_BASE}/api/payment/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planId: plan.id, ...form }),
+        body: JSON.stringify({ planId: plan.id, selectedServices: plan.selectedServices || [], ...form }),
       })
       const data = await res.json()
       if (!data.success) throw new Error(data.message || 'Could not create order')
@@ -95,34 +114,23 @@ export default function PaymentModal({ plan, onClose }) {
       setLoading(false)
       setStep('processing')
 
-      // 3. Open Razorpay checkout
       const rzp = new window.Razorpay({
-        key:         data.keyId,
-        amount:      data.amount,
-        currency:    data.currency,
-        order_id:    data.orderId,
-        name:        'ToFly Media',
+        key: data.keyId, amount: data.amount, currency: data.currency,
+        order_id: data.orderId, name: 'ToFly Media',
         description: `${data.planLabel} Plan`,
-        image:       'https://www.toflymedia.com/hero/logo.png',
-        prefill: {
-          name:    form.name,
-          email:   form.email,
-          contact: form.phone,
-        },
+        image: 'https://www.toflymedia.com/hero/logo.png',
+        prefill: { name: form.name, email: form.email, contact: form.phone },
         theme: { color: plan.color },
-        modal: {
-          ondismiss: () => setStep('form'),
-        },
+        modal: { ondismiss: () => setStep('form') },
         handler: async (response) => {
-          // 4. Verify on backend
           try {
             const verifyRes = await fetch(`${API_BASE}/api/payment/verify`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                razorpay_order_id:   response.razorpay_order_id,
+                razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature:  response.razorpay_signature,
+                razorpay_signature: response.razorpay_signature,
               }),
             })
             const verifyData = await verifyRes.json()
@@ -135,12 +143,10 @@ export default function PaymentModal({ plan, onClose }) {
           }
         },
       })
-
       rzp.on('payment.failed', (response) => {
         setErrorMsg(response.error?.description || 'Payment failed. Please try again.')
         setStep('error')
       })
-
       rzp.open()
     } catch (err) {
       setLoading(false)
@@ -156,186 +162,155 @@ export default function PaymentModal({ plan, onClose }) {
         {/* Backdrop */}
         <motion.div
           key="backdrop"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={step === 'processing' ? undefined : onClose}
-          style={{
-            position: 'fixed', inset: 0, zIndex: 9998,
-            background: 'rgba(0,0,0,0.75)',
-            backdropFilter: 'blur(6px)',
-          }}
+          style={{ position: 'fixed', inset: 0, zIndex: 9998, background: 'rgba(0,0,0,0.78)', backdropFilter: 'blur(6px)' }}
         />
 
         {/* Modal */}
         <motion.div
           key="modal"
-          initial={{ opacity: 0, scale: 0.94, y: 24 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.94, y: 24 }}
-          transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-          style={{
-            position: 'fixed', inset: 0, zIndex: 9999,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: '16px',
-            pointerEvents: 'none',
-          }}
+          className="pm-wrap"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 40 }}
+          transition={{ type: 'spring', stiffness: 340, damping: 30 }}
         >
-          <div style={{
-            pointerEvents: 'auto',
-            width: '100%', maxWidth: 480,
-            background: '#0d0f1a',
-            border: `1px solid ${plan.color}33`,
-            borderRadius: 28,
-            overflow: 'hidden',
-            boxShadow: `0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)`,
-          }}>
-            {/* Top color bar */}
-            <div style={{ height: 3, background: plan.gradient }} />
+          <div className="pm-card" style={{ border: `1px solid ${plan.color}33` }}>
+            <div className="pm-drag-handle" />
+            <div style={{ height: 3, background: plan.gradient, flexShrink: 0 }} />
 
-            {/* ── FORM STEP ── */}
-            {step === 'form' && (
-              <div style={{ padding: '28px 32px 32px' }}>
-                {/* Header */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
-                  <div>
-                    <div style={{ fontSize: 11, color: plan.color, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6 }}>
-                      Secure Checkout
+            <div className="pm-scroll">
+
+              {/* ── FORM ── */}
+              {step === 'form' && (
+                <div className="pm-body">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+                    <div>
+                      <div style={{ fontSize: 10, color: plan.color, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>Secure Checkout</div>
+                      <div style={{ fontSize: 20, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>{plan.label} Plan</div>
+                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 2 }}>{plan.tagline}</div>
                     </div>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>{plan.label} Plan</div>
-                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginTop: 2 }}>{plan.tagline}</div>
+                    <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: 10, padding: 8, cursor: 'pointer', color: 'rgba(255,255,255,0.5)', lineHeight: 0, flexShrink: 0, marginLeft: 12 }}>
+                      <X size={15} />
+                    </button>
                   </div>
-                  <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: 10, padding: 8, cursor: 'pointer', color: 'rgba(255,255,255,0.5)', lineHeight: 0 }}>
-                    <X size={16} />
-                  </button>
-                </div>
 
-                {/* Price summary */}
-                <div style={{
-                  background: `${plan.color}10`,
-                  border: `1px solid ${plan.color}25`,
-                  borderRadius: 14, padding: '14px 18px', marginBottom: 24,
-                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                }}>
-                  <div>
-                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 3 }}>
-                      <span style={{ textDecoration: 'line-through', marginRight: 8 }}>{plan.orig}</span>
-                      <span style={{ background: 'rgba(46,204,113,0.15)', color: '#2ecc71', padding: '1px 7px', borderRadius: 5, fontSize: 10, fontWeight: 700 }}>{plan.discount}</span>
-                    </div>
-                    <div style={{ fontSize: 26, fontWeight: 800, color: '#fff' }}>{plan.price}</div>
+                  {/* Price summary */}
+                  <div style={{ background: `${plan.color}10`, border: `1px solid ${plan.color}25`, borderRadius: 14, padding: '12px 16px', marginBottom: 20 }}>
+                    {plan.id !== 'custom' && (
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+                        <div>
+                          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 3 }}>
+                            <span style={{ textDecoration: 'line-through', marginRight: 8 }}>{plan.orig}</span>
+                            <span style={{ background: 'rgba(46,204,113,0.15)', color: '#2ecc71', padding: '1px 7px', borderRadius: 5, fontSize: 10, fontWeight: 700 }}>{plan.discount}</span>
+                          </div>
+                          <div style={{ fontSize: 24, fontWeight: 800, color: '#fff', lineHeight: 1 }}>{plan.price}</div>
+                        </div>
+                        <div style={{ fontSize: 12, color: plan.color, fontWeight: 600 }}>📈 {plan.leads}</div>
+                      </div>
+                    )}
+                    {plan.id === 'custom' && plan.selectedServices && (
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                          <div style={{ fontSize: 12, color: plan.color, fontWeight: 700 }}>🧩 {plan.selectedServices.length} Services Selected</div>
+                          <div style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>{plan.price}</div>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 5, maxHeight: 130, overflowY: 'auto' }}>
+                          {plan.selectedServices.map((s, i) => (
+                            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 9px', background: 'rgba(255,255,255,0.04)', borderRadius: 8, gap: 8 }}>
+                              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', flex: 1, minWidth: 0 }}>{s.name}</span>
+                              <span style={{ fontSize: 12, color: plan.color, fontWeight: 600, flexShrink: 0 }}>{'₹' + (s.price / 100).toLocaleString('en-IN')}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div style={{ fontSize: 12, color: plan.color, fontWeight: 600 }}>📈 {plan.leads}</div>
-                </div>
 
-                {/* Form fields */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 24 }}>
-                  <InputField icon={User} label="Full Name *" placeholder="Your full name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} error={errors.name} />
-                  <InputField icon={Mail} label="Email *" type="email" placeholder="you@email.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} error={errors.email} />
-                  <InputField icon={Phone} label="Phone *" type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} error={errors.phone} />
-                  <InputField icon={Building2} label="Company (optional)" placeholder="Your business name" value={form.company} onChange={e => setForm(f => ({ ...f, company: e.target.value }))} />
-                </div>
-
-                {/* Pay button */}
-                <button
-                  onClick={handlePay}
-                  disabled={loading}
-                  style={{
-                    width: '100%', padding: '15px', borderRadius: 50,
-                    border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
-                    background: loading ? 'rgba(255,255,255,0.1)' : plan.gradient,
-                    color: '#fff', fontSize: 15, fontWeight: 700,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-                    transition: 'opacity 0.15s',
-                    boxShadow: loading ? 'none' : `0 4px 20px ${plan.color}44`,
-                  }}
-                >
-                  {loading ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> : <CreditCard size={18} />}
-                  {loading ? 'Preparing Checkout…' : `Pay ${plan.price} Securely`}
-                </button>
-
-                {/* Trust badges */}
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 16, marginTop: 16 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>
-                    <Shield size={12} /> Secured by Razorpay
+                  {/* Fields */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>
+                    <InputField icon={User}      label="Full Name *"        placeholder="Your full name"     value={form.name}    onChange={e => setForm(f => ({ ...f, name: e.target.value }))}    error={errors.name} />
+                    <InputField icon={Mail}      label="Email *"            type="email" placeholder="you@email.com"      value={form.email}   onChange={e => setForm(f => ({ ...f, email: e.target.value }))}   error={errors.email} />
+                    <InputField icon={Phone}     label="Phone *"            type="tel"   placeholder="+91 98765 43210"    value={form.phone}   onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}   error={errors.phone} />
+                    <InputField icon={Building2} label="Company (optional)"              placeholder="Your business name" value={form.company} onChange={e => setForm(f => ({ ...f, company: e.target.value }))} />
                   </div>
-                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.15)' }}>•</div>
-                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>UPI · Cards · Net Banking</div>
-                </div>
-              </div>
-            )}
 
-            {/* ── PROCESSING STEP ── */}
-            {step === 'processing' && (
-              <div style={{ padding: '60px 32px', textAlign: 'center' }}>
-                <Loader2 size={40} color={plan.color} style={{ animation: 'spin 1s linear infinite', margin: '0 auto 20px' }} />
-                <div style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 8 }}>Opening Secure Checkout…</div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>Please complete the payment in the Razorpay window.</div>
-              </div>
-            )}
-
-            {/* ── SUCCESS STEP ── */}
-            {step === 'success' && (
-              <div style={{ padding: '48px 32px', textAlign: 'center' }}>
-                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-                  <CheckCircle2 size={56} color="#2ecc71" style={{ margin: '0 auto 20px' }} />
-                </motion.div>
-                <div style={{ fontSize: 22, fontWeight: 800, color: '#fff', marginBottom: 8 }}>Payment Successful! 🎉</div>
-                <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', marginBottom: 24, lineHeight: 1.6 }}>
-                  Welcome aboard, {successData?.name}! Your <strong style={{ color: plan.color }}>{successData?.planLabel} Plan</strong> is confirmed.
-                  <br />We'll reach out to <strong style={{ color: '#fff' }}>{successData?.email}</strong> within 24 hours to get you started.
-                </div>
-                <div style={{ background: 'rgba(46,204,113,0.08)', border: '1px solid rgba(46,204,113,0.2)', borderRadius: 14, padding: '14px 18px', marginBottom: 24, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
-                  📱 Expect a WhatsApp message from us at <strong style={{ color: '#fff' }}>{form.phone}</strong>
-                </div>
-                <button
-                  onClick={onClose}
-                  style={{
-                    width: '100%', padding: '14px', borderRadius: 50, border: 'none',
-                    background: 'linear-gradient(135deg, #2ecc71, #27ae60)',
-                    color: '#fff', fontSize: 15, fontWeight: 700, cursor: 'pointer',
-                  }}
-                >
-                  Done
-                </button>
-              </div>
-            )}
-
-            {/* ── ERROR STEP ── */}
-            {step === 'error' && (
-              <div style={{ padding: '48px 32px', textAlign: 'center' }}>
-                <AlertCircle size={52} color="#ff5050" style={{ margin: '0 auto 20px' }} />
-                <div style={{ fontSize: 20, fontWeight: 800, color: '#fff', marginBottom: 10 }}>Payment Failed</div>
-                <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', marginBottom: 28, lineHeight: 1.6 }}>{errorMsg}</div>
-                <div style={{ display: 'flex', gap: 10 }}>
                   <button
-                    onClick={() => setStep('form')}
+                    onClick={handlePay} disabled={loading}
                     style={{
-                      flex: 1, padding: '13px', borderRadius: 50, border: 'none',
-                      background: plan.gradient, color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer',
+                      width: '100%', padding: '14px', borderRadius: 50, border: 'none',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      background: loading ? 'rgba(255,255,255,0.1)' : plan.gradient,
+                      color: '#fff', fontSize: 15, fontWeight: 700,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                      transition: 'opacity 0.15s', boxShadow: loading ? 'none' : `0 4px 20px ${plan.color}44`,
+                      fontFamily: 'Lato, sans-serif',
                     }}
                   >
-                    Try Again
+                    {loading ? <Loader2 size={18} style={{ animation: 'pm-spin 1s linear infinite' }} /> : <CreditCard size={17} />}
+                    {loading ? 'Preparing Checkout…' : `Pay ${plan.price} Securely`}
                   </button>
-                  <a
-                    href="https://wa.me/919752523894?text=Hi%20ToFly!%20I%20had%20a%20payment%20issue"
-                    target="_blank" rel="noopener noreferrer"
-                    style={{
-                      flex: 1, padding: '13px', borderRadius: 50,
-                      background: 'rgba(37,211,102,0.1)', border: '1px solid rgba(37,211,102,0.3)',
-                      color: '#25d366', fontSize: 14, fontWeight: 700,
-                      textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    }}
-                  >
-                    WhatsApp Us
-                  </a>
+
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10, marginTop: 14, flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: 'rgba(255,255,255,0.25)' }}><Shield size={11} /> Secured by Razorpay</div>
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.15)' }}>·</div>
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>UPI · Cards · Net Banking</div>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+
+              {/* ── PROCESSING ── */}
+              {step === 'processing' && (
+                <div style={{ padding: '56px 28px', textAlign: 'center' }}>
+                  <Loader2 size={40} color={plan.color} style={{ animation: 'pm-spin 1s linear infinite', margin: '0 auto 18px', display: 'block' }} />
+                  <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', marginBottom: 8 }}>Opening Secure Checkout…</div>
+                  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>Please complete the payment in the Razorpay window.</div>
+                </div>
+              )}
+
+              {/* ── SUCCESS ── */}
+              {step === 'success' && (
+                <div style={{ padding: '40px 24px', textAlign: 'center' }}>
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
+                    <CheckCircle2 size={52} color="#2ecc71" style={{ margin: '0 auto 16px', display: 'block' }} />
+                  </motion.div>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: '#fff', marginBottom: 8 }}>Payment Successful! 🎉</div>
+                  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 20, lineHeight: 1.65 }}>
+                    Welcome aboard, {successData?.name}! Your <strong style={{ color: plan.color }}>{successData?.planLabel} Plan</strong> is confirmed.
+                    <br />We'll reach out to <strong style={{ color: '#fff' }}>{successData?.email}</strong> within 24 hours.
+                  </div>
+                  <div style={{ background: 'rgba(46,204,113,0.08)', border: '1px solid rgba(46,204,113,0.2)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
+                    📱 Expect a WhatsApp message at <strong style={{ color: '#fff' }}>{form.phone}</strong>
+                  </div>
+                  <button onClick={onClose} style={{ width: '100%', padding: '14px', borderRadius: 50, border: 'none', background: 'linear-gradient(135deg, #2ecc71, #27ae60)', color: '#fff', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'Lato, sans-serif' }}>
+                    Done
+                  </button>
+                </div>
+              )}
+
+              {/* ── ERROR ── */}
+              {step === 'error' && (
+                <div style={{ padding: '40px 24px', textAlign: 'center' }}>
+                  <AlertCircle size={48} color="#ff5050" style={{ margin: '0 auto 16px', display: 'block' }} />
+                  <div style={{ fontSize: 19, fontWeight: 800, color: '#fff', marginBottom: 8 }}>Payment Failed</div>
+                  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 24, lineHeight: 1.65 }}>{errorMsg}</div>
+                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                    <button onClick={() => setStep('form')} style={{ flex: 1, minWidth: 120, padding: '13px', borderRadius: 50, border: 'none', background: plan.gradient, color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Lato, sans-serif' }}>
+                      Try Again
+                    </button>
+                    <a href="https://wa.me/919752523894?text=Hi%20ToFly!%20I%20had%20a%20payment%20issue" target="_blank" rel="noopener noreferrer"
+                      style={{ flex: 1, minWidth: 120, padding: '13px', borderRadius: 50, background: 'rgba(37,211,102,0.1)', border: '1px solid rgba(37,211,102,0.3)', color: '#25d366', fontSize: 14, fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Lato, sans-serif' }}>
+                      WhatsApp Us
+                    </a>
+                  </div>
+                </div>
+              )}
+
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>
-
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </>
   )
 }

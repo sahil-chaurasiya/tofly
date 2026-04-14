@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { CreditCard, Search, RefreshCw, TrendingUp, CheckCircle, Clock, XCircle, IndianRupee } from 'lucide-react'
+import { CreditCard, Search, RefreshCw, TrendingUp, CheckCircle, Clock, XCircle, IndianRupee, ChevronDown, ChevronUp, Layers } from 'lucide-react'
 
 const STATUS_CONFIG = {
   paid:    { label: 'Paid',    color: '#2ecc71', bg: 'rgba(46,204,113,0.1)',  border: 'rgba(46,204,113,0.25)',  Icon: CheckCircle },
@@ -8,9 +8,10 @@ const STATUS_CONFIG = {
 }
 
 const PLAN_COLORS = {
-  basic:    '#00D2FF',
-  standard: '#FF2D75',
-  premium:  '#A855F7',
+  quarterly:  '#00CFFF',
+  halfyearly: '#E8A0BF',
+  annually:   '#F6C90E',
+  custom:     '#A855F7',
 }
 
 function formatAmount(paise) {
@@ -23,6 +24,43 @@ function timeAgo(date) {
   if (diff < 3600) return Math.floor(diff / 60) + 'm ago'
   if (diff < 86400) return Math.floor(diff / 3600) + 'h ago'
   return new Date(date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+function ServicesBadge({ services }) {
+  const [open, setOpen] = useState(false)
+  if (!services || services.length === 0) return null
+  return (
+    <div style={{ marginTop: 6 }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: 4,
+          fontSize: 11, color: '#A855F7', background: 'rgba(168,85,247,0.1)',
+          border: '1px solid rgba(168,85,247,0.25)', borderRadius: 20,
+          padding: '3px 9px', cursor: 'pointer',
+        }}
+      >
+        <Layers size={10} /> {services.length} services {open ? <ChevronUp size={10} /> : <ChevronDown size={10} />}
+      </button>
+      {open && (
+        <div style={{
+          marginTop: 8, background: 'rgba(168,85,247,0.06)',
+          border: '1px solid rgba(168,85,247,0.15)', borderRadius: 10,
+          padding: '10px 12px', minWidth: 220,
+        }}>
+          {services.map((s, i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: i < services.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+              <div>
+                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)' }}>{s.name}</span>
+                {s.category && <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', marginLeft: 6 }}>({s.category})</span>}
+              </div>
+              <span style={{ fontSize: 12, color: '#A855F7', fontWeight: 600 }}>{formatAmount(s.price)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function AdminPayments() {
@@ -79,7 +117,7 @@ export default function AdminPayments() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28 }}>
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 700, color: '#fff', marginBottom: 4 }}>Payments</h1>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>All Razorpay transactions from the pricing page</p>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>All Razorpay transactions — including Custom Plan orders</p>
         </div>
         <button
           onClick={fetchPayments}
@@ -166,7 +204,7 @@ export default function AdminPayments() {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                {['Customer', 'Plan', 'Amount', 'Status', 'Date', 'Razorpay ID'].map(h => (
+                {['Customer', 'Plan / Services', 'Amount', 'Status', 'Date', 'Razorpay ID'].map(h => (
                   <th key={h} style={{ padding: '12px 16px', textAlign: 'left', fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                     {h}
                   </th>
@@ -177,6 +215,7 @@ export default function AdminPayments() {
               {filtered.map((p, i) => {
                 const status = STATUS_CONFIG[p.status] || STATUS_CONFIG.created
                 const StatusIcon = status.Icon
+                const planColor = PLAN_COLORS[p.planId] || '#888'
                 return (
                   <tr
                     key={p._id}
@@ -192,17 +231,19 @@ export default function AdminPayments() {
                       <div style={{ fontSize: 14, fontWeight: 600, color: '#fff', marginBottom: 2 }}>{p.name}</div>
                       <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>{p.email}</div>
                       <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{p.phone}</div>
+                      {p.company && <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>{p.company}</div>}
                     </td>
-                    {/* Plan */}
+                    {/* Plan + Services */}
                     <td style={{ padding: '14px 16px' }}>
                       <span style={{
                         fontSize: 12, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
-                        background: `${PLAN_COLORS[p.planId] || '#888'}18`,
-                        color: PLAN_COLORS[p.planId] || '#888',
-                        border: `1px solid ${PLAN_COLORS[p.planId] || '#888'}33`,
+                        background: `${planColor}18`,
+                        color: planColor,
+                        border: `1px solid ${planColor}33`,
                       }}>
                         {p.planLabel}
                       </span>
+                      {p.planId === 'custom' && <ServicesBadge services={p.selectedServices} />}
                     </td>
                     {/* Amount */}
                     <td style={{ padding: '14px 16px', fontSize: 15, fontWeight: 700, color: '#fff' }}>

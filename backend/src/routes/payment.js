@@ -27,50 +27,73 @@ function getRazorpay() {
 // ─────────────────────────────────────────────
 // POST /api/payment/create-order
 // Creates a Razorpay order & saves to DB
+// Supports both standard plans and custom plan
 // ─────────────────────────────────────────────
 router.post('/create-order', [
-  body('planId').isIn(['quarterly', 'halfyearly', 'annually']).withMessage('Invalid plan'),
+  body('planId').notEmpty().withMessage('Plan ID is required'),
   body('name').trim().notEmpty().withMessage('Name is required'),
   body('email').isEmail().normalizeEmail().withMessage('Valid email required'),
   body('phone').trim().notEmpty().withMessage('Phone is required'),
   body('company').optional().trim(),
+  body('selectedServices').optional().isArray(),
 ], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ success: false, message: errors.array()[0].msg });
   }
 
-  const { planId, name, email, phone, company } = req.body;
-  const plan = PLAN_PRICES[planId];
+  const { planId, name, email, phone, company, selectedServices } = req.body;
+
+  let planLabel, amount;
+
+  if (planId === 'custom') {
+    // Custom plan: calculate total from selected services
+    if (!selectedServices || selectedServices.length === 0) {
+      return res.status(400).json({ success: false, message: 'Please select at least one service for a custom plan.' });
+    }
+    amount = selectedServices.reduce((sum, s) => sum + (s.price || 0), 0);
+    if (amount < 100) {
+      return res.status(400).json({ success: false, message: 'Custom plan amount too low.' });
+    }
+    planLabel = 'Custom Plan';
+  } else {
+    const plan = PLAN_PRICES[planId];
+    if (!plan) {
+      return res.status(400).json({ success: false, message: 'Invalid plan selected.' });
+    }
+    planLabel = plan.label;
+    amount = plan.amount;
+  }
 
   try {
     const razorpay = getRazorpay();
 
     const order = await razorpay.orders.create({
-      amount:   plan.amount,
+      amount,
       currency: 'INR',
       receipt:  `tofly_${planId}_${Date.now()}`,
-      notes:    { planId, planLabel: plan.label, name, email, phone },
+      notes:    { planId, planLabel, name, email, phone },
     });
 
     // Save to DB
     await Payment.create({
       razorpayOrderId: order.id,
       planId,
-      planLabel: plan.label,
-      amount:   plan.amount,
+      planLabel,
+      amount,
       name, email, phone,
       company:  company || '',
       status:   'created',
+      selectedServices: planId === 'custom' ? selectedServices : [],
       ipAddress: req.ip || req.headers['x-forwarded-for'],
     });
 
     res.json({
       success: true,
       orderId:  order.id,
-      amount:   plan.amount,
+      amount,
       currency: 'INR',
-      planLabel: plan.label,
+      planLabel,
       keyId:    process.env.RAZORPAY_KEY_ID,
     });
   } catch (error) {

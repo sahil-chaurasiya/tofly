@@ -5,10 +5,90 @@ import {
   Moon, Star, Sun, Users, TrendingUp, Award,
   MessageCircle, Sparkles, Shield, Rocket,
   Search, Target, Share2, Globe, PenTool, Video,
-  Mail, Phone, MapPin, Send
+  Mail, Phone, MapPin, Send,
+  Plus, Minus, ShoppingCart, Sliders, X as XIcon,
+  BarChart2, MapPin as GMB, Smartphone, Layout, FileText, Youtube
 } from 'lucide-react'
 import Footer from '../components/layout/Footer'
 import PaymentModal from '../components/payment/PaymentModal'
+
+// ─── CUSTOM PLAN SERVICES CATALOG ─────────────────────────────────────────────
+const SERVICE_CATALOG = [
+  {
+    category: 'Google My Business',
+    emoji: '📍',
+    color: '#4285F4',
+    services: [
+      { id: 'gmb-setup',       name: 'GMB Profile Setup & Optimization',   desc: 'Complete setup, keyword-rich description, category & attributes', price: 499900 },
+      { id: 'gmb-posts',       name: 'GMB Weekly Posts (1 Month)',          desc: '8 branded posts to keep your listing active & visible',           price: 299900 },
+      { id: 'gmb-reviews',     name: 'GMB Review Generation Campaign',      desc: 'Strategy + templates to collect 20+ genuine 5-star reviews',      price: 399900 },
+      { id: 'gmb-qa',          name: 'GMB Q&A Management (3 Months)',       desc: 'Active Q&A monitoring and replies to boost local trust',           price: 199900 },
+    ],
+  },
+  {
+    category: 'Social Media Marketing',
+    emoji: '📱',
+    color: '#E8A0BF',
+    services: [
+      { id: 'smm-ig-month',    name: 'Instagram Management (1 Month)',      desc: '12 posts + stories, captions, hashtags, engagement',              price: 799900 },
+      { id: 'smm-fb-month',    name: 'Facebook Page Management (1 Month)', desc: '10 posts, page optimization, audience building',                  price: 599900 },
+      { id: 'smm-reels',       name: 'Reels / Shorts Creation (4 Videos)', desc: 'Script, shoot-ready brief, edit & post 4 short-form videos',       price: 999900 },
+      { id: 'smm-content-cal', name: 'Content Calendar (1 Month)',         desc: '30-day content plan across platforms with captions ready',         price: 299900 },
+    ],
+  },
+  {
+    category: 'SEO',
+    emoji: '🔍',
+    color: '#00CFFF',
+    services: [
+      { id: 'seo-audit',       name: 'Full SEO Audit',                      desc: 'Technical, on-page & off-page audit with priority fixes',          price: 499900 },
+      { id: 'seo-onpage',      name: 'On-Page SEO (10 Pages)',              desc: 'Meta tags, headings, internal links, keyword mapping',             price: 699900 },
+      { id: 'seo-local',       name: 'Local SEO Package (3 Months)',        desc: 'Citations, local keywords, map pack optimization',                 price: 1499900 },
+      { id: 'seo-backlinks',   name: 'Backlink Building (20 Links)',        desc: 'High-DA guest posts & directory submissions',                     price: 999900 },
+    ],
+  },
+  {
+    category: 'Website',
+    emoji: '🌐',
+    color: '#F6C90E',
+    services: [
+      { id: 'web-basic',       name: '5-Page Informational Website',        desc: 'Home, About, Services, Blog, Contact — mobile-first & SEO-ready',  price: 1999900 },
+      { id: 'web-booking',     name: 'Booking-Enabled Astrology Website',   desc: 'Calendly / Razorpay integration, client portal, 8 pages',          price: 3499900 },
+      { id: 'web-speed',       name: 'Website Speed Optimization',          desc: 'Core Web Vitals fix — aim for 90+ PageSpeed score',               price: 599900 },
+      { id: 'web-maintenance', name: 'Website Maintenance (3 Months)',      desc: 'Updates, security patches, uptime monitoring',                    price: 899900 },
+    ],
+  },
+  {
+    category: 'Landing Page',
+    emoji: '🎯',
+    color: '#C77DFF',
+    services: [
+      { id: 'lp-basic',        name: 'Single Conversion Landing Page',      desc: 'High-converting page for one service with lead form',             price: 1499900 },
+      { id: 'lp-funnel',       name: 'Full Lead Funnel (3 Pages)',           desc: 'Landing + Thank you + Upsell pages with email capture',           price: 2499900 },
+      { id: 'lp-ab',           name: 'A/B Testing Setup (1 Month)',         desc: 'Two variants tested with analytics and winner report',            price: 699900 },
+    ],
+  },
+  {
+    category: 'Paid Ads',
+    emoji: '📣',
+    color: '#FF7043',
+    services: [
+      { id: 'ads-google',      name: 'Google Ads Setup + 1 Month Mgmt',    desc: 'Campaign creation, keyword research, bid strategy, weekly report',  price: 1299900 },
+      { id: 'ads-meta',        name: 'Meta Ads Setup + 1 Month Mgmt',      desc: 'Facebook & Instagram campaigns, audience targeting, creatives',    price: 999900 },
+      { id: 'ads-youtube',     name: 'YouTube Ads (1 Month)',               desc: 'In-stream & discovery ads targeting spiritual seekers',            price: 899900 },
+    ],
+  },
+  {
+    category: 'YouTube & Video',
+    emoji: '🎬',
+    color: '#FF0000',
+    services: [
+      { id: 'yt-setup',        name: 'YouTube Channel Setup',               desc: 'Banner, icon, description, first 3 videos optimized',             price: 599900 },
+      { id: 'yt-seo',          name: 'YouTube SEO (5 Videos)',              desc: 'Titles, descriptions, tags, thumbnails for 5 existing videos',    price: 499900 },
+      { id: 'yt-monthly',      name: 'YouTube Management (1 Month)',        desc: '4 videos uploaded, optimized & promoted with community posts',    price: 1299900 },
+    ],
+  },
+]
 
 // ─── GLOBAL STYLES (Extended with new styles) ─────────────────────────────────
 const GLOBAL_STYLES = `
@@ -143,6 +223,105 @@ const GLOBAL_STYLES = `
   .whatsapp-fab:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,0.45); }
 
   .ornament { letter-spacing: 12px; color: rgba(246,201,14,0.4); font-size: 16px; }
+
+  /* ── CUSTOM PLAN BUILDER (GoDaddy style) ── */
+  .cp-layout {
+    display: grid;
+    grid-template-columns: 1fr 310px;
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .cp-layout { grid-template-columns: 1fr; }
+    .cp-summary-col { position: static !important; order: -1; }
+  }
+
+  .cp-category-block {
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    background: rgba(255,255,255,0.015);
+  }
+  .cp-category-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px; cursor: pointer;
+    background: rgba(255,255,255,0.02);
+    border: none; width: 100%; text-align: left;
+    font-family: 'Lato', sans-serif;
+    transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .cp-category-header:hover { background: rgba(255,255,255,0.04); }
+
+  .cp-service-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 18px; cursor: pointer;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (max-width: 480px) {
+    .cp-service-row { padding: 12px 14px; gap: 10px; }
+    .cp-category-header { padding: 12px 14px; }
+  }
+  .cp-service-row:hover { background: rgba(255,255,255,0.03); }
+  .cp-service-row.selected { background: rgba(199,125,255,0.06); }
+
+  .cp-checkbox {
+    width: 20px; height: 20px; border-radius: 6px; flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.18);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.18s;
+  }
+  .cp-checkbox.checked { background: #C77DFF; border-color: #C77DFF; }
+
+  .cp-summary-col { position: sticky; top: 24px; }
+  .cp-summary-box {
+    background: rgba(13,11,28,0.97);
+    border: 1px solid rgba(199,125,255,0.25);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .cp-summary-header {
+    background: linear-gradient(135deg, rgba(199,125,255,0.12), rgba(123,47,190,0.08));
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(199,125,255,0.15);
+  }
+  .cp-summary-items {
+    padding: 10px 20px;
+    max-height: 240px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(199,125,255,0.3) transparent;
+  }
+  .cp-summary-item {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    gap: 10px;
+  }
+  .cp-summary-item:last-child { border-bottom: none; }
+  .cp-summary-footer { padding: 14px 20px 18px; border-top: 1px solid rgba(255,255,255,0.07); }
+  .cp-empty-state { padding: 28px 20px; text-align: center; }
+  .cp-proceed-btn {
+    width: 100%; padding: 13px; border-radius: 50px; border: none;
+    background: linear-gradient(135deg, #C77DFF, #7B2FBE);
+    color: #fff; font-size: 14px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: 'Lato', sans-serif;
+    box-shadow: 0 4px 20px rgba(199,125,255,0.3);
+    transition: opacity 0.15s; white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .cp-proceed-btn:hover { opacity: 0.88; }
+  .cp-proceed-btn:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+  .cp-remove-btn {
+    background: none; border: none; cursor: pointer; padding: 2px 4px;
+    color: rgba(255,255,255,0.25); line-height: 0; flex-shrink: 0;
+    transition: color 0.15s;
+  }
+  .cp-remove-btn:hover { color: #ff5050; }
 
   .trust-strip {
     display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
@@ -364,6 +543,227 @@ const REASONS = [
   { num: '05', title: 'Dedicated Astrology Team', desc: 'Designers, SEO experts, Google-certified ad pros, and content writers who speak astrology.', color: '#00CFFF' },
   { num: '06', title: 'Cost-Effective & ROI-Driven', desc: 'Packages designed to fit your budget while maximizing your return. Custom plans available.', color: '#E8A0BF' },
 ]
+
+// ─── CUSTOM PLAN BUILDER COMPONENT (GoDaddy style) ────────────────────────────
+function CustomPlanBuilder({ onPay }) {
+  const [selected, setSelected] = useState({})
+  const [openCats, setOpenCats] = useState(
+    () => Object.fromEntries(SERVICE_CATALOG.map(g => [g.category, false]))
+  )
+
+  const toggle = (service) =>
+    setSelected(prev => {
+      const next = { ...prev }
+      if (next[service.id]) delete next[service.id]
+      else next[service.id] = service
+      return next
+    })
+
+  const removeItem = (id) =>
+    setSelected(prev => { const n = { ...prev }; delete n[id]; return n })
+
+  const toggleCat = (cat) =>
+    setOpenCats(prev => ({ ...prev, [cat]: !prev[cat] }))
+
+  const selectedList = Object.values(selected)
+  const totalPaise   = selectedList.reduce((s, sv) => s + sv.price, 0)
+  const fmt          = (p) => '₹' + (p / 100).toLocaleString('en-IN')
+
+  const handleCheckout = () => {
+    if (!selectedList.length) return
+    onPay({
+      id:       'custom',
+      label:    'Custom Plan',
+      tagline:  `${selectedList.length} service${selectedList.length > 1 ? 's' : ''} selected`,
+      price:    fmt(totalPaise),
+      orig:     fmt(totalPaise),
+      discount: 'CUSTOM',
+      leads:    `${selectedList.length} Services`,
+      color:    '#C77DFF',
+      gradient: 'linear-gradient(135deg, #C77DFF, #7B2FBE)',
+      selectedServices: selectedList.map(s => ({
+        id:       s.id,
+        name:     s.name,
+        category: SERVICE_CATALOG.find(g => g.services.some(sv => sv.id === s.id))?.category || '',
+        price:    s.price,
+      })),
+    })
+  }
+
+  return (
+    <div className="cp-layout">
+
+      {/* ── LEFT: All categories stacked ── */}
+      <div>
+        {SERVICE_CATALOG.map(group => {
+          const isOpen        = openCats[group.category]
+          const selectedInCat = group.services.filter(s => selected[s.id]).length
+          return (
+            <div key={group.category} className="cp-category-block">
+              <button className="cp-category-header" onClick={() => toggleCat(group.category)}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{
+                    width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+                    background: `${group.color}18`, border: `1px solid ${group.color}33`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 17,
+                  }}>{group.emoji}</div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>{group.category}</div>
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginTop: 1 }}>
+                      {group.services.length} services
+                      {selectedInCat > 0 && (
+                        <span style={{ marginLeft: 8, color: group.color, fontWeight: 700 }}>
+                          · {selectedInCat} added
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                  <ChevronDown size={16} color="rgba(255,255,255,0.4)" />
+                </motion.div>
+              </button>
+
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    initial={{ height: 0 }}
+                    animate={{ height: 'auto' }}
+                    exit={{ height: 0 }}
+                    transition={{ duration: 0.22, ease: 'easeInOut' }}
+                    style={{ overflow: 'hidden' }}
+                  >
+                    {group.services.map(service => {
+                      const isChecked = !!selected[service.id]
+                      return (
+                        <div
+                          key={service.id}
+                          className={`cp-service-row${isChecked ? ' selected' : ''}`}
+                          onClick={() => toggle(service)}
+                        >
+                          <div className={`cp-checkbox${isChecked ? ' checked' : ''}`}>
+                            {isChecked && <Check size={12} color="#fff" strokeWidth={3} />}
+                          </div>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontSize: 14, fontWeight: 600, color: isChecked ? '#fff' : 'rgba(255,255,255,0.85)', lineHeight: 1.3 }}>
+                              {service.name}
+                            </div>
+                            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.38)', marginTop: 2, lineHeight: 1.5 }}>
+                              {service.desc}
+                            </div>
+                          </div>
+                          <div style={{
+                            fontSize: 14, fontWeight: 700, flexShrink: 0,
+                            color: isChecked ? group.color : 'rgba(255,255,255,0.6)',
+                          }}>
+                            {fmt(service.price)}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* ── RIGHT: Order Summary panel ── */}
+      <div className="cp-summary-col">
+        <div className="cp-summary-box">
+
+          <div className="cp-summary-header">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
+              <ShoppingCart size={16} color="#C77DFF" />
+              <span style={{ fontSize: 13, fontWeight: 700, color: '#C77DFF', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'Cinzel, serif' }}>
+                Your Order
+              </span>
+            </div>
+            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>
+              {selectedList.length === 0
+                ? 'No services selected yet'
+                : `${selectedList.length} service${selectedList.length > 1 ? 's' : ''} selected`}
+            </div>
+          </div>
+
+          {selectedList.length === 0 && (
+            <div className="cp-empty-state">
+              <div style={{ fontSize: 32, marginBottom: 10 }}>🛒</div>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', lineHeight: 1.6 }}>
+                Tick any service on the left to add it here. Mix and match across categories.
+              </div>
+            </div>
+          )}
+
+          {selectedList.length > 0 && (
+            <div className="cp-summary-items">
+              <AnimatePresence>
+                {selectedList.map(s => {
+                  const catGroup = SERVICE_CATALOG.find(g => g.services.some(sv => sv.id === s.id))
+                  return (
+                    <motion.div
+                      key={s.id}
+                      className="cp-summary-item"
+                      initial={{ opacity: 0, x: 12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -12 }}
+                      transition={{ duration: 0.18 }}
+                    >
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 11, color: catGroup?.color || '#C77DFF', fontWeight: 600, marginBottom: 1 }}>
+                          {catGroup?.emoji} {catGroup?.category}
+                        </div>
+                        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', lineHeight: 1.35 }}>{s.name}</div>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{fmt(s.price)}</span>
+                        <button className="cp-remove-btn" onClick={(e) => { e.stopPropagation(); removeItem(s.id) }}>
+                          <XIcon size={13} />
+                        </button>
+                      </div>
+                    </motion.div>
+                  )
+                })}
+              </AnimatePresence>
+            </div>
+          )}
+
+          <div className="cp-summary-footer">
+            {selectedList.length > 0 && (
+              <>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>Subtotal</span>
+                  <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>{fmt(totalPaise)}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>Total</span>
+                  <span style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>{fmt(totalPaise)}</span>
+                </div>
+              </>
+            )}
+            <button
+              className="cp-proceed-btn"
+              onClick={handleCheckout}
+              disabled={selectedList.length === 0}
+            >
+              <ShoppingCart size={16} />
+              {selectedList.length === 0 ? 'Add services to proceed' : `Proceed to Pay · ${fmt(totalPaise)}`}
+            </button>
+            {selectedList.length > 0 && (
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6, marginTop: 12 }}>
+                <Shield size={11} color="rgba(255,255,255,0.25)" />
+                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>Secured by Razorpay · UPI · Cards</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  )
+}
 
 // ─── PLAN CARD (Keep unchanged) ─────────────────────────────────────────────────
 function PlanCard({ plan, index, onPay }) {
@@ -891,7 +1291,7 @@ export default function AstrologyLandingPage() {
             </div>
           </div>
 
-          {/* ── PLANS (Existing) ────────────────────────────────────────────────────── */}
+          {/* ── PLANS ────────────────────────────────────────────────────── */}
           <div className="plans-wrap" style={{ marginTop: 80 }}>
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} style={{ textAlign: 'center', marginBottom: 52 }}>
               <div style={{ fontSize: 11, color: '#F6C90E', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10, fontFamily: 'Cinzel, serif' }}>Growth Packages</div>
@@ -901,6 +1301,43 @@ export default function AstrologyLandingPage() {
             <div className="plans-grid">
               {PLANS.map((plan, i) => <PlanCard key={plan.id} plan={plan} index={i} onPay={setSelectedPlan} />)}
             </div>
+          </div>
+
+          <div style={{ textAlign: 'center', margin: '80px auto 20px', opacity: 0.5 }}>
+            <span className="ornament">✦ ✦ ✦</span>
+          </div>
+          <div style={{ textAlign: 'center', marginBottom: 16 }}>
+            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.3)' }}>Or build your own — pick only what you need</p>
+          </div>
+
+          {/* ── CUSTOM PLAN BUILDER ──────────────────────────────────────────────── */}
+          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 20px' }}>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              style={{ textAlign: 'center', marginBottom: 48 }}
+            >
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: 'rgba(199,125,255,0.08)', border: '1px solid rgba(199,125,255,0.25)',
+                padding: '7px 20px', borderRadius: 60, marginBottom: 20,
+              }}>
+                <Sliders size={13} color="#C77DFF" />
+                <span style={{ fontSize: 12, fontWeight: 700, color: '#C77DFF', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: 'Cinzel, serif' }}>
+                  Build Your Own Plan
+                </span>
+              </div>
+              <h2 style={{ fontSize: 'clamp(26px, 5vw, 44px)', fontWeight: 800, margin: '0 0 14px', letterSpacing: '0.01em' }}>
+                Pick exactly what you need. <span className="gtext">Pay only for that.</span>
+              </h2>
+              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.38)', maxWidth: 540, margin: '0 auto' }}>
+                Not ready for a full package? No problem. Select individual services — GMB, SEO, SMM, website, landing page, ads — and we'll handle exactly what you pick.
+              </p>
+            </motion.div>
+
+            <CustomPlanBuilder onPay={setSelectedPlan} />
           </div>
 
           {/* ── TESTIMONIALS (Existing) ─────────────────────────────────────────────── */}
