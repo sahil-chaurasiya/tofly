@@ -1188,27 +1188,6 @@ export default function DoctorPricingPage() {
             </div>
           </div>
 
-          {/* ── 9 BENEFITS ───────────────────────────────────────────────────── */}
-          <div style={{ background: '#F0F8FF', padding: '64px 0', marginBottom: 80 }}>
-            <div className="med-wide-wrap" style={{ marginBottom: 0 }}>
-              <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 48 }}>
-                <div style={{ fontSize: 11, color: '#26A69A', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>Why It Works</div>
-                <h2 style={{ fontSize: 'clamp(24px, 4.5vw, 40px)', fontWeight: 800, margin: '0 0 12px', color: '#1A2B4A' }}>
-                  9 Reasons Clinics Invest in <span className="med-gtext">Digital Marketing</span>
-                </h2>
-              </motion.div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
-                {BENEFITS.map((b, i) => (
-                  <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.03 }} className="med-benefit-card">
-                    <div style={{ fontSize: 32, fontWeight: 900, color: '#1E88E5', opacity: 0.12, fontFamily: 'Fraunces, serif', marginBottom: 12 }}>{b.num}</div>
-                    <h4 style={{ fontSize: 16, fontWeight: 700, color: '#1A2B4A', marginBottom: 8, fontFamily: 'Fraunces, serif' }}>{b.title}</h4>
-                    <p style={{ fontSize: 13, color: '#7A94B8', lineHeight: 1.6, margin: 0 }}>{b.desc}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* ── 6 REASONS ─────────────────────────────────────────────────────── */}
           <div className="med-wide-wrap">
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 48 }}>
@@ -1279,6 +1258,27 @@ export default function DoctorPricingPage() {
             <CustomPlanBuilder onPay={setSelectedPlan} />
           </div>
 
+          {/* ── 9 BENEFITS (moved below custom plans) ────────────────────────── */}
+          <div style={{ background: '#F0F8FF', padding: '64px 0', marginTop: 80, marginBottom: 0 }}>
+            <div className="med-wide-wrap" style={{ marginBottom: 0 }}>
+              <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 48 }}>
+                <div style={{ fontSize: 11, color: '#26A69A', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>Why It Works</div>
+                <h2 style={{ fontSize: 'clamp(24px, 4.5vw, 40px)', fontWeight: 800, margin: '0 0 12px', color: '#1A2B4A' }}>
+                  9 Reasons Clinics Invest in <span className="med-gtext">Digital Marketing</span>
+                </h2>
+              </motion.div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+                {BENEFITS.map((b, i) => (
+                  <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.03 }} className="med-benefit-card">
+                    <div style={{ fontSize: 32, fontWeight: 900, color: '#1E88E5', opacity: 0.12, fontFamily: 'Fraunces, serif', marginBottom: 12 }}>{b.num}</div>
+                    <h4 style={{ fontSize: 16, fontWeight: 700, color: '#1A2B4A', marginBottom: 8, fontFamily: 'Fraunces, serif' }}>{b.title}</h4>
+                    <p style={{ fontSize: 13, color: '#7A94B8', lineHeight: 1.6, margin: 0 }}>{b.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* ── TESTIMONIALS ─────────────────────────────────────────────────── */}
           <div style={{ maxWidth: 800, margin: '80px auto 0', padding: '0 20px' }}>
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 36 }}>
@@ -1300,24 +1300,6 @@ export default function DoctorPricingPage() {
                 </motion.div>
               ))}
             </div>
-          </div>
-
-          {/* ── GUARANTEE ────────────────────────────────────────────────────── */}
-          <div style={{ maxWidth: 860, margin: '80px auto 0', padding: '0 20px' }}>
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="med-guarantee-box">
-              <div style={{ fontSize: 40, marginBottom: 14 }}>🛡️</div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(30,136,229,0.1)', border: '1.5px solid rgba(30,136,229,0.25)', borderRadius: 40, padding: '5px 18px', marginBottom: 20 }}>
-                <Shield size={13} color="#1E88E5" />
-                <span style={{ fontSize: 11, color: '#1E88E5', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Appointment Growth Guarantee</span>
-              </div>
-              <h3 style={{ fontSize: 'clamp(20px, 4vw, 32px)', fontWeight: 800, marginBottom: 14, letterSpacing: '-0.01em', fontFamily: 'Fraunces, serif', color: '#1A2B4A' }}>
-                We deliver your appointments — or we keep working{' '}
-                <span style={{ color: '#1E88E5' }}>at no extra charge</span>
-              </h3>
-              <p style={{ fontSize: 'clamp(14px, 3vw, 16px)', color: '#4A6FA5', maxWidth: 500, margin: '0 auto', lineHeight: 1.75 }}>
-                If we don't hit the promised patient appointment numbers by the end of your package, we continue working for your clinic free of charge until we do. Your growth is not optional for us.
-              </p>
-            </motion.div>
           </div>
 
           {/* ── FINAL CTA ─────────────────────────────────────────────────────── */}
