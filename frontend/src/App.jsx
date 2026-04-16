@@ -16,6 +16,7 @@ import BlogDetailPage from './pages/BlogDetailPage'
 import ContactPage from './pages/ContactPage'
 import NotFoundPage from './pages/NotFoundPage'
 import PricingPage from './pages/PricingPage'
+import DoctorPricingPage from './pages/DoctorPricingPage'
 
 // Admin
 import AdminLayout from './components/admin/AdminLayout'
@@ -36,7 +37,12 @@ export default function App() {
 
   useEffect(() => {
     const handleKey = (e) => {
-      if (e.ctrlKey && e.key === 'm') {
+      if (e.ctrlKey && e.shiftKey && e.key === 'M') {
+        // Ctrl + Shift + M → Doctor Pricing
+        e.preventDefault()
+        navigate('/doctor-pricing')
+      } else if (e.ctrlKey && !e.shiftKey && e.key === 'm') {
+        // Ctrl + M → Astrology Pricing
         e.preventDefault()
         navigate('/astrology-pricing')
       }
@@ -66,6 +72,7 @@ export default function App() {
 
           {/* ── Standalone (no Navbar / Footer) ── */}
           <Route path="/astrology-pricing" element={<PricingPage />} />
+          <Route path="/doctor-pricing" element={<DoctorPricingPage />} />
 
           {/* ── Admin Routes ── */}
           <Route path="/admin/login" element={<AdminLogin />} />
