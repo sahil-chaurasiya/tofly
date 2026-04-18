@@ -979,26 +979,32 @@ export default function DoctorPricingPage() {
               style={{
                 height: '100%',
                 minHeight: 420,
+                maxHeight: 260,
                 position: 'relative',
-                overflow: 'hidden',
-                // borderRadius: '0 28px 28px 0',
-                // boxShadow: '8px 0 40px rgba(30,136,229,0.10)',
+                display: 'flex',
+                alignItems: 'flex-end',
+                justifyContent: 'center',
+                // overflow: 'hidden',
               }}
             >
               <img
-                src="/hero/doctors2.png"
+                src="/hero/doctors2_cropped.png"
                 alt="Doctors"
                 style={{
                   width: '100%',
-                  height: '80%',
-                  objectFit: 'cover',
-                  objectPosition: 'center top',
+                  maxHeight: 520,
+                  objectFit: 'contain',
+                  objectPosition: 'center bottom',
                   display: 'block',
+                  transform: 'scaleX(-1)',
+                  marginBottom: 0,
+                  alignSelf: 'flex-end',
                 }}
               />
               <div style={{
                 position: 'absolute', inset: 0,
-                background: 'linear-gradient(to right, transparent 55%, #F8FBFF 100%)',
+                background: 'linear-gradient(to right, transparent 70%, #F8FBFF 100%)',
+                pointerEvents: 'none',
               }} />
               <div style={{
                 position: 'absolute', bottom: 20, left: 20,
@@ -1146,17 +1152,16 @@ export default function DoctorPricingPage() {
                 
               }} />
               <img
-                src="/hero/stethoscope.png"
+                src="/hero/stethoscope_cropped.png"
                 alt="Stethoscope"
                 style={{
-                  width: '85%',
-                  height: '85%',
+                  width: '100%',
+                  height: '100%',
                   objectFit: 'contain',
                   display: 'block',
                   position: 'relative',
                   zIndex: 2,
                   filter: 'drop-shadow(0 8px 32px rgba(30,136,229,0.18))',
-                  marginTop: '-420px',
                 }}
               />
               <div style={{
@@ -1622,4 +1627,4 @@ export default function DoctorPricingPage() {
       </motion.a>
     </>
   )
-} 
+}
