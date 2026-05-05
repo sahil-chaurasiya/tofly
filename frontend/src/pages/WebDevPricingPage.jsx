@@ -339,6 +339,29 @@ const STYLES = `
     line-height: 1;
     display: none;
   }
+
+  /* New image wrap + fallback emoji */
+  .wd-platform-img-wrap {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .wd-platform-img {
+    width: 40px; height: 40px;
+    object-fit: contain;
+    filter: grayscale(1) brightness(0.65);
+    transition: filter 0.25s;
+    display: block;
+  }
+  .wd-platform-tile:hover .wd-platform-img { filter: grayscale(0) brightness(1); }
+  .wd-platform-emoji-fallback {
+    width: 40px; height: 40px;
+    align-items: center; justify-content: center;
+    font-size: 28px; line-height: 1;
+    filter: grayscale(1) opacity(0.5);
+    transition: filter 0.25s;
+  }
+  .wd-platform-tile:hover .wd-platform-emoji-fallback { filter: grayscale(0) opacity(1); }
   .wd-platform-tile-name {
     font-size: 11px; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.08em;
@@ -347,6 +370,99 @@ const STYLES = `
     transition: color 0.2s;
   }
   .wd-platform-tile:hover .wd-platform-tile-name { color: #FFD600; }
+
+  /* ── MOBILE GLOBAL ── */
+  @media (max-width: 480px) {
+    .wd-wrap { padding: 0 16px; }
+    .wd-wrap-wide { padding: 0 16px; }
+
+    /* Hero section */
+    .wd-hero-logo-bar { flex-wrap: wrap; gap: 12px !important; margin-bottom: 32px !important; }
+    .wd-hero-divider { display: none !important; }    .wd-hero-cta-row { flex-direction: column !important; align-items: stretch !important; margin-left: 0 !important; }
+    .wd-hero-cta-row a { width: 100% !important; justify-content: center !important; }
+
+    /* Stats row */
+    .wd-stats-row {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 0 !important;
+    }
+    .wd-stat-item {
+      padding-right: 16px !important;
+      padding-bottom: 16px !important;
+      margin-right: 0 !important;
+      border-right: none !important;
+    }
+    .wd-stat-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.08) !important; }
+    .wd-stat-item:nth-child(1),
+    .wd-stat-item:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.08); }
+
+    /* Advantage grid */
+    .wd-adv-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+
+    /* Platform rack */
+    .wd-platform-rack { grid-template-columns: repeat(4, 1fr) !important; }
+    .wd-platform-tile { padding: 18px 8px 14px !important; gap: 8px !important; }
+    .wd-platform-tile img { width: 30px !important; height: 30px !important; }
+    .wd-platform-img-wrap { width: 30px !important; height: 30px !important; }
+    .wd-platform-img { width: 30px !important; height: 30px !important; }
+    .wd-platform-emoji-fallback { width: 30px !important; height: 30px !important; font-size: 22px !important; }
+    .wd-platform-tile-name { font-size: 9px !important; }
+
+    /* Platform extras */
+    .wd-platform-extras { gap: 6px !important; }
+    .wd-platform-extras > div { padding: 6px 12px !important; font-size: 10px !important; }
+
+    /* Process grid */
+    .wd-process-grid { grid-template-columns: 1fr !important; }
+    .wd-process-step { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.06) !important; padding: 24px 20px !important; }
+    .wd-process-step:last-child { border-bottom: none !important; }
+
+    /* Contact footer */
+    .wd-contact-info-grid { grid-template-columns: 1fr 1fr !important; gap: 20px !important; }
+    .wd-contact-cta-btns { flex-direction: column !important; align-items: stretch !important; }
+    .wd-contact-cta-btns a { width: 100% !important; justify-content: center !important; }
+
+    /* FAB text hide on tiny screens */
+    .wd-fab-text { display: none; }
+    .wd-fab { padding: 12px 14px !important; border-radius: 50% !important; bottom: 16px !important; right: 16px !important; }
+
+    /* Logo grid */
+    .wd-logos { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important; }
+    .wd-logo-cell { min-height: 60px !important; padding: 14px 10px !important; }
+    .wd-logo-cell img { height: 24px !important; max-width: 80px !important; }
+
+    /* Section padding reduction */
+    .wd-section-lg { padding: 60px 0 !important; }
+    .wd-section-md { padding: 48px 0 !important; }
+
+    /* Portfolio header bar */
+    .wd-port-industry-pills { gap: 4px !important; }
+    .wd-port-industry-pills button { font-size: 8px !important; padding: 4px 8px !important; }
+    .wd-port-pills-desktop { display: none !important; }
+    .wd-port-select-mobile { display: block !important; }
+    .wd-port-header-bar { padding: 12px 16px !important; }
+
+    /* Builder */
+    .wd-builder-grid { grid-template-columns: 1fr !important; }
+    .wd-cat-header { padding: 13px 14px !important; }
+    .wd-svc-row { padding: 11px 14px !important; gap: 10px !important; }
+
+    /* Summary sticky → static already handled */
+    .wd-summary-list { max-height: 200px !important; }
+
+    /* CTA section */
+    .wd-section-hero-txt { font-size: clamp(36px, 10vw, 56px) !important; }
+  }
+
+  @media (max-width: 640px) {
+    .wd-platform-rack { grid-template-columns: repeat(4, 1fr) !important; }
+    .wd-adv-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+    .wd-process-grid { grid-template-columns: 1fr 1fr !important; }
+    .wd-process-step:nth-child(2n) { border-right: none !important; }
+    .wd-process-step:nth-child(3),
+    .wd-process-step:nth-child(4) { border-bottom: none !important; }
+  }
 
   /* ── PORTFOLIO REDESIGN ── */
   @media (max-width: 820px) {
@@ -1008,6 +1124,7 @@ function PortfolioSection() {
             borderBottom: '1px solid rgba(255,255,255,0.06)',
             flexShrink: 0, background: 'rgba(13,13,13,0.95)',
             backdropFilter: 'blur(12px)',
+            flexWrap: 'wrap', gap: 10,
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               <span style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#FFD600' }}>
@@ -1018,8 +1135,8 @@ function PortfolioSection() {
               </span>
             </div>
 
-            {/* Industry pills */}
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+            {/* Industry pills — desktop only */}
+            <div className="wd-port-pills-desktop" style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
               {INDUSTRIES.map(ind => (
                 <button
                   key={ind.id}
@@ -1039,6 +1156,33 @@ function PortfolioSection() {
                 </button>
               ))}
             </div>
+
+            {/* Industry dropdown — mobile only */}
+            <select
+              className="wd-port-select-mobile"
+              value={active}
+              onChange={e => setActive(e.target.value)}
+              style={{
+                display: 'none',
+                background: 'rgba(255,255,255,0.07)',
+                border: '1px solid rgba(255,214,0,0.3)',
+                color: '#FFD600',
+                fontFamily: 'Barlow, sans-serif',
+                fontSize: 11, fontWeight: 700,
+                textTransform: 'uppercase',
+                padding: '7px 12px',
+                borderRadius: 3,
+                cursor: 'pointer',
+                outline: 'none',
+                width: '100%',
+              }}
+            >
+              {INDUSTRIES.map(ind => (
+                <option key={ind.id} value={ind.id} style={{ background: '#1a1a1a', color: '#fff' }}>
+                  {ind.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Progress bar */}
@@ -1134,10 +1278,10 @@ function PlatformSection() {
           style={{ marginBottom: 52 }}
         >
           <div className="wd-label" style={{ marginBottom: 20 }}>Technology Stack</div>
-          <h2 className="wd-headline" style={{ fontSize: 'clamp(36px, 7vw, 80px)', color: '#fff', marginBottom: 8 }}>
+          <h2 className="wd-headline" style={{ fontSize: 'clamp(32px, 7vw, 80px)', color: '#fff', marginBottom: 8 }}>
             WE BUILD ON <span className="wd-yellow">MULTIPLE PLATFORMS</span>
           </h2>
-          <h2 className="wd-headline" style={{ fontSize: 'clamp(24px, 4vw, 48px)', color: 'rgba(255,255,255,0.25)' }}>
+          <h2 className="wd-headline" style={{ fontSize: 'clamp(20px, 4vw, 48px)', color: 'rgba(255,255,255,0.25)' }}>
             TO SUIT YOUR NEEDS
           </h2>
         </motion.div>
@@ -1159,23 +1303,27 @@ function PlatformSection() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
             >
-              <img
-                src={p.logo}
-                alt={p.name}
-                style={{ width: 40, height: 40, objectFit: 'contain', filter: 'grayscale(1) brightness(0.7)', transition: 'filter 0.25s' }}
-                onError={e => {
-                  e.currentTarget.style.display = 'none'
-                  const sibling = e.currentTarget.nextElementSibling
-                  if (sibling) sibling.style.display = 'block'
-                }}
-              />
-              <span className="wd-platform-tile-emoji">{p.icon}</span>
+              <div className="wd-platform-img-wrap">
+                <img
+                  src={p.logo}
+                  alt={p.name}
+                  className="wd-platform-img"
+                  onError={e => {
+                    e.currentTarget.style.display = 'none'
+                    const fallback = e.currentTarget.nextElementSibling
+                    if (fallback) fallback.style.display = 'flex'
+                  }}
+                />
+                <div className="wd-platform-emoji-fallback" style={{ display: 'none' }}>
+                  {p.icon}
+                </div>
+              </div>
               <div className="wd-platform-tile-name">{p.name}</div>
             </motion.div>
           ))}
         </motion.div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
+        <div className="wd-platform-extras" style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
           {PLATFORM_EXTRAS.map((e, i) => (
             <motion.div
               key={i}
@@ -1246,11 +1394,12 @@ export default function WebDevProposalPage() {
               <motion.div
                 initial={{ opacity: 0, y: -12 }} animate={heroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5 }}
-                style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 52 }}
+                className="wd-hero-logo-bar"
+                style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 52, flexWrap: 'wrap' }}
               >
-                <img src="/hero/logo.png" alt="To Fly Media" style={{ height: 44, width: 'auto', objectFit: 'contain' }} />
-                <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.15)' }} />
-                <div className="wd-label">Website Development Proposal</div>
+                <img src="/hero/logo.png" alt="To Fly Media" style={{ height: 44, width: 'auto', objectFit: 'contain', flexShrink: 0 }} />
+                <div className="wd-hero-divider" style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
+                <div className="wd-label" style={{ whiteSpace: 'nowrap' }}>Website Development Proposal</div>
               </motion.div>
 
               <motion.div
@@ -1280,6 +1429,7 @@ export default function WebDevProposalPage() {
               <motion.div
                 initial={{ opacity: 0, y: 16 }} animate={heroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.28 }}
+                className="wd-stats-row"
                 style={{ display: 'flex', flexWrap: 'wrap', gap: 0, marginBottom: 52 }}
               >
                 {[
@@ -1288,7 +1438,7 @@ export default function WebDevProposalPage() {
                   { num: 'UI/UX', label: 'to SEO Experts', sub: 'End-to-end expertise for complete web solutions.' },
                   { num: '3–7+', label: 'Years Experience', sub: 'Every team member is highly experienced.' },
                 ].map((s, i) => (
-                  <div key={i} style={{
+                  <div key={i} className="wd-stat-item" style={{
                     paddingRight: 40, paddingBottom: 20,
                     borderRight: i < 3 ? '1px solid rgba(255,255,255,0.08)' : 'none',
                     marginRight: i < 3 ? 40 : 0,
@@ -1305,7 +1455,7 @@ export default function WebDevProposalPage() {
                 transition={{ duration: 0.4, delay: 0.38 }}
                 style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}
               >
-                <div style={{ marginLeft: 'auto', display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                <div className="wd-hero-cta-row" style={{ marginLeft: 'auto', display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                   <a href="https://wa.me/919752523894?text=Hi%20ToFly!%20I%27d%20like%20to%20discuss%20website%20development" target="_blank" rel="noopener noreferrer" className="wd-btn-primary">
                     Get My Website Built <Rocket size={15} />
                   </a>
@@ -1402,7 +1552,7 @@ export default function WebDevProposalPage() {
                 </h2>
               </motion.div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 0, position: 'relative' }}>
+              <div className="wd-process-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 0, position: 'relative' }}>
                 {[
                   { step: '01', title: 'Discovery & Briefing', desc: 'We understand your business, goals, target audience, and brand identity before touching a single line of code.' },
                   { step: '02', title: 'UI/UX Design', desc: 'Wireframes and design mockups tailored to your brand. You approve every screen before development starts.' },
@@ -1417,6 +1567,7 @@ export default function WebDevProposalPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.08 }}
+                    className="wd-process-step"
                     style={{
                       padding: '32px 28px',
                       borderRight: i % 3 !== 2 ? '1px solid rgba(255,255,255,0.06)' : 'none',
@@ -1474,7 +1625,7 @@ export default function WebDevProposalPage() {
                   <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                     <img src="/hero/logo.png" alt="To Fly Media" style={{ height: 52, objectFit: 'contain', marginBottom: 20 }} />
                     <hr className="wd-rule" style={{ marginBottom: 32, maxWidth: 160 }} />
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28 }} className="wd-contact-info-grid">
                       <div>
                         <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 8 }}>Phone Number</div>
                         <div style={{ fontSize: 14, color: '#FFD600', fontWeight: 600 }}>+91 9752523894</div>
@@ -1506,7 +1657,7 @@ export default function WebDevProposalPage() {
                     <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7, marginBottom: 28 }}>
                       Let's build a website that doesn't just look good — it converts, ranks, and scales your brand online.
                     </p>
-                    <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                    <div className="wd-contact-cta-btns" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                       <a
                         href="https://wa.me/919752523894?text=Hi%20ToFly!%20I%27d%20like%20to%20discuss%20website%20development%20for%20my%20brand"
                         target="_blank" rel="noopener noreferrer"
@@ -1536,7 +1687,7 @@ export default function WebDevProposalPage() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, type: 'spring', stiffness: 200 }}
       >
-        <MessageCircle size={15} /> Chat on WhatsApp
+        <MessageCircle size={15} /> <span className="wd-fab-text">Chat on WhatsApp</span>
       </motion.a>
     </>
   )
