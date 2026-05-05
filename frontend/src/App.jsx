@@ -17,6 +17,7 @@ import ContactPage from './pages/ContactPage'
 import NotFoundPage from './pages/NotFoundPage'
 import PricingPage from './pages/PricingPage'
 import DoctorPricingPage from './pages/DoctorPricingPage'
+import WebDevPricingPage from './pages/WebDevPricingPage'
 
 // Admin
 import AdminLayout from './components/admin/AdminLayout'
@@ -45,6 +46,10 @@ export default function App() {
         // Ctrl + M → Astrology Pricing
         e.preventDefault()
         navigate('/astrology-pricing')
+      } else if (e.ctrlKey && e.shiftKey && e.key === 'X') {
+        // Ctrl + Shift + X → Web Dev Pricing
+        e.preventDefault()
+        navigate('/webdev-pricing')
       }
     }
     window.addEventListener('keydown', handleKey)
@@ -73,6 +78,7 @@ export default function App() {
           {/* ── Standalone (no Navbar / Footer) ── */}
           <Route path="/astrology-pricing" element={<PricingPage />} />
           <Route path="/doctor-pricing" element={<DoctorPricingPage />} />
+          <Route path="/webdev-pricing" element={<WebDevPricingPage />} />
 
           {/* ── Admin Routes ── */}
           <Route path="/admin/login" element={<AdminLogin />} />
