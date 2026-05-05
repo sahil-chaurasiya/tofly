@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import {
   Check, ChevronDown, MessageCircle, Rocket,
@@ -127,8 +127,6 @@ const STYLES = `
     background: rgba(255,255,255,0.025);
     border-radius: 4px;
     overflow: hidden;
-    position: sticky;
-    top: 20px;
   }
   .wd-summary-hd {
     background: rgba(255,214,0,0.1);
@@ -177,9 +175,13 @@ const STYLES = `
     gap: 20px;
     align-items: start;
   }
+  .wd-builder-sticky {
+    position: sticky;
+    top: 24px;
+  }
   @media (max-width: 820px) {
     .wd-builder-grid { grid-template-columns: 1fr; }
-    .wd-summary { position: static; order: -1; }
+    .wd-builder-sticky { position: static; order: -1; }
   }
 
   @keyframes wd-tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
@@ -346,196 +348,126 @@ const STYLES = `
   }
   .wd-platform-tile:hover .wd-platform-tile-name { color: #FFD600; }
 
-  /* ── PORTFOLIO CINEMATIC ── */
-  .wd-port-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0;
-    margin-bottom: 48px;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    padding-bottom: 0;
+  /* ── PORTFOLIO REDESIGN ── */
+  @media (max-width: 820px) {
+    .wd-port-nav { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.06); flex-direction: row !important; overflow-x: auto; height: 52px !important; }
+    .wd-port-nav-item { white-space: nowrap; padding: 10px 14px !important; border-left: none !important; border-bottom: 2px solid transparent; }
+    .wd-port-nav-item.active { border-left: none !important; border-bottom: 2px solid #FFD600 !important; }
+    .wd-port-nav-count { display: none; }
   }
-  .wd-port-tab {
-    padding: 10px 20px;
-    font-size: 11px; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 0.1em;
-    background: none;
+
+  /* Left nav */
+  .wd-port-nav {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.01);
+    overflow-y: auto;
+    height: 100%;
+    scrollbar-width: none;
+  }
+  .wd-port-nav::-webkit-scrollbar { display: none; }
+  .wd-port-nav-item {
+    padding: 11px 14px;
     border: none;
-    color: rgba(255,255,255,0.28);
+    background: none;
+    text-align: left;
     cursor: pointer;
     font-family: 'Barlow', sans-serif;
-    position: relative;
-    transition: color 0.2s;
-    white-space: nowrap;
-    margin-bottom: -1px;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    color: rgba(255,255,255,0.22);
+    border-left: 2px solid transparent;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: color 0.18s, background 0.18s, border-color 0.18s;
+    line-height: 1.35;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
   }
-  .wd-port-tab::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: #FFD600;
-    transform: scaleX(0);
-    transition: transform 0.22s cubic-bezier(0.4,0,0.2,1);
-    transform-origin: left;
+  .wd-port-nav-item:hover { color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.02); }
+  .wd-port-nav-item.active { color: #FFD600; border-left-color: #FFD600; background: rgba(255,214,0,0.04); }
+  .wd-port-nav-count {
+    display: block;
+    font-size: 9px; font-weight: 600;
+    color: rgba(255,255,255,0.12);
+    margin-top: 2px;
+    letter-spacing: 0.05em;
   }
-  .wd-port-tab:hover { color: rgba(255,255,255,0.55); }
-  .wd-port-tab.active { color: #FFD600; }
-  .wd-port-tab.active::after { transform: scaleX(1); }
+  .wd-port-nav-item.active .wd-port-nav-count { color: rgba(255,214,0,0.4); }
 
-  .wd-port-spotlight {
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 2px;
-    background: rgba(255,255,255,0.04);
-    min-height: 400px;
-  }
-  @media (max-width: 820px) {
-    .wd-port-spotlight { grid-template-columns: 1fr; }
-    .wd-port-list { display: none; }
-  }
-
-  .wd-port-featured {
+  .wd-port-card {
+    flex-shrink: 0;
+    height: 100%;
     position: relative;
     overflow: hidden;
+    display: block;
+    text-decoration: none;
     background: #111;
     cursor: pointer;
-    display: block;
-    text-decoration: none;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    transition: border-color 0.25s;
   }
-  .wd-port-featured-bg {
+  .wd-port-card:hover { border-color: rgba(255,214,0,0.3); }
+  .wd-port-card-img {
     width: 100%; height: 100%;
-    min-height: 380px;
     object-fit: cover;
     display: block;
     transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    position: absolute; inset: 0;
   }
-  .wd-port-featured:hover .wd-port-featured-bg { transform: scale(1.04); }
-  .wd-port-featured-placeholder {
-    width: 100%;
-    min-height: 380px;
-    background: linear-gradient(135deg, rgba(255,214,0,0.04) 0%, rgba(255,255,255,0.01) 100%);
+  .wd-port-card:hover .wd-port-card-img { transform: scale(1.06); }
+  .wd-port-card-placeholder {
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, rgba(255,214,0,0.03) 0%, rgba(255,255,255,0.005) 100%);
     display: flex; align-items: center; justify-content: center;
     transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
   }
-  .wd-port-featured:hover .wd-port-featured-placeholder { transform: scale(1.04); }
-  .wd-port-feat-ph-text {
+  .wd-port-card:hover .wd-port-card-placeholder { transform: scale(1.06); }
+  .wd-port-card-ph-text {
     font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900; font-size: clamp(28px, 5vw, 52px);
-    text-transform: uppercase; color: rgba(255,255,255,0.04);
-    letter-spacing: -0.01em; text-align: center; padding: 0 32px;
+    font-weight: 900; font-size: 28px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.04);
+    text-align: center; padding: 0 20px;
+    letter-spacing: -0.01em;
   }
-  .wd-port-featured-overlay {
+  .wd-port-card-overlay {
     position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(13,13,13,0.96) 0%, rgba(13,13,13,0.4) 45%, transparent 100%);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 32px 36px;
+    background: linear-gradient(to top, rgba(10,10,10,0.97) 0%, rgba(10,10,10,0.3) 55%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 20px 18px;
     pointer-events: none;
+    transition: opacity 0.25s;
   }
-  .wd-port-featured-overlay > * { pointer-events: auto; }
-  .wd-port-feat-num {
+  .wd-port-card-num {
     font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900; font-size: 96px;
-    color: rgba(255,214,0,0.1); line-height: 1;
-    margin-bottom: -16px;
+    font-weight: 900; font-size: 56px;
+    color: rgba(255,214,0,0.08); line-height: 1;
+    margin-bottom: -8px;
     user-select: none;
   }
-  .wd-port-feat-ind {
-    font-size: 10px; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 0.18em;
-    color: #FFD600; margin-bottom: 8px;
-    opacity: 0.8;
-  }
-  .wd-port-feat-title {
+  .wd-port-card-name {
     font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900;
-    font-size: clamp(24px, 3.5vw, 40px);
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    margin-bottom: 16px;
-    line-height: 1;
+    font-weight: 900; font-size: 18px;
+    color: #fff; text-transform: uppercase;
+    letter-spacing: -0.01em; line-height: 1.1;
+    margin-bottom: 10px;
   }
-  .wd-port-feat-link {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 9px 20px;
-    background: #FFD600;
-    color: #0d0d0d;
-    font-size: 11px; font-weight: 800;
+  .wd-port-card-cta {
+    pointer-events: auto;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px;
+    background: #FFD600; color: #0d0d0d;
+    font-size: 10px; font-weight: 800;
     text-transform: uppercase; letter-spacing: 0.1em;
     text-decoration: none;
-    transition: background 0.15s, transform 0.15s;
     width: fit-content;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.2s, transform 0.2s, background 0.15s;
   }
-  .wd-port-feat-link:hover { background: #ffe033; transform: translateY(-1px); }
-
-  .wd-port-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .wd-port-list-item {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    background: #0d0d0d;
-    cursor: pointer;
-    display: flex;
-    align-items: stretch;
-    text-decoration: none;
-    transition: background 0.2s;
-    min-height: 0;
-  }
-  .wd-port-list-item:hover { background: rgba(255,214,0,0.04); }
-  .wd-port-list-thumb {
-    width: 84px;
-    flex-shrink: 0;
-    object-fit: cover;
-    filter: grayscale(0.7) brightness(0.75);
-    transition: filter 0.3s;
-    display: block;
-  }
-  .wd-port-list-placeholder {
-    width: 84px;
-    flex-shrink: 0;
-    background: rgba(255,255,255,0.02);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .wd-port-list-item:hover .wd-port-list-thumb { filter: grayscale(0) brightness(0.9); }
-  .wd-port-list-body {
-    padding: 10px 12px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 3px;
-  }
-  .wd-port-list-num {
-    font-size: 9px; font-weight: 800;
-    color: rgba(255,214,0,0.4);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-  .wd-port-list-name {
-    font-size: 12px; font-weight: 700;
-    color: rgba(255,255,255,0.5);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    line-height: 1.3;
-    transition: color 0.2s;
-  }
-  .wd-port-list-item:hover .wd-port-list-name { color: rgba(255,255,255,0.85); }
-  .wd-port-list-arrow {
-    display: flex; align-items: center;
-    padding: 0 14px;
-    color: rgba(255,255,255,0.1);
-    font-size: 14px;
-    transition: color 0.2s, transform 0.2s;
-    flex-shrink: 0;
-  }
-  .wd-port-list-item:hover .wd-port-list-arrow { color: #FFD600; transform: translateX(3px); }
+  .wd-port-card:hover .wd-port-card-cta { opacity: 1; transform: translateY(0); }
+  .wd-port-card-cta:hover { background: #ffe033; }
 `
 
 // ─── SERVICE CATALOG ─────────────────────────────────────────────────────────
@@ -768,8 +700,9 @@ const TICKER = [
 // ─── PLAN BUILDER ─────────────────────────────────────────────────────────────
 function Builder() {
   const [selected, setSelected] = useState({})
+  // ✅ ALL DROPDOWNS OPEN BY DEFAULT
   const [openCats, setOpenCats] = useState(
-    () => Object.fromEntries(CATALOG.map(g => [g.category, false]))
+    () => Object.fromEntries(CATALOG.map(g => [g.category, true]))
   )
 
   const toggle = (svc) =>
@@ -857,8 +790,8 @@ function Builder() {
         })}
       </div>
 
-      {/* RIGHT — Summary */}
-      <div>
+      {/* RIGHT — Summary (sticky) */}
+      <div className="wd-builder-sticky">
         <div className="wd-summary">
           <div className="wd-summary-hd">
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
@@ -872,63 +805,72 @@ function Builder() {
             </div>
           </div>
 
-          {list.length === 0 && (
-            <div style={{ padding: '30px 20px', textAlign: 'center' }}>
-              <div style={{ fontSize: 36, marginBottom: 10 }}>🌐</div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', lineHeight: 1.7 }}>
-                Pick any services — we'll WhatsApp you a custom quote fast.
-              </div>
-            </div>
-          )}
-
-          {list.length > 0 && (
-            <div className="wd-summary-list">
-              <AnimatePresence>
-                {list.map(s => {
-                  const g = CATALOG.find(c => c.services.some(x => x.id === s.id))
-                  return (
-                    <motion.div key={s.id} className="wd-summary-item"
-                      initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }} transition={{ duration: 0.15 }}>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 10, color: g?.color || '#FFD600', fontWeight: 700, marginBottom: 2 }}>{g?.icon} {g?.category}</div>
-                        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', lineHeight: 1.4 }}>{s.name}</div>
-                      </div>
-                      <button className="wd-rm-btn" onClick={(e) => { e.stopPropagation(); remove(s.id) }}>
-                        <XIcon size={12} />
-                      </button>
-                    </motion.div>
-                  )
-                })}
-              </AnimatePresence>
-            </div>
-          )}
-
-          <div style={{ padding: '14px 20px 18px', borderTop: list.length > 0 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
-            {list.length > 0 && (
-              <div style={{
-                background: 'rgba(255,214,0,0.07)', border: '1px solid rgba(255,214,0,0.18)',
-                borderRadius: 3, padding: '10px 13px', marginBottom: 12,
-                display: 'flex', gap: 9, alignItems: 'flex-start',
-              }}>
-                <span style={{ fontSize: 14, flexShrink: 0 }}>⚡</span>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', lineHeight: 1.6 }}>
-                  Personalised quote sent on WhatsApp — usually within the hour.
+          {list.length === 0 ? (
+            <>
+              <div style={{ padding: '28px 20px 16px', textAlign: 'center' }}>
+                <div style={{ fontSize: 34, marginBottom: 10 }}>🌐</div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', lineHeight: 1.7 }}>
+                  Pick any services — we'll WhatsApp you a custom quote fast.
                 </div>
               </div>
-            )}
-            <a href={list.length > 0 ? waLink() : undefined} target="_blank" rel="noopener noreferrer"
-              className={`wd-wa-btn${list.length === 0 ? ' disabled' : ''}`}>
-              <MessageCircle size={15} />
-              {list.length === 0 ? 'Select services to continue' : `Send to WhatsApp · ${list.length} service${list.length > 1 ? 's' : ''}`}
-            </a>
-            {list.length > 0 && (
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6, marginTop: 10 }}>
-                <Shield size={10} color="rgba(255,255,255,0.2)" />
-                <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)' }}>No commitment · Free consultation</span>
+              <div style={{ padding: '0 20px 18px' }}>
+                <div style={{
+                  width: '100%', padding: '14px', borderRadius: 3,
+                  background: 'rgba(37,211,102,0.08)',
+                  border: '1px solid rgba(37,211,102,0.15)',
+                  color: 'rgba(255,255,255,0.25)', fontSize: 14, fontWeight: 700,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                  fontFamily: 'Barlow, sans-serif',
+                }}>
+                  <MessageCircle size={15} />
+                  Select services to continue
+                </div>
               </div>
-            )}
-          </div>
+            </>
+          ) : (
+            <>
+              <div className="wd-summary-list">
+                <AnimatePresence>
+                  {list.map(s => {
+                    const g = CATALOG.find(c => c.services.some(x => x.id === s.id))
+                    return (
+                      <motion.div key={s.id} className="wd-summary-item"
+                        initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }} transition={{ duration: 0.15 }}>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 10, color: g?.color || '#FFD600', fontWeight: 700, marginBottom: 2 }}>{g?.icon} {g?.category}</div>
+                          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', lineHeight: 1.4 }}>{s.name}</div>
+                        </div>
+                        <button className="wd-rm-btn" onClick={(e) => { e.stopPropagation(); remove(s.id) }}>
+                          <XIcon size={12} />
+                        </button>
+                      </motion.div>
+                    )
+                  })}
+                </AnimatePresence>
+              </div>
+              <div style={{ padding: '14px 20px 18px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                <div style={{
+                  background: 'rgba(255,214,0,0.07)', border: '1px solid rgba(255,214,0,0.18)',
+                  borderRadius: 3, padding: '10px 13px', marginBottom: 12,
+                  display: 'flex', gap: 9, alignItems: 'flex-start',
+                }}>
+                  <span style={{ fontSize: 14, flexShrink: 0 }}>⚡</span>
+                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', lineHeight: 1.6 }}>
+                    Personalised quote sent on WhatsApp — usually within the hour.
+                  </div>
+                </div>
+                <a href={waLink()} target="_blank" rel="noopener noreferrer" className="wd-wa-btn">
+                  <MessageCircle size={15} />
+                  Send to WhatsApp · {list.length} service{list.length > 1 ? 's' : ''}
+                </a>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6, marginTop: 10 }}>
+                  <Shield size={10} color="rgba(255,255,255,0.2)" />
+                  <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)' }}>No commitment · Free consultation</span>
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         <div style={{ marginTop: 10, padding: '14px 16px', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 3, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
@@ -965,128 +907,217 @@ function LogoCell({ client, index }) {
   )
 }
 
-// ─── PORTFOLIO SECTION — Cinematic Spotlight ──────────────────────────────────
+// ─── PORTFOLIO SECTION — Smooth Horizontal Scroll-Jack ───────────────────────
 function PortfolioSection() {
   const [active, setActive] = useState('corporate')
   const current = INDUSTRIES.find(i => i.id === active)
-  const featured = current.projects[0]
-  const rest = current.projects.slice(1)
+
+  const outerRef = useRef(null)
+  const stickyRef = useRef(null)
+  const trackRef = useRef(null)
+
+  // Use a ref for the raw progress to avoid render lag, and state for display
+  const rawProgressRef = useRef(0)
+  const rafRef = useRef(null)
+  const [progress, setProgress] = useState(0)
+  const [translateX, setTranslateX] = useState(0)
+
+  useEffect(() => {
+    const computeTranslate = () => {
+      const outer = outerRef.current
+      const sticky = stickyRef.current
+      const track = trackRef.current
+      if (!outer || !sticky || !track) return
+
+      const outerRect = outer.getBoundingClientRect()
+      const viewH = window.innerHeight
+      const trackW = track.scrollWidth
+      const viewW = sticky.clientWidth
+      const scrollable = trackW - viewW
+      if (scrollable <= 0) return
+
+      const outerH = outer.offsetHeight
+      const totalScroll = outerH - viewH
+      const scrolled = Math.max(0, -outerRect.top)
+      const raw = Math.min(scrolled / totalScroll, 1)
+
+      rawProgressRef.current = raw
+      setProgress(raw)
+      setTranslateX(-(raw * scrollable))
+    }
+
+    // Use rAF for silky smooth updates
+    const onScroll = () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      rafRef.current = requestAnimationFrame(computeTranslate)
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    computeTranslate()
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+  }, [active])
+
+  useEffect(() => {
+    setTranslateX(0)
+    setProgress(0)
+    rawProgressRef.current = 0
+  }, [active])
+
+  const STICKY_H = '100vh'
+  const OUTER_H = '550vh'
 
   return (
-    <section style={{ padding: '100px 0' }}>
-      <div className="wd-wrap-wide">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ marginBottom: 52 }}
-        >
+    <section style={{ background: '#0d0d0d' }}>
+
+      {/* Heading */}
+      <div className="wd-wrap-wide" style={{ paddingTop: 100, paddingBottom: 60 }}>
+        <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <div className="wd-label" style={{ marginBottom: 20 }}>Our Work</div>
           <h2 className="wd-headline" style={{ fontSize: 'clamp(36px, 7vw, 88px)', color: '#fff', marginBottom: 8 }}>
             INDUSTRIES WE'VE <span className="wd-yellow">SERVED</span>
           </h2>
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', maxWidth: 520, lineHeight: 1.7 }}>
-            We have delivered websites across diverse industries — each one custom-built, conversion-focused, and performance-tested.
+            Scroll down to browse our work — each industry, one after another.
           </p>
         </motion.div>
+      </div>
 
-        {/* Tabs */}
-        <div className="wd-port-tabs">
-          {INDUSTRIES.map(ind => (
-            <button
-              key={ind.id}
-              className={`wd-port-tab${active === ind.id ? ' active' : ''}`}
-              onClick={() => setActive(ind.id)}
+      {/* Scroll-jack outer track */}
+      <div ref={outerRef} style={{ height: OUTER_H, position: 'relative' }}>
+
+        {/* Sticky viewport */}
+        <div ref={stickyRef} style={{
+          position: 'sticky',
+          top: 0,
+          height: STICKY_H,
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+        }}>
+
+          {/* Header bar */}
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '14px 32px',
+            borderBottom: '1px solid rgba(255,255,255,0.06)',
+            flexShrink: 0, background: 'rgba(13,13,13,0.95)',
+            backdropFilter: 'blur(12px)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <span style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#FFD600' }}>
+                {current.label}
+              </span>
+              <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', fontWeight: 600 }}>
+                {current.projects.length} projects
+              </span>
+            </div>
+
+            {/* Industry pills */}
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+              {INDUSTRIES.map(ind => (
+                <button
+                  key={ind.id}
+                  onClick={() => setActive(ind.id)}
+                  style={{
+                    padding: '5px 12px', border: 'none', cursor: 'pointer',
+                    fontFamily: 'Barlow, sans-serif', fontSize: 10, fontWeight: 700,
+                    textTransform: 'uppercase', letterSpacing: '0.07em',
+                    borderRadius: 2,
+                    background: active === ind.id ? '#FFD600' : 'rgba(255,255,255,0.05)',
+                    color: active === ind.id ? '#0d0d0d' : 'rgba(255,255,255,0.3)',
+                    transition: 'all 0.18s',
+                    WebkitTapHighlightColor: 'transparent',
+                  }}
+                >
+                  {ind.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          <div style={{ height: 2, background: 'rgba(255,255,255,0.04)', flexShrink: 0 }}>
+            <div style={{
+              height: '100%', background: '#FFD600',
+              width: `${progress * 100}%`,
+              // ✅ No transition — updates every rAF frame so it's always instant & smooth
+            }} />
+          </div>
+
+          {/* Card strip — GPU-accelerated translate */}
+          <div style={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
+            <div
+              ref={trackRef}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: 2,
+                height: '100%',
+                // ✅ Use translate3d for GPU compositing — no transition (rAF drives it)
+                transform: `translate3d(${translateX}px, 0, 0)`,
+                willChange: 'transform',
+              }}
             >
-              {ind.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Cinematic Spotlight */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.22 }}
-            className="wd-port-spotlight"
-          >
-            {/* Featured large card — left */}
-            <a
-              href={featured.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="wd-port-featured"
-            >
-              {featured.thumb ? (
-                <img
-                  src={featured.thumb}
-                  alt={featured.name}
-                  className="wd-port-featured-bg"
-                />
-              ) : (
-                <div className="wd-port-featured-placeholder">
-                  <div className="wd-port-feat-ph-text">{featured.name}</div>
-                </div>
-              )}
-              <div className="wd-port-featured-overlay">
-                <div className="wd-port-feat-num">01</div>
-                <div className="wd-port-feat-ind">
-                  {current.label}
-                </div>
-                <div className="wd-port-feat-title">{featured.name}</div>
-                <div className="wd-port-feat-link">
-                  <ExternalLink size={10} /> Visit Website
-                </div>
-              </div>
-            </a>
-
-            {/* Stacked list — right */}
-            <div className="wd-port-list">
-              {rest.map((project, i) => (
-                <motion.a
+              {current.projects.map((project, i) => (
+                <a
                   key={project.name}
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="wd-port-list-item"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.07 }}
+                  className="wd-port-card"
+                  style={{ width: 'clamp(280px, 35vw, 480px)' }}
+                  onClick={e => {
+                    if (rawProgressRef.current > 0.02 && rawProgressRef.current < 0.98) e.preventDefault()
+                  }}
                 >
                   {project.thumb ? (
-                    <img
-                      src={project.thumb}
-                      alt={project.name}
-                      className="wd-port-list-thumb"
-                    />
+                    <img src={project.thumb} alt={project.name} className="wd-port-card-img" />
                   ) : (
-                    <div className="wd-port-list-placeholder">
-                      <span style={{
-                        fontSize: 9, fontWeight: 700,
-                        color: 'rgba(255,255,255,0.08)',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.04em',
-                        textAlign: 'center',
-                        padding: '0 8px',
-                      }}>
-                        {project.name}
-                      </span>
+                    <div className="wd-port-card-placeholder">
+                      <div className="wd-port-card-ph-text">{project.name}</div>
                     </div>
                   )}
-                  <div className="wd-port-list-body">
-                    <div className="wd-port-list-num">0{i + 2}</div>
-                    <div className="wd-port-list-name">{project.name}</div>
+                  <div className="wd-port-card-overlay">
+                    <div className="wd-port-card-num">0{i + 1}</div>
+                    <div className="wd-port-card-name">{project.name}</div>
+                    <span className="wd-port-card-cta">
+                      <ExternalLink size={9} /> Visit Site
+                    </span>
                   </div>
-                  <div className="wd-port-list-arrow">→</div>
-                </motion.a>
+                </a>
               ))}
             </div>
-          </motion.div>
-        </AnimatePresence>
+          </div>
+
+          {/* Bottom hint */}
+          <div style={{
+            padding: '10px 32px', flexShrink: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            borderTop: '1px solid rgba(255,255,255,0.04)',
+          }}>
+            <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.15)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+              {progress < 0.05 ? '↓ Scroll to browse projects' : progress > 0.95 ? '↓ Keep scrolling to continue' : `${Math.round(progress * current.projects.length)} of ${current.projects.length} shown`}
+            </span>
+            <div style={{ display: 'flex', gap: 4 }}>
+              {current.projects.map((_, i) => (
+                <div key={i} style={{
+                  width: 20, height: 2, borderRadius: 1,
+                  background: progress >= i / current.projects.length ? '#FFD600' : 'rgba(255,255,255,0.1)',
+                  transition: 'background 0.15s',
+                }} />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div style={{ paddingBottom: 60 }} />
     </section>
   )
 }
@@ -1111,7 +1142,6 @@ function PlatformSection() {
           </h2>
         </motion.div>
 
-        {/* Platform rack — image slots with emoji fallback */}
         <motion.div
           className="wd-platform-rack"
           initial={{ opacity: 0, y: 20 }}
@@ -1145,7 +1175,6 @@ function PlatformSection() {
           ))}
         </motion.div>
 
-        {/* Extras pill strip */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
           {PLATFORM_EXTRAS.map((e, i) => (
             <motion.div
@@ -1197,7 +1226,6 @@ export default function WebDevProposalPage() {
               position: 'relative', overflow: 'hidden',
             }}
           >
-            {/* BG word */}
             <div style={{
               position: 'absolute', top: '50%', left: '50%',
               transform: 'translate(-50%, -50%)',
@@ -1215,7 +1243,6 @@ export default function WebDevProposalPage() {
 
             <div style={{ maxWidth: 1100, margin: '0 auto', width: '100%', position: 'relative' }}>
 
-              {/* Logo + label */}
               <motion.div
                 initial={{ opacity: 0, y: -12 }} animate={heroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5 }}
@@ -1226,7 +1253,6 @@ export default function WebDevProposalPage() {
                 <div className="wd-label">Website Development Proposal</div>
               </motion.div>
 
-              {/* Headline */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }} animate={heroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.05 }}
@@ -1251,7 +1277,6 @@ export default function WebDevProposalPage() {
                 Crafting Modern Websites For Every Business Type
               </motion.p>
 
-              {/* Stats */}
               <motion.div
                 initial={{ opacity: 0, y: 16 }} animate={heroInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.28 }}
@@ -1275,7 +1300,6 @@ export default function WebDevProposalPage() {
                 ))}
               </motion.div>
 
-              {/* CTAs */}
               <motion.div
                 initial={{ opacity: 0 }} animate={heroInView ? { opacity: 1 } : {}}
                 transition={{ duration: 0.4, delay: 0.38 }}
@@ -1427,7 +1451,7 @@ export default function WebDevProposalPage() {
             </div>
           </section>
 
-          {/* ── TECHNOLOGY STACK (below plan builder) ─────────────────────────── */}
+          {/* ── TECHNOLOGY STACK ─────────────────────────────────────────────── */}
           <PlatformSection />
 
           {/* ── CONTACT / FINAL CTA ───────────────────────────────────────────── */}
