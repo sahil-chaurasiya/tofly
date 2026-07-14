@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import EventBanner from '../common/EventBanner'
 
 export default function Layout() {
   const { pathname } = useLocation()
@@ -18,6 +19,9 @@ export default function Layout() {
 
       <Navbar />
       <main className="flex-1">
+        {/* Bharat Tex 2026 event banner — sits below the fixed navbar,
+            above every page's own hero. Renders nothing once the event has ended. */}
+        <EventBanner />
         <Outlet />
       </main>
       <Footer />

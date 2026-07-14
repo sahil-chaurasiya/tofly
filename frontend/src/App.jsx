@@ -17,6 +17,7 @@ import ContactPage from './pages/ContactPage'
 import NotFoundPage from './pages/NotFoundPage'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import PricingPage from './pages/PricingPage'
+import BharatTexPage from './pages/BharatTexPage'
 import DoctorPricingPage from './pages/DoctorPricingPage'
 import WebDevPricingPage from './pages/WebDevPricingPage'
 
@@ -73,6 +74,7 @@ export default function App() {
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogDetailPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/bharat-tex-2026" element={<BharatTexPage />} />
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>

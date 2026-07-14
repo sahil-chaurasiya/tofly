@@ -24,6 +24,7 @@ const navLinks = [
   },
   { label: 'Case Studies', path: '/case-studies' },
   { label: 'Blog', path: '/blog' },
+  { label: 'Bharat Tex 2026', path: '/bharat-tex-2026', badge: 'Live' },
   { label: 'Contact', path: '/contact' },
 ]
 
@@ -125,7 +126,7 @@ export default function Navbar() {
                   <NavLink
                     to={link.path}
                     className={({ isActive }) =>
-                      `block px-4 py-3.5 rounded-xl text-base font-medium transition-colors ${
+                      `flex items-center gap-2 px-4 py-3.5 rounded-xl text-base font-medium transition-colors ${
                         isActive
                           ? 'text-white bg-brand-500/15'
                           : 'text-white/70 hover:text-white hover:bg-white/5'
@@ -133,6 +134,11 @@ export default function Navbar() {
                     }
                   >
                     {link.label}
+                    {link.badge && (
+                      <span className="px-1.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wide bg-accent-500/20 text-accent-400 border border-accent-500/30">
+                        {link.badge}
+                      </span>
+                    )}
                   </NavLink>
                 )}
               </div>
@@ -196,6 +202,11 @@ export default function Navbar() {
                     }
                   >
                     {link.label}
+                    {link.badge && (
+                      <span className="ml-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wide bg-accent-500/20 text-accent-400 border border-accent-500/30 leading-none">
+                        {link.badge}
+                      </span>
+                    )}
                   </NavLink>
                 )}
 
