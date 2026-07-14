@@ -102,6 +102,19 @@ export default function BharatTexPage() {
                 <span className="gradient-text">In One Place.</span>
               </h1>
 
+              <motion.div
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="rounded-3xl overflow-hidden glass-card mb-8 lg:hidden"
+              >
+                <img
+                  src="/hero/tex%20summit.png"
+                  alt="Bharat Tex 2026 — Global Textile Expo, 14–17 July, Bharat Mandapam, New Delhi"
+                  className="w-full h-auto object-cover"
+                />
+              </motion.div>
+
               <p className="text-xl text-white/50 max-w-xl mb-8">
                 Bharat Tex 2026 is India's largest global textile expo — bringing manufacturers,
                 exporters, designers and buyers from across the world together under one roof.
@@ -130,7 +143,7 @@ export default function BharatTexPage() {
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="rounded-3xl overflow-hidden glass-card"
+              className="rounded-3xl overflow-hidden glass-card hidden lg:block"
             >
               <img
                 src="/hero/tex%20summit.png"
