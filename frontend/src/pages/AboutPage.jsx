@@ -12,39 +12,34 @@ const VALUES = [
 
 const TIMELINE = [
   {
-    year: '2018',
-    title: 'Founded in Bhopal',
-    desc: 'Two marketers, a designer, one laptop. A mission to bring design-first marketing to Indian brands.',
-  },
-  {
     year: '2019',
-    title: 'First 10 Clients',
-    desc: 'All from referrals. Word of mouth is still our biggest source of business — the work speaks.',
+    title: 'It Started as Freelance Work',
+    desc: 'Aman Bhardwaj began taking on freelance design and social media projects for local Bhopal businesses while studying commerce at Barkatullah University.',
   },
   {
     year: '2020',
-    title: 'In-House Design Studio',
-    desc: 'Added a full creative team. Design and marketing integrated under one roof from this point on.',
+    title: 'To Fly Media Takes Off',
+    desc: 'Freelance work became a proper studio. To Fly Media was founded in Bhopal as an in-house creative and social media agency.',
   },
   {
     year: '2021',
-    title: 'Team of 15+',
-    desc: 'Senior strategists, lead designers, analysts. Moved into our Bhopal creative studio.',
+    title: 'Building the Portfolio',
+    desc: 'Branding, logo design, and social media campaigns for local brands across food & beverage, retail and events.',
   },
   {
     year: '2022',
-    title: '₹10Cr+ Client Revenue',
-    desc: 'Campaigns managed by ToFly generated over ₹10 crore in revenue for our clients.',
+    title: 'Adding Paid Media',
+    desc: 'Meta Ads and performance marketing joined the service list, alongside content and creative design.',
   },
   {
     year: '2023',
-    title: 'Pan-India Reach',
-    desc: 'Clients across Mumbai, Delhi, Bengaluru and beyond. 50+ active brand partnerships.',
+    title: 'Full In-House Team',
+    desc: 'Design, video, and digital marketing brought together under one Bhopal office — no more outsourcing pieces of the work.',
   },
   {
-    year: '2024',
-    title: 'Full 360° Platform',
-    desc: 'Design, digital marketing, content, and web — fully integrated. One team, one vision, one invoice.',
+    year: '2024–Now',
+    title: 'Growing the Studio',
+    desc: 'Still based in Bhopal, still founder-led — now hiring and building out the team to take on more brands.',
   },
 ]
 
@@ -59,9 +54,9 @@ const collagePhotos = [
 ]
 
 const floatingBadges = [
-  { text: '200+', sub: 'Brands Scaled',    top: '10%',  left: '54%', rotate: '-3deg', zIndex: 8, accent: true  },
-  { text: '98%',  sub: 'Client Retention', top: '78%',  left: '24%', rotate: '5deg',  zIndex: 8, accent: false },
-  { text: '6 Yrs', sub: 'Of Growth',       top: '62%',  left: '66%', rotate: '-4deg', zIndex: 9, accent: true  },
+  { text: 'Bhopal', sub: 'Home Base',       top: '10%',  left: '54%', rotate: '-3deg', zIndex: 8, accent: true  },
+  { text: 'In-House', sub: 'Full Team',     top: '78%',  left: '24%', rotate: '5deg',  zIndex: 8, accent: false },
+  { text: 'Since 2020', sub: 'Founded',     top: '62%',  left: '66%', rotate: '-4deg', zIndex: 9, accent: true  },
 ]
 
 function AboutHeroCollage() {
@@ -235,25 +230,25 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold text-white mb-6">How We Got Here</h2>
             <div className="space-y-5 text-white/55 leading-relaxed">
               <p>
-                In 2019, our founder Arjun was running campaigns for a mid-size e-commerce brand and kept hitting the same wall: agencies promised results but delivered reports. Beautiful reports. Useless reports.
+                To Fly Media was started by <strong className="text-white/80">Aman Bhardwaj</strong> in Bhopal, while he was still studying commerce at Barkatullah University. What began as freelance design and social media work for local businesses grew into a proper in-house creative and digital marketing studio.
               </p>
               <p>
-                He quit his cushy job and started To Fly Media with a simple promise — we will only take credit for what we actually achieve. That meant building systems, not just launching campaigns.
+                Aman built the agency on a simple promise: no jargon-filled decks, no vanity reports — just work judged on whether it actually moves a client's business forward. That meant learning design, paid ads, content, and strategy well enough to run all of it in-house, under one roof.
               </p>
               <p>
-                Five years later, we've managed over ₹50 crore in ad spend, scaled 200+ brands, and built a team of specialists who care as much about your ROAS as you do.
+                Today, To Fly Media is a close-knit, in-office Bhopal team handling everything from social media management and Meta ads to branding, content and web design — for clients across food & beverage, retail, events and local services.
               </p>
               <p>
-                We're based in Bhopal, but our clients stretch from Mumbai to Singapore. Great marketing isn't about where you're based — it's about the quality of your thinking and the discipline of your execution.
+                We're proud to be based in Bhopal. Being a boutique, hands-on studio rather than a big impersonal agency means every client gets the founder and the core team, not just an account manager.
               </p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             {[
-              { num: '2022', label: 'Founded in Bhopal' },
-              { num: '200+', label: 'Brands Scaled' },
-              { num: '₹1Cr+', label: 'Ad Spend Managed' },
-              { num: '98%', label: 'Client Retention' }
+              { num: '2020', label: 'Founded in Bhopal' },
+              { num: 'In-House', label: 'Design + Marketing Team' },
+              { num: '360°', label: 'Social, Ads, Content & Web' },
+              { num: 'Boutique', label: 'Founder-Led Studio' }
             ].map((item, i) => (
               <motion.div
                 key={item.num}
@@ -381,9 +376,9 @@ export default function AboutPage() {
                 <Eye size={24} className="text-accent-400" />
               </div>
               <div className="text-xs font-semibold text-accent-400 uppercase tracking-widest mb-3">Our Vision</div>
-              <h3 className="text-2xl font-bold text-white mb-4">India's most trusted growth partner</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">Bhopal's go-to growth partner</h3>
               <p className="text-white/50 leading-relaxed">
-                We want to be the agency that founders and CMOs trust with their most important growth challenges — not because we're the biggest, but because we're the most reliable, most transparent, and most results-obsessed team in the room.
+                We want to be the studio that Bhopal's founders and small business owners trust with their growth — not because we're the biggest agency, but because we're hands-on, transparent, and genuinely invested in every client's results.
               </p>
             </div>
           </div>
