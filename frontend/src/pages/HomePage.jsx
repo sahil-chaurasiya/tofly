@@ -259,10 +259,12 @@ function HeroCollage() {
               : '0 10px 40px rgba(0,0,0,0.6)',
           }}
         >
-          <span className="text-base sm:text-xl font-black leading-none gradient-text" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <span
+            className={`text-base sm:text-xl font-display leading-none ${pill.accent ? 'text-brand-600' : 'text-paper'}`}
+          >
             {pill.value}
           </span>
-          <span className="text-[8px] sm:text-[9px] text-white/40 mt-1 font-semibold tracking-widest uppercase whitespace-nowrap">
+          <span className={`text-[8px] sm:text-[9px] mt-1 font-semibold tracking-widest uppercase whitespace-nowrap ${pill.accent ? 'text-stone-600' : 'text-paper/50'}`}>
             {pill.label}
           </span>
         </motion.div>
@@ -325,11 +327,11 @@ function TestimonialsSection({ data, isLoading }) {
           {/* ── Sticky left panel ── */}
           <div className="w-full lg:w-[42%] lg:sticky lg:top-[112px] lg:shrink-0">
             <SectionTag icon={Star}>Client Love</SectionTag>
-            <h2 className="section-heading text-white" style={{ marginTop: '12px', marginBottom: '16px' }}>
+            <h2 className="section-heading text-ink-900" style={{ marginTop: '12px', marginBottom: '16px' }}>
               What Our Clients{' '}
               <span className="gradient-text">Say About Us</span>
             </h2>
-            <p className="text-white/40 text-sm leading-relaxed" style={{ marginBottom: '40px' }}>
+            <p className="text-stone-400 text-sm leading-relaxed" style={{ marginBottom: '40px' }}>
               Real results, real words — from brands we have helped grow.
             </p>
 
@@ -344,14 +346,14 @@ function TestimonialsSection({ data, isLoading }) {
                   <div style={{
                     height: '1px',
                     width: activeIndex === i ? '32px' : '12px',
-                    background: activeIndex === i ? 'rgb(129,169,255)' : 'rgba(255,255,255,0.15)',
+                    background: activeIndex === i ? '#3157FF' : 'rgba(17,17,17,0.15)',
                     transition: 'all 0.4s ease',
                     flexShrink: 0,
                   }} />
                   <span style={{
                     fontSize: '12px',
                     fontWeight: 500,
-                    color: activeIndex === i ? 'white' : 'rgba(255,255,255,0.25)',
+                    color: activeIndex === i ? '#111111' : 'rgba(17,17,17,0.35)',
                     transition: 'color 0.3s ease',
                     whiteSpace: 'nowrap',
                   }}>
@@ -364,14 +366,15 @@ function TestimonialsSection({ data, isLoading }) {
             {/* Big faded number */}
             <div style={{
               marginTop: '48px',
-              fontFamily: 'Syne, sans-serif',
-              fontWeight: 900,
-              fontSize: '120px',
+              fontFamily: "'Instrument Serif', serif",
+              fontStyle: 'italic',
+              fontWeight: 400,
+              fontSize: '160px',
               lineHeight: 1,
               userSelect: 'none',
               pointerEvents: 'none',
               color: 'transparent',
-              WebkitTextStroke: '1px rgba(51,105,255,0.12)',
+              WebkitTextStroke: '1px rgba(49,87,255,0.18)',
               transition: 'all 0.3s ease',
             }}>
               {String(activeIndex + 1).padStart(2, '0')}
@@ -405,29 +408,29 @@ function TestimonialsSection({ data, isLoading }) {
                   </div>
                   {t.resultMetric && (
                     <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
-                      style={{ background: 'rgba(51,105,255,0.1)', border: '1px solid rgba(51,105,255,0.2)', color: '#7da8ff', flexShrink: 0 }}>
+                      style={{ background: 'rgba(49,87,255,0.08)', border: '1px solid rgba(49,87,255,0.25)', color: '#3157FF', flexShrink: 0 }}>
                       <TrendingUp size={10} />
                       {t.resultMetric}
                     </div>
                   )}
                 </div>
 
-                <blockquote style={{ color: 'rgba(255,255,255,0.7)', fontSize: '16px', lineHeight: 1.7, fontStyle: 'italic', marginBottom: '24px' }}>
+                <blockquote style={{ color: '#232322', fontSize: '17px', lineHeight: 1.7, fontFamily: "'Instrument Serif', serif", marginBottom: '24px' }}>
                   &ldquo;{t.testimonial}&rdquo;
                 </blockquote>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-500/30 to-brand-700/30 border border-brand-500/20 flex items-center justify-center text-sm font-bold text-brand-300" style={{ flexShrink: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '20px', borderTop: '1px solid #D8D5CE' }}>
+                  <div className="w-10 h-10 rounded-full bg-brand-500/10 border border-brand-500/25 flex items-center justify-center text-sm font-bold text-brand-600" style={{ flexShrink: 0 }}>
                     {t.name?.[0] || 'C'}
                   </div>
                   <div>
-                    <div style={{ fontSize: '14px', fontWeight: 600, color: 'white' }}>{t.name}</div>
-                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)' }}>
+                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#111111' }}>{t.name}</div>
+                    <div style={{ fontSize: '12px', color: '#8B8A84' }}>
                       {t.designation}{t.company ? `, ${t.company}` : ''}
                     </div>
                   </div>
                   {t.service && (
-                    <div style={{ marginLeft: 'auto', fontSize: '11px', color: 'rgba(255,255,255,0.2)', fontStyle: 'italic' }}>{t.service}</div>
+                    <div style={{ marginLeft: 'auto', fontSize: '11px', color: '#8B8A84', fontStyle: 'italic' }}>{t.service}</div>
                   )}
                 </div>
               </motion.div>
@@ -474,53 +477,28 @@ export default function HomePage() {
       </Helmet>
 
       {/* ── HERO ──────────────────────────────────────────────── */}
-      <section className="relative flex items-center overflow-hidden" style={{ minHeight: 'clamp(600px, 100svh, 100vh)' }}>
-        {/* Dark base background */}
-        <div className="absolute inset-0" style={{ background: '#03030a' }} />
-        {/* Blue blob — left */}
+      <section className="relative flex items-center overflow-hidden bg-paper" style={{ minHeight: 'clamp(600px, 100svh, 100vh)' }}>
+        {/* Faint paper texture blobs — restrained, no neon glow */}
         <div className="absolute top-1/4 -left-20 w-[600px] h-[600px] rounded-full blur-[180px] pointer-events-none"
-          style={{ background: 'rgba(51,105,255,0.09)', zIndex: 1 }} />
-        {/* Orange warmth — bottom right */}
+          style={{ background: 'rgba(49,87,255,0.05)', zIndex: 1 }} />
         <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full blur-[120px] pointer-events-none"
-          style={{ background: 'rgba(249,115,22,0.07)', zIndex: 1 }} />
-        {/* Bottom fade into page */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-          style={{ background: 'linear-gradient(to bottom, transparent, #03030a)', zIndex: 3 }} />
+          style={{ background: 'rgba(181,86,43,0.04)', zIndex: 1 }} />
 
         <div className="container-site relative w-full" style={{ zIndex: 10 }}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 xl:gap-24 items-center pt-28 sm:pt-32 pb-12 lg:pb-24 lg:min-h-screen">
 
-            {/* ── Left: Copy with video background ── */}
-            <div className="relative flex flex-col justify-center order-1 rounded-3xl overflow-hidden px-6 sm:px-10 py-10 sm:py-14"
-              style={{ minHeight: 'clamp(400px, 60vw, 520px)' }}>
-              {/* Video behind left content */}
-              <video
-                autoPlay muted loop playsInline
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{ zIndex: 0 }}
-              >
-                <source src="/hero/video1.mp4" type="video/mp4" />
-              </video>
-              {/* Dark overlay for readability */}
-              <div className="absolute inset-0 rounded-3xl" style={{ background: 'rgba(3,3,10,0.72)', zIndex: 1 }} />
-              {/* Blue gradient tint */}
-              <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{
-                background: 'linear-gradient(135deg, rgba(51,105,255,0.12) 0%, transparent 70%)',
-                zIndex: 1,
-              }} />
-              {/* Content sits above video */}
-              <div className="relative" style={{ zIndex: 2 }}>
+            {/* ── Left: Copy, plain paper — no video/dark panel ── */}
+            <div className="relative flex flex-col justify-center order-1">
               {/* Live badge */}
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm mb-8 w-fit"
-                style={{ background: 'rgba(51,105,255,0.1)', border: '1px solid rgba(51,105,255,0.22)' }}
+                className="section-tag w-fit mb-8"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-brand-300 font-medium">Now serving 200+ brands across India</span>
-                <ChevronRight size={13} className="text-brand-400" />
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse" />
+                Now serving 200+ brands across India
+                <ChevronRight size={13} />
               </motion.div>
 
               {/* Headline */}
@@ -528,19 +506,19 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.18 }}
-                className="font-black leading-[1.04] mb-6"
-                style={{ fontFamily: 'Syne, sans-serif', fontSize: 'clamp(1.9rem, 3.6vw, 4rem)' }}
+                className="font-display leading-[0.98] mb-6"
+                style={{ fontSize: 'clamp(2.6rem, 6vw, 5.4rem)' }}
               >
-                <span className="text-white">Marketing That</span>
+                <span className="text-ink-900">Marketing That</span>
                 <br />
-                <span className="gradient-text">Actually Works.</span>
+                <span className="text-brand-500">Actually Works.</span>
               </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-lg text-white/50 mb-10 leading-relaxed max-w-[480px]"
+                className="text-lg text-stone-500 mb-10 leading-relaxed max-w-[480px]"
               >
                 Performance marketing agency in Bhopal. We turn ad spend into predictable
                 revenue — data-driven, results-obsessed, no fluff.
@@ -566,16 +544,15 @@ export default function HomePage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.58 }}
-                className="flex flex-col sm:flex-row flex-wrap gap-3 text-sm text-white/35"
+                className="flex flex-col sm:flex-row flex-wrap gap-3 text-sm text-stone-500"
               >
                 {['No long-term contracts', 'Free marketing audit', 'Results in 30 days'].map((item) => (
                   <div key={item} className="flex items-center gap-2">
-                    <CheckCircle size={13} className="text-green-400 shrink-0" />
+                    <CheckCircle size={13} className="text-brand-500 shrink-0" />
                     <span>{item}</span>
                   </div>
                 ))}
               </motion.div>
-              </div>{/* end relative content wrapper */}
             </div>{/* end left column */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
@@ -606,22 +583,22 @@ export default function HomePage() {
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 1.6, repeat: Infinity }}
-            className="w-5 h-8 rounded-full border border-white/12 flex items-start justify-center pt-1.5"
+            className="w-5 h-8 rounded-full border border-ink-900/15 flex items-start justify-center pt-1.5"
           >
-            <div className="w-1 h-2 rounded-full bg-white/25" />
+            <div className="w-1 h-2 rounded-full bg-ink-900/30" />
           </motion.div>
         </motion.div>
       </section>
 
       {/* ── TRUSTED BY ───────────────────────────────────────── */}
-      <section className="py-12 border-y border-white/5 overflow-hidden">
+      <section className="py-12 border-y border-ink-900/5 overflow-hidden">
         <div className="container-site mb-5 text-center">
-          <p className="text-xs text-white/25 uppercase tracking-widest font-semibold">Trusted by growing brands</p>
+          <p className="text-xs text-stone-400 uppercase tracking-widest font-semibold">Trusted by growing brands</p>
         </div>
         <div className="relative">
           <div className="flex gap-12 animate-marquee whitespace-nowrap">
             {[...TRUSTED_BY, ...TRUSTED_BY].map((brand, i) => (
-              <span key={i} className="text-white/20 font-bold text-lg font-display tracking-wide">{brand}</span>
+              <span key={i} className="text-stone-400 font-bold text-lg font-display tracking-wide">{brand}</span>
             ))}
           </div>
         </div>
@@ -631,7 +608,7 @@ export default function HomePage() {
       <SectionWrapper className="container-site py-14 lg:py-24">
         <div className="text-center mb-10 lg:mb-14">
           <SectionTag icon={TrendingUp}>Our Numbers</SectionTag>
-          <h2 className="section-heading text-white">
+          <h2 className="section-heading text-ink-900">
             Results That <span className="gradient-text">Speak for Themselves</span>
           </h2>
         </div>
@@ -650,7 +627,7 @@ export default function HomePage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 lg:mb-14">
           <div>
             <SectionTag icon={Target}>What We Do</SectionTag>
-            <h2 className="section-heading text-white mt-2">
+            <h2 className="section-heading text-ink-900 mt-2">
               Solutions Engineered<br /><span className="gradient-text">for Growth</span>
             </h2>
           </div>
@@ -678,8 +655,8 @@ export default function HomePage() {
                     <div className="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-5 group-hover:bg-brand-500/20 transition-all duration-300">
                       <Icon size={22} className="text-brand-400" />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-brand-300 transition-colors">{service.title}</h3>
-                    <p className="text-white/50 text-sm leading-relaxed mb-5">{service.shortDescription}</p>
+                    <h3 className="text-xl font-bold text-ink-900 mb-3 group-hover:text-brand-300 transition-colors">{service.title}</h3>
+                    <p className="text-stone-500 text-sm leading-relaxed mb-5">{service.shortDescription}</p>
                     <div className="flex items-center gap-2 text-brand-400 text-sm font-medium">
                       <span>Learn more</span>
                       <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
@@ -698,8 +675,8 @@ export default function HomePage() {
         <div className="container-site relative z-10">
           <div className="text-center mb-10 lg:mb-16">
             <SectionTag>How We Work</SectionTag>
-            <h2 className="section-heading text-white mt-2">Our Proven <span className="gradient-text">4-Step Process</span></h2>
-            <p className="text-white/45 mt-4 max-w-xl mx-auto">Every engagement follows a structured process designed for speed, clarity, and consistent results.</p>
+            <h2 className="section-heading text-ink-900 mt-2">Our Proven <span className="gradient-text">4-Step Process</span></h2>
+            <p className="text-stone-500 mt-4 max-w-xl mx-auto">Every engagement follows a structured process designed for speed, clarity, and consistent results.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {PROCESS_STEPS.map((step, i) => (
@@ -709,9 +686,9 @@ export default function HomePage() {
                 {i < PROCESS_STEPS.length - 1 && (
                   <div className="hidden lg:block absolute top-10 left-full w-6 h-px bg-gradient-to-r from-brand-500/30 to-transparent z-10" />
                 )}
-                <div className="text-6xl font-black font-display text-brand-500/15 mb-4 leading-none">{step.step}</div>
-                <h3 className="text-lg font-bold text-white mb-3">{step.title}</h3>
-                <p className="text-white/45 text-sm leading-relaxed">{step.desc}</p>
+                <div className="index-numeral text-6xl mb-4">{step.step}</div>
+                <h3 className="text-lg font-semibold not-italic mb-3" style={{ fontFamily: "'Inter', sans-serif", color: '#111111' }}>{step.title}</h3>
+                <p className="text-stone-500 text-sm leading-relaxed">{step.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -724,7 +701,7 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 lg:mb-14">
             <div>
               <SectionTag>Proof of Work</SectionTag>
-              <h2 className="section-heading text-white mt-2">Case Studies That<br /><span className="gradient-text">Show Our Impact</span></h2>
+              <h2 className="section-heading text-ink-900 mt-2">Case Studies That<br /><span className="gradient-text">Show Our Impact</span></h2>
             </div>
             <Link to="/case-studies" className="btn-secondary text-sm w-fit">All Case Studies <ArrowRight size={16} /></Link>
           </div>
@@ -732,14 +709,14 @@ export default function HomePage() {
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               className="glass-card-hover overflow-hidden rounded-3xl mb-6">
               <Link to={`/case-studies/${caseStudiesData[0].slug}`} className="flex flex-col lg:flex-row group">
-                <div className="lg:w-1/2 aspect-video lg:aspect-auto min-h-[220px] lg:min-h-[280px] bg-gradient-to-br from-brand-900/40 to-dark-800 relative overflow-hidden">
+                <div className="lg:w-1/2 aspect-video lg:aspect-auto min-h-[220px] lg:min-h-[280px] bg-ink-900 relative overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center p-6 sm:p-12">
                     <div className="grid grid-cols-2 gap-3 sm:gap-4 w-full max-w-xs">
                       {caseStudiesData[0].results?.slice(0, 4).map((r, i) => (
-                        <div key={i} className="p-3 sm:p-4 rounded-xl text-center"
-                          style={{ background: 'rgba(51,105,255,0.1)', border: '1px solid rgba(51,105,255,0.2)' }}>
-                          <div className="text-xl sm:text-2xl font-black font-display gradient-text">{r.value}</div>
-                          <div className="text-xs text-white/40 mt-0.5 leading-tight">{r.metric}</div>
+                        <div key={i} className="p-3 sm:p-4 text-center border border-brand-400/30"
+                          style={{ background: 'rgba(49,87,255,0.12)' }}>
+                          <div className="text-xl sm:text-2xl font-display text-paper">{r.value}</div>
+                          <div className="text-xs text-paper/50 mt-0.5 leading-tight">{r.metric}</div>
                         </div>
                       ))}
                     </div>
@@ -747,8 +724,8 @@ export default function HomePage() {
                 </div>
                 <div className="lg:w-1/2 p-6 sm:p-10 flex flex-col justify-center">
                   <div className="section-tag w-fit mb-4">{caseStudiesData[0].client?.industry || 'Case Study'}</div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 leading-snug group-hover:text-brand-300 transition-colors">{caseStudiesData[0].title}</h3>
-                  <p className="text-white/45 text-sm leading-relaxed mb-6 line-clamp-3">{caseStudiesData[0].challenge}</p>
+                  <h3 className="text-xl sm:text-2xl font-bold text-ink-900 mb-4 leading-snug group-hover:text-brand-300 transition-colors">{caseStudiesData[0].title}</h3>
+                  <p className="text-stone-500 text-sm leading-relaxed mb-6 line-clamp-3">{caseStudiesData[0].challenge}</p>
                   <div className="flex items-center gap-2 text-brand-400 font-medium">
                     Read Full Case Study <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -770,7 +747,7 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 lg:mb-14">
             <div>
               <SectionTag>Latest Insights</SectionTag>
-              <h2 className="section-heading text-white mt-2">From Our <span className="gradient-text">Marketing Blog</span></h2>
+              <h2 className="section-heading text-ink-900 mt-2">From Our <span className="gradient-text">Marketing Blog</span></h2>
             </div>
             <Link to="/blog" className="btn-secondary text-sm w-fit">All Articles <ArrowRight size={16} /></Link>
           </div>

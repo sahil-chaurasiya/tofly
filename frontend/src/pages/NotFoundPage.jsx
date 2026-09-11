@@ -14,7 +14,7 @@ export default function NotFoundPage() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="text-[150px] md:text-[200px] font-black font-display leading-none mb-4"
+            className="text-[150px] md:text-[200px] font-display leading-none mb-4"
             style={{ background: 'linear-gradient(135deg, rgba(51,105,255,0.15), rgba(51,105,255,0.04))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
           >
             404
@@ -25,8 +25,8 @@ export default function NotFoundPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <h1 className="text-3xl font-bold text-white mb-4">Page Not Found</h1>
-            <p className="text-white/45 mb-10 max-w-md mx-auto">
+            <h1 className="text-3xl font-bold text-ink-900 mb-4">Page Not Found</h1>
+            <p className="text-stone-500 mb-10 max-w-md mx-auto">
               Looks like this page flew too high and got lost. Let's get you back on track.
             </p>
 

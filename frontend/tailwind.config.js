@@ -7,42 +7,77 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Syne"', 'sans-serif'],
-        body: ['"DM Sans"', 'sans-serif'],
+        // Editorial display serif — used for headlines throughout
+        display: ['"Instrument Serif"', '"DM Serif Display"', 'serif'],
+        // Clean grotesk for UI / body copy
+        body: ['"Inter"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
+        // ── Editorial studio palette ──────────────────────────
+        // "brand" is remapped from SaaS blue/purple to the studio's
+        // single deliberate accent blue so every existing
+        // text-brand-*/bg-brand-*/border-brand-* utility across the
+        // app automatically inherits the new art direction.
         brand: {
-          50:  '#eef5ff',
-          100: '#d9e8ff',
-          200: '#bcd4ff',
-          300: '#8eb8ff',
-          400: '#5990ff',
-          500: '#3369ff',
-          600: '#1a45f5',
-          700: '#1332e1',
-          800: '#1629b6',
-          900: '#18288f',
-          950: '#131c57',
+          50:  '#eef1ff',
+          100: '#dce3ff',
+          200: '#b6c2ff',
+          300: '#8a9bff',
+          400: '#5c72ff',
+          500: '#3157FF',
+          600: '#2645e6',
+          700: '#1d36b8',
+          800: '#182c93',
+          900: '#152677',
+          950: '#0d1747',
         },
+        // Kept for compatibility with existing accent-* usages —
+        // now a muted editorial rust instead of a neon orange glow.
         accent: {
-          400: '#fb923c',
-          500: '#f97316',
-          600: '#ea6c00',
+          400: '#c46a3f',
+          500: '#b5562b',
+          600: '#96431f',
         },
+        // Warm paper / ivory system — replaces the old near-black "dark" scale.
+        paper: {
+          DEFAULT: '#F5F3EE',
+          50: '#FBFAF7',
+          100: '#F5F3EE',
+          200: '#EFEBE1',
+          300: '#E7E2D5',
+        },
+        ink: {
+          DEFAULT: '#111111',
+          900: '#111111',
+          800: '#1B1B1A',
+          700: '#232322',
+        },
+        stone: {
+          DEFAULT: '#6B6A65',
+          400: '#8B8A84',
+          500: '#6B6A65',
+          600: '#54524D',
+        },
+        line: {
+          DEFAULT: '#D8D5CE',
+        },
+        // "dark" kept as an alias to ink so any un-migrated bg-dark-900
+        // references still render as the new near-black ink tone
+        // instead of breaking the build.
         dark: {
-          950: '#03030a',
-          900: '#06060f',
-          850: '#0a0a18',
-          800: '#0d0d20',
-          750: '#111128',
-          700: '#161630',
+          950: '#111111',
+          900: '#111111',
+          850: '#1B1B1A',
+          800: '#1B1B1A',
+          750: '#232322',
+          700: '#232322',
         }
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'mesh-1': 'radial-gradient(at 40% 20%, hsla(228,100%,74%,0.15) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(250,100%,76%,0.1) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(355,100%,93%,0.05) 0px, transparent 50%)',
+        'mesh-1': 'radial-gradient(at 40% 20%, hsla(228,100%,74%,0.06) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(20,40%,50%,0.05) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(228,100%,74%,0.04) 0px, transparent 50%)',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',
@@ -50,15 +85,16 @@ export default {
         'slide-up': 'slideUp 0.6s ease-out forwards',
         'fade-in': 'fadeIn 0.4s ease-out forwards',
         'marquee': 'marquee 30s linear infinite',
+        'reveal-up': 'revealUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards',
       },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
+          '50%': { transform: 'translateY(-14px)' },
         },
         glow: {
-          '0%': { boxShadow: '0 0 20px rgba(51,105,255,0.3)' },
-          '100%': { boxShadow: '0 0 40px rgba(51,105,255,0.6)' },
+          '0%': { boxShadow: '0 0 0 rgba(49,87,255,0)' },
+          '100%': { boxShadow: '0 0 0 rgba(49,87,255,0)' },
         },
         slideUp: {
           from: { opacity: 0, transform: 'translateY(30px)' },
@@ -72,13 +108,18 @@ export default {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-50%)' },
         },
+        revealUp: {
+          from: { opacity: 0, transform: 'translateY(100%)' },
+          to: { opacity: 1, transform: 'translateY(0)' },
+        },
       },
       boxShadow: {
-        'glow-sm': '0 0 15px rgba(51,105,255,0.25)',
-        'glow': '0 0 30px rgba(51,105,255,0.35)',
-        'glow-lg': '0 0 60px rgba(51,105,255,0.4)',
-        'card': '0 4px 24px rgba(0,0,0,0.4)',
-        'card-hover': '0 8px 48px rgba(0,0,0,0.6)',
+        'glow-sm': 'none',
+        'glow': 'none',
+        'glow-lg': 'none',
+        'card': '0 1px 2px rgba(17,17,17,0.04)',
+        'card-hover': '0 12px 32px rgba(17,17,17,0.08)',
+        'editorial': '0 24px 64px -16px rgba(17,17,17,0.12)',
       },
       borderRadius: {
         '4xl': '2rem',

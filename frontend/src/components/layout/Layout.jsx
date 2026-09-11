@@ -13,10 +13,7 @@ export default function Layout() {
   }, [pathname])
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Noise overlay for texture */}
-      <div className="noise-overlay" aria-hidden="true" />
-
+    <div className="min-h-screen flex flex-col bg-paper">
       <Navbar />
       <main className="flex-1">
         {/* Bharat Tex 2026 event banner — sits below the fixed navbar,

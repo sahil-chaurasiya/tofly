@@ -58,17 +58,17 @@ export default function BlogPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] rounded-full bg-brand-500/8 blur-[100px] pointer-events-none" />
         <div className="container-site relative z-10 text-center">
           <SectionTag icon={BookOpen}>Our Blog</SectionTag>
-          <h1 className="section-heading text-white text-5xl md:text-7xl mt-4 mb-6">
+          <h1 className="section-heading text-ink-900 text-5xl md:text-7xl mt-4 mb-6">
             Marketing <span className="gradient-text">Insights</span>
           </h1>
-          <p className="text-xl text-white/50 max-w-xl mx-auto mb-10">
+          <p className="text-xl text-stone-500 max-w-xl mx-auto mb-10">
             Strategies, frameworks, and case studies from the frontlines of digital marketing.
           </p>
 
           {/* Search */}
           <form onSubmit={handleSearch} className="max-w-md mx-auto flex gap-3">
             <div className="relative flex-1">
-              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" />
               <input
                 type="text"
                 value={searchInput}
@@ -91,8 +91,8 @@ export default function BlogPage() {
               onClick={() => handleCategory(cat)}
               className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
                 activeCategory === cat
-                  ? 'bg-brand-500 text-white shadow-glow-sm'
-                  : 'text-white/50 hover:text-white border border-white/8 hover:border-white/20 bg-white/3'
+                  ? 'bg-brand-500 text-ink-900 shadow-glow-sm'
+                  : 'text-stone-500 hover:text-ink-900 border border-ink-900/8 hover:border-ink-900/20 bg-ink-900/3'
               }`}
             >
               {cat}
@@ -125,7 +125,7 @@ export default function BlogPage() {
                 >
                   Previous
                 </button>
-                <span className="text-white/40 text-sm px-4">
+                <span className="text-stone-400 text-sm px-4">
                   Page {page} of {data.pagination.pages}
                 </span>
                 <button
@@ -141,7 +141,7 @@ export default function BlogPage() {
         ) : (
           <div className="text-center py-24">
             <div className="text-5xl mb-4">📝</div>
-            <p className="text-white/30 text-lg">No articles found.</p>
+            <p className="text-stone-400 text-lg">No articles found.</p>
             {search && (
               <button onClick={() => { setSearch(''); setSearchInput('') }} className="btn-secondary mt-4 text-sm">
                 Clear search

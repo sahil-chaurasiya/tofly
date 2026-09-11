@@ -22,10 +22,10 @@ export default function CaseStudiesPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-brand-500/8 blur-[100px] pointer-events-none" />
         <div className="container-site relative z-10 text-center">
           <SectionTag icon={BarChart2}>Proof of Work</SectionTag>
-          <h1 className="section-heading text-white text-5xl md:text-7xl mt-4 mb-6">
+          <h1 className="section-heading text-ink-900 text-5xl md:text-7xl mt-4 mb-6">
             Our Work, <span className="gradient-text">Their Results</span>
           </h1>
-          <p className="text-xl text-white/50 max-w-2xl mx-auto">
+          <p className="text-xl text-stone-500 max-w-2xl mx-auto">
             Real campaigns. Real brands. Real numbers. No case study is published without the client's verified results.
           </p>
         </div>
@@ -46,7 +46,7 @@ export default function CaseStudiesPage() {
 
         {!isLoading && (!caseStudies || caseStudies.length === 0) && (
           <div className="text-center py-24">
-            <p className="text-white/30 text-lg">Case studies coming soon...</p>
+            <p className="text-stone-400 text-lg">Case studies coming soon...</p>
           </div>
         )}
       </SectionWrapper>

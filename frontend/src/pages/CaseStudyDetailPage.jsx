@@ -24,7 +24,7 @@ export default function CaseStudyDetailPage() {
   if (isError || !caseStudy) return (
     <PageWrapper>
       <div className="container-site pt-36 pb-24 text-center">
-        <h1 className="text-3xl font-bold text-white mb-4">Case Study Not Found</h1>
+        <h1 className="text-3xl font-bold text-ink-900 mb-4">Case Study Not Found</h1>
         <Link to="/case-studies" className="btn-primary">Back to Case Studies</Link>
       </div>
     </PageWrapper>
@@ -41,7 +41,7 @@ export default function CaseStudyDetailPage() {
       <section className="relative pt-36 pb-20 overflow-hidden">
         <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-brand-500/8 blur-[100px] pointer-events-none" />
         <div className="container-site relative z-10">
-          <Link to="/case-studies" className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 transition-colors text-sm mb-10 group">
+          <Link to="/case-studies" className="inline-flex items-center gap-2 text-stone-400 hover:text-stone-600 transition-colors text-sm mb-10 group">
             <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
             Back to Case Studies
           </Link>
@@ -51,13 +51,13 @@ export default function CaseStudyDetailPage() {
               <span className="section-tag">{caseStudy.client.industry}</span>
             )}
             {caseStudy.duration && (
-              <span className="flex items-center gap-1.5 text-white/35 text-sm">
+              <span className="flex items-center gap-1.5 text-stone-400 text-sm">
                 <Clock size={13} /> {caseStudy.duration}
               </span>
             )}
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-black text-white max-w-4xl leading-tight mb-8">
+          <h1 className="text-4xl md:text-5xl font-black text-ink-900 max-w-4xl leading-tight mb-8">
             {caseStudy.title}
           </h1>
 
@@ -72,10 +72,10 @@ export default function CaseStudyDetailPage() {
                   transition={{ delay: i * 0.1 }}
                   className="metric-card"
                 >
-                  <div className="text-3xl font-black font-display gradient-text mb-1">{r.value}</div>
-                  <div className="text-xs text-white/45 font-medium">{r.metric}</div>
+                  <div className="text-3xl font-display gradient-text mb-1">{r.value}</div>
+                  <div className="text-xs text-stone-500 font-medium">{r.metric}</div>
                   {r.description && (
-                    <div className="text-xs text-white/25 mt-1">{r.description}</div>
+                    <div className="text-xs text-stone-400 mt-1">{r.description}</div>
                   )}
                 </motion.div>
               ))}
@@ -89,17 +89,17 @@ export default function CaseStudyDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-12">
             <div>
-              <h2 className="text-2xl font-bold text-white mb-4">The Challenge</h2>
-              <p className="text-white/55 leading-relaxed">{caseStudy.challenge}</p>
+              <h2 className="text-2xl font-bold text-ink-900 mb-4">The Challenge</h2>
+              <p className="text-stone-500 leading-relaxed">{caseStudy.challenge}</p>
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white mb-4">Our Solution</h2>
-              <p className="text-white/55 leading-relaxed">{caseStudy.solution}</p>
+              <h2 className="text-2xl font-bold text-ink-900 mb-4">Our Solution</h2>
+              <p className="text-stone-500 leading-relaxed">{caseStudy.solution}</p>
             </div>
             {caseStudy.approach && (
               <div>
-                <h2 className="text-2xl font-bold text-white mb-4">The Approach</h2>
-                <p className="text-white/55 leading-relaxed">{caseStudy.approach}</p>
+                <h2 className="text-2xl font-bold text-ink-900 mb-4">The Approach</h2>
+                <p className="text-stone-500 leading-relaxed">{caseStudy.approach}</p>
               </div>
             )}
           </div>
@@ -108,20 +108,20 @@ export default function CaseStudyDetailPage() {
           <div className="space-y-6">
             {caseStudy.client && (
               <div className="glass-card p-6">
-                <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-4">Client</h3>
-                <div className="text-white font-semibold">{caseStudy.client.name}</div>
+                <h3 className="text-sm font-semibold text-stone-500 uppercase tracking-wider mb-4">Client</h3>
+                <div className="text-ink-900 font-semibold">{caseStudy.client.name}</div>
                 {caseStudy.client.industry && (
-                  <div className="text-white/40 text-sm mt-1">{caseStudy.client.industry}</div>
+                  <div className="text-stone-400 text-sm mt-1">{caseStudy.client.industry}</div>
                 )}
               </div>
             )}
 
             {caseStudy.services?.length > 0 && (
               <div className="glass-card p-6">
-                <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-4">Services Used</h3>
+                <h3 className="text-sm font-semibold text-stone-500 uppercase tracking-wider mb-4">Services Used</h3>
                 <ul className="space-y-2">
                   {caseStudy.services.map((s, i) => (
-                    <li key={i} className="flex items-center gap-2 text-white/60 text-sm">
+                    <li key={i} className="flex items-center gap-2 text-stone-600 text-sm">
                       <CheckCircle size={13} className="text-brand-400" />
                       {s}
                     </li>
@@ -131,7 +131,7 @@ export default function CaseStudyDetailPage() {
             )}
 
             <div className="glass-card p-6">
-              <p className="text-white/50 text-sm mb-4">Want results like these for your business?</p>
+              <p className="text-stone-500 text-sm mb-4">Want results like these for your business?</p>
               <Link to="/contact" className="btn-primary w-full justify-center text-sm">
                 Let's Talk
               </Link>

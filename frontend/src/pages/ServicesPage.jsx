@@ -31,10 +31,10 @@ function StaticServiceCard({ service, delay = 0 }) {
         <div className="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-5 group-hover:bg-brand-500/20 group-hover:border-brand-500/40 transition-all duration-300">
           <Icon size={22} className="text-brand-400" />
         </div>
-        <h3 className="text-xl font-bold text-white mb-3 group-hover:text-brand-300 transition-colors">
+        <h3 className="text-xl font-bold text-ink-900 mb-3 group-hover:text-brand-300 transition-colors">
           {service.title}
         </h3>
-        <p className="text-white/50 text-sm leading-relaxed mb-5 flex-1">
+        <p className="text-stone-500 text-sm leading-relaxed mb-5 flex-1">
           {service.shortDescription}
         </p>
         <div className="flex items-center gap-2 text-brand-400 text-sm font-medium">
@@ -68,10 +68,10 @@ export function ServicesPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-brand-500/8 blur-[100px] pointer-events-none" />
         <div className="container-site relative z-10 text-center">
           <SectionTag icon={Zap}>What We Offer</SectionTag>
-          <h1 className="section-heading text-white text-5xl md:text-7xl mt-4 mb-6">
+          <h1 className="section-heading text-ink-900 text-5xl md:text-7xl mt-4 mb-6">
             Services Built for <span className="gradient-text">Scale</span>
           </h1>
-          <p className="text-xl text-white/50 max-w-2xl mx-auto">
+          <p className="text-xl text-stone-500 max-w-2xl mx-auto">
             Every service we offer is designed around one outcome: growing your revenue.
             Pick one, or let us build your full growth stack.
           </p>

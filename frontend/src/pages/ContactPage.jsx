@@ -60,11 +60,11 @@ export default function ContactPage() {
         <div className="absolute top-1/2 right-1/3 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-brand-500/8 blur-[100px] pointer-events-none" />
         <div className="container-site relative z-10">
           <SectionTag icon={MessageCircle}>Get in Touch</SectionTag>
-          <h1 className="section-heading text-white text-5xl md:text-6xl mt-4 mb-6">
+          <h1 className="section-heading text-ink-900 text-5xl md:text-6xl mt-4 mb-6">
             Let's Build Something<br />
             <span className="gradient-text">Great Together</span>
           </h1>
-          <p className="text-xl text-white/50 max-w-xl">
+          <p className="text-xl text-stone-500 max-w-xl">
             Tell us about your business and goals. We'll analyze your current marketing and come back with a clear growth plan. Free. No obligations.
           </p>
         </div>
@@ -84,8 +84,8 @@ export default function ContactPage() {
                 <div className="w-20 h-20 rounded-full bg-green-500/15 border border-green-500/25 flex items-center justify-center mx-auto mb-6">
                   <CheckCircle size={36} className="text-green-400" />
                 </div>
-                <h2 className="text-3xl font-bold text-white mb-4">Message Received! 🎉</h2>
-                <p className="text-white/55 mb-8">
+                <h2 className="text-3xl font-bold text-ink-900 mb-4">Message Received! 🎉</h2>
+                <p className="text-stone-500 mb-8">
                   Thanks for reaching out. Our team will review your details and get back to you within 24 hours with a custom growth plan.
                 </p>
                 <button onClick={() => setSubmitted(false)} className="btn-secondary">
@@ -94,13 +94,13 @@ export default function ContactPage() {
               </motion.div>
             ) : (
               <div className="glass-card p-8 md:p-10">
-                <h2 className="text-2xl font-bold text-white mb-2">Get Your Free Marketing Audit</h2>
-                <p className="text-white/45 text-sm mb-8">Fill out the form and we'll reach out within 24 hours.</p>
+                <h2 className="text-2xl font-bold text-ink-900 mb-2">Get Your Free Marketing Audit</h2>
+                <p className="text-stone-500 text-sm mb-8">Fill out the form and we'll reach out within 24 hours.</p>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-sm font-medium text-white/60 mb-2">
+                      <label className="block text-sm font-medium text-stone-600 mb-2">
                         Your Name <span className="text-red-400">*</span>
                       </label>
                       <input
@@ -112,7 +112,7 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-white/60 mb-2">
+                      <label className="block text-sm font-medium text-stone-600 mb-2">
                         Email Address <span className="text-red-400">*</span>
                       </label>
                       <input
@@ -130,7 +130,7 @@ export default function ContactPage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-sm font-medium text-white/60 mb-2">Phone Number</label>
+                      <label className="block text-sm font-medium text-stone-600 mb-2">Phone Number</label>
                       <input
                         {...register('phone')}
                         type="tel"
@@ -140,7 +140,7 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-white/60 mb-2">Company Name</label>
+                      <label className="block text-sm font-medium text-stone-600 mb-2">Company Name</label>
                       <input
                         {...register('company')}
                         placeholder="Your Company"
@@ -150,7 +150,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-white/60 mb-2">Service Interested In</label>
+                    <label className="block text-sm font-medium text-stone-600 mb-2">Service Interested In</label>
                     <select {...register('service')} className="input-field appearance-none cursor-pointer">
                       {SERVICES.map(s => (
                         <option key={s.value} value={s.value} style={{ background: '#0d0d20' }}>
@@ -161,7 +161,7 @@ export default function ContactPage() {
                   </div>
 
                   {/* <div>
-                    <label className="block text-sm font-medium text-white/60 mb-3">
+                    <label className="block text-sm font-medium text-stone-600 mb-3">
                       Monthly Marketing Budget
                     </label>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -173,7 +173,7 @@ export default function ContactPage() {
                             {...register('budget')}
                             className="accent-brand-500"
                           />
-                          <span className="text-sm text-white/50 group-hover:text-white/80 transition-colors">
+                          <span className="text-sm text-stone-500 group-hover:text-ink-800 transition-colors">
                             {b.label}
                           </span>
                         </label>
@@ -182,7 +182,7 @@ export default function ContactPage() {
                   </div> */}
 
                   <div>
-                    <label className="block text-sm font-medium text-white/60 mb-2">
+                    <label className="block text-sm font-medium text-stone-600 mb-2">
                       Tell Us About Your Goals
                     </label>
                     <textarea
@@ -204,7 +204,7 @@ export default function ContactPage() {
                         <motion.div
                           animate={{ rotate: 360 }}
                           transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                          className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                          className="w-5 h-5 border-2 border-ink-900/30 border-t-white rounded-full"
                         />
                         Sending...
                       </span>
@@ -216,7 +216,7 @@ export default function ContactPage() {
                     )}
                   </button>
 
-                  <p className="text-center text-xs text-white/25">
+                  <p className="text-center text-xs text-stone-400">
                     By submitting, you agree to receive marketing communications from To Fly Media.
                   </p>
                 </form>
@@ -241,15 +241,15 @@ export default function ContactPage() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-white group-hover:text-green-400 transition-colors">Chat on WhatsApp</div>
-                  <div className="text-xs text-white/35 mt-0.5">Usually responds within an hour</div>
+                  <div className="text-sm font-semibold text-ink-900 group-hover:text-green-400 transition-colors">Chat on WhatsApp</div>
+                  <div className="text-xs text-stone-400 mt-0.5">Usually responds within an hour</div>
                 </div>
               </div>
             </a>
 
             {/* Contact details */}
             <div className="glass-card p-6 space-y-5">
-              <h3 className="font-semibold text-white">Direct Contact</h3>
+              <h3 className="font-semibold text-ink-900">Direct Contact</h3>
               {[
                 { icon: Phone, label: '+91 9752523894', href: 'tel:+919752523894' },
                 { icon: Mail, label: 'toflymedia@gmail.com', href: 'mailto:toflymedia@gmail.com' },
@@ -259,9 +259,9 @@ export default function ContactPage() {
                     <Icon size={14} className="text-brand-400" />
                   </div>
                   {href ? (
-                    <a href={href} className="text-sm text-white/55 hover:text-white transition-colors">{label}</a>
+                    <a href={href} className="text-sm text-stone-500 hover:text-ink-900 transition-colors">{label}</a>
                   ) : (
-                    <span className="text-sm text-white/55">{label}</span>
+                    <span className="text-sm text-stone-500">{label}</span>
                   )}
                 </div>
               ))}
@@ -269,11 +269,11 @@ export default function ContactPage() {
 
             {/* Availability */}
             <div className="glass-card p-6">
-              <h3 className="font-semibold text-white mb-4">Availability</h3>
+              <h3 className="font-semibold text-ink-900 mb-4">Availability</h3>
               <div className="flex items-center gap-3">
                 <div className="flex flex-col">
-                  <span className="text-white/70 text-sm font-medium">24 / 7</span>
-                  <span className="text-white/40 text-xs mt-0.5">Always available for you</span>
+                  <span className="text-stone-600 text-sm font-medium">24 / 7</span>
+                  <span className="text-stone-400 text-xs mt-0.5">Always available for you</span>
                 </div>
               </div>
               <div className="mt-4 flex items-center gap-2 text-xs text-green-400">
@@ -286,7 +286,7 @@ export default function ContactPage() {
             <div className="glass-card p-6">
               <div className="flex items-center gap-2 mb-4">
                 <MapPin size={15} className="text-brand-400" />
-                <h3 className="font-semibold text-white">Office Locations</h3>
+                <h3 className="font-semibold text-ink-900">Office Locations</h3>
               </div>
 
               {/* City tabs */}
@@ -308,7 +308,7 @@ export default function ContactPage() {
                           className={`flex flex-col items-center gap-0.5 px-2 py-2 rounded-xl border text-xs font-medium transition-all duration-200 ${
                             active === i
                               ? 'border-brand-500/50 bg-brand-500/10 text-brand-300'
-                              : 'border-white/6 bg-white/3 text-white/40 hover:text-white/70 hover:border-white/15'
+                              : 'border-ink-900/6 bg-ink-900/3 text-stone-400 hover:text-stone-600 hover:border-ink-900/15'
                           }`}
                         >
                           {city}
@@ -320,7 +320,7 @@ export default function ContactPage() {
                         </button>
                       ))}
                     </div>
-                    <div className="rounded-xl overflow-hidden border border-white/6">
+                    <div className="rounded-xl overflow-hidden border border-ink-900/6">
                       <iframe
                         key={active}
                         src={`https://maps.google.com/maps?q=${cities[active].q}&output=embed&z=12`}
@@ -337,7 +337,7 @@ export default function ContactPage() {
                 )
               })()}
 
-              <p className="text-xs text-white/25 mt-3">Remote-first. We work with clients pan-India.</p>
+              <p className="text-xs text-stone-400 mt-3">Remote-first. We work with clients pan-India.</p>
             </div>
           </div>
         </div>

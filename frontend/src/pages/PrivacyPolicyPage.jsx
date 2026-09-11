@@ -105,7 +105,7 @@ export default function PrivacyPolicyPage() {
             <div className="mb-8">
               <button
                 onClick={() => navigate(-1)}
-                className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white/80 transition-colors group"
+                className="inline-flex items-center gap-2 text-sm text-stone-400 hover:text-ink-800 transition-colors group"
               >
                 <ArrowLeft size={15} className="group-hover:-translate-x-1 transition-transform duration-200" />
                 Back
@@ -114,11 +114,11 @@ export default function PrivacyPolicyPage() {
             <div className="block mb-2">
               <SectionTag icon={Shield}>Legal</SectionTag>
             </div>
-            <h1 className="section-heading text-white text-5xl md:text-6xl xl:text-7xl mt-5 mb-6 leading-[1.05]">
+            <h1 className="section-heading text-ink-900 text-5xl md:text-6xl xl:text-7xl mt-5 mb-6 leading-[1.05]">
               Privacy <span className="gradient-text">Policy</span>
             </h1>
-            <p className="text-lg text-white/50 leading-relaxed max-w-2xl">
-              Welcome to <span className="text-white/80 font-semibold">To Fly Media</span>. Your privacy matters to us. This policy explains how we collect, use, and protect information shared through our website, advertisements, and contact forms.
+            <p className="text-lg text-stone-500 leading-relaxed max-w-2xl">
+              Welcome to <span className="text-ink-800 font-semibold">To Fly Media</span>. Your privacy matters to us. This policy explains how we collect, use, and protect information shared through our website, advertisements, and contact forms.
             </p>
             <div
               className="mt-8 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium"
@@ -143,7 +143,7 @@ export default function PrivacyPolicyPage() {
             {/* Sticky sidebar (desktop only) */}
             <aside className="hidden lg:block">
               <div className="glass-card p-6 sticky top-28">
-                <p className="text-xs font-semibold text-white/30 uppercase tracking-widest mb-4">Contents</p>
+                <p className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-4">Contents</p>
                 <nav className="space-y-1">
                   {[
                     'Information We Collect',
@@ -160,7 +160,7 @@ export default function PrivacyPolicyPage() {
                     <a
                       key={i}
                       href={`#section-${i}`}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-white/40 hover:text-white/80 hover:bg-white/[0.04] transition-all duration-200 group"
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-stone-400 hover:text-ink-800 hover:bg-white/[0.04] transition-all duration-200 group"
                     >
                       <span className="w-1 h-1 rounded-full bg-brand-500/50 group-hover:bg-brand-400 transition-colors shrink-0" />
                       {item}
@@ -190,20 +190,20 @@ export default function PrivacyPolicyPage() {
                       >
                         <section.icon size={20} className="text-brand-400" />
                       </div>
-                      <span className="text-[10px] font-bold text-white/20 font-display tracking-wider">{section.number}</span>
+                      <span className="text-[10px] font-bold text-stone-400 font-display tracking-wider">{section.number}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h2 className="text-lg font-bold text-white mb-3">{section.title}</h2>
+                      <h2 className="text-lg font-bold text-ink-900 mb-3">{section.title}</h2>
                       {section.intro && (
-                        <p className="text-white/50 text-sm mb-3 leading-relaxed">{section.intro}</p>
+                        <p className="text-stone-500 text-sm mb-3 leading-relaxed">{section.intro}</p>
                       )}
                       {section.body && (
-                        <p className="text-white/50 text-sm leading-relaxed">{section.body}</p>
+                        <p className="text-stone-500 text-sm leading-relaxed">{section.body}</p>
                       )}
                       {section.list && (
                         <ul className="space-y-2 mt-1">
                           {section.list.map((item, j) => (
-                            <li key={j} className="flex items-start gap-3 text-sm text-white/50">
+                            <li key={j} className="flex items-start gap-3 text-sm text-stone-500">
                               <span
                                 className="mt-2 w-1.5 h-1.5 rounded-full shrink-0"
                                 style={{ background: 'rgba(51,105,255,0.7)' }}
@@ -240,14 +240,14 @@ export default function PrivacyPolicyPage() {
                     >
                       <Phone size={20} className="text-accent-400" />
                     </div>
-                    <span className="text-[10px] font-bold text-white/20 font-display tracking-wider">09</span>
+                    <span className="text-[10px] font-bold text-stone-400 font-display tracking-wider">09</span>
                   </div>
                   <div>
-                    <h2 className="text-lg font-bold text-white mb-3">Contact Us</h2>
-                    <p className="text-white/50 text-sm mb-5 leading-relaxed">
+                    <h2 className="text-lg font-bold text-ink-900 mb-3">Contact Us</h2>
+                    <p className="text-stone-500 text-sm mb-5 leading-relaxed">
                       Have questions about this Privacy Policy? Reach out to us directly.
                     </p>
-                    <p className="text-white/80 font-semibold mb-3">To Fly Media</p>
+                    <p className="text-ink-800 font-semibold mb-3">To Fly Media</p>
                     <div className="space-y-3">
                       <a
                         href="tel:+919752523894"
@@ -256,7 +256,7 @@ export default function PrivacyPolicyPage() {
                         <div className="w-8 h-8 rounded-lg bg-white/[0.05] border border-white/[0.08] flex items-center justify-center group-hover/link:border-brand-500/30 transition-colors">
                           <Phone size={14} className="text-brand-400" />
                         </div>
-                        <span className="text-white/55 group-hover/link:text-white/90 transition-colors">+91 9752523894</span>
+                        <span className="text-stone-500 group-hover/link:text-ink-800 transition-colors">+91 9752523894</span>
                       </a>
                       <a
                         href="mailto:toflymedia@gmail.com"
@@ -265,7 +265,7 @@ export default function PrivacyPolicyPage() {
                         <div className="w-8 h-8 rounded-lg bg-white/[0.05] border border-white/[0.08] flex items-center justify-center group-hover/link:border-brand-500/30 transition-colors">
                           <Mail size={14} className="text-brand-400" />
                         </div>
-                        <span className="text-white/55 group-hover/link:text-white/90 transition-colors">toflymedia@gmail.com</span>
+                        <span className="text-stone-500 group-hover/link:text-ink-800 transition-colors">toflymedia@gmail.com</span>
                       </a>
                     </div>
                   </div>

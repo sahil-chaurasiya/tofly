@@ -96,22 +96,22 @@ export default function EventBanner() {
               </span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-snug font-display">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-ink-900 leading-snug font-display">
               Bharat Tex 2026 — India's Global Textile Expo
             </h2>
 
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/55">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-stone-500">
               <span className="inline-flex items-center gap-2">
-                <Calendar size={15} className="text-white/35" /> 14–17 July 2026
+                <Calendar size={15} className="text-stone-400" /> 14–17 July 2026
               </span>
               <span className="inline-flex items-center gap-2">
-                <MapPin size={15} className="text-white/35" /> Bharat Mandapam, New Delhi
+                <MapPin size={15} className="text-stone-400" /> Bharat Mandapam, New Delhi
               </span>
             </div>
 
             {/* Countdown to the end of the show */}
             <div>
-              <div className="flex items-center gap-2 mb-3 text-white/40 text-xs font-semibold uppercase tracking-wider">
+              <div className="flex items-center gap-2 mb-3 text-stone-400 text-xs font-semibold uppercase tracking-wider">
                 <Clock size={13} />
                 {phase === 'live' ? 'Show floor closes in' : 'Show opens in'}
               </div>
@@ -123,10 +123,10 @@ export default function EventBanner() {
                   ['Sec', cd.seconds],
                 ].map(([label, val]) => (
                   <div key={label} className="glass-card px-3.5 py-2.5 sm:px-4 sm:py-3 min-w-[62px] text-center">
-                    <div className="text-xl sm:text-2xl font-black font-display text-white tabular-nums">
+                    <div className="text-xl sm:text-2xl font-display text-ink-900 tabular-nums">
                       {String(val).padStart(2, '0')}
                     </div>
-                    <div className="text-[10px] text-white/40 mt-0.5 uppercase tracking-wide">{label}</div>
+                    <div className="text-[10px] text-stone-400 mt-0.5 uppercase tracking-wide">{label}</div>
                   </div>
                 ))}
               </div>

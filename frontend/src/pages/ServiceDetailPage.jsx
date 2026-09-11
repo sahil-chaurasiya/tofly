@@ -29,19 +29,19 @@ function StaticServiceDetail({ service }) {
       <section className="relative pt-36 pb-20 overflow-hidden">
         <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-brand-500/8 blur-[100px] pointer-events-none" />
         <div className="container-site relative z-10">
-          <nav className="flex items-center gap-2 text-sm text-white/30 mb-8">
-            <Link to="/services" className="hover:text-white/60 transition-colors">Solutions</Link>
+          <nav className="flex items-center gap-2 text-sm text-stone-400 mb-8">
+            <Link to="/services" className="hover:text-stone-600 transition-colors">Solutions</Link>
             <span>/</span>
-            <span className="text-white/60">{service.title}</span>
+            <span className="text-stone-600">{service.title}</span>
           </nav>
           <div className="max-w-3xl">
             <div className="w-14 h-14 rounded-2xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-6">
               <Icon size={26} className="text-brand-400" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-black text-white mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl font-black text-ink-900 mb-6 leading-tight">
               {service.title}
             </h1>
-            <p className="text-xl text-white/55 leading-relaxed mb-8">
+            <p className="text-xl text-stone-500 leading-relaxed mb-8">
               {service.shortDescription}
             </p>
             <Link to="/contact" className="btn-primary text-base px-8 py-3.5">
@@ -57,8 +57,8 @@ function StaticServiceDetail({ service }) {
 
           {/* Main content */}
           <div className="lg:col-span-2">
-            <h2 className="text-3xl font-bold text-white mb-6">What's Included</h2>
-            <p className="text-white/55 leading-relaxed text-lg mb-10">
+            <h2 className="text-3xl font-bold text-ink-900 mb-6">What's Included</h2>
+            <p className="text-stone-500 leading-relaxed text-lg mb-10">
               {service.description}
             </p>
 
@@ -77,8 +77,8 @@ function StaticServiceDetail({ service }) {
                       <CheckCircle size={16} className="text-brand-400" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-white mb-1">{feature.title}</h3>
-                      <p className="text-white/45 text-sm">{feature.description}</p>
+                      <h3 className="font-semibold text-ink-900 mb-1">{feature.title}</h3>
+                      <p className="text-stone-500 text-sm">{feature.description}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -90,16 +90,16 @@ function StaticServiceDetail({ service }) {
           {service.benefits?.length > 0 && (
             <div className="lg:col-span-1">
               <div className="glass-card p-7 sticky top-28">
-                <h3 className="text-lg font-bold text-white mb-6">Why Choose Us</h3>
+                <h3 className="text-lg font-bold text-ink-900 mb-6">Why Choose Us</h3>
                 <ul className="space-y-4">
                   {service.benefits.map((benefit, i) => (
-                    <li key={i} className="flex items-start gap-3 text-white/55 text-sm">
+                    <li key={i} className="flex items-start gap-3 text-stone-500 text-sm">
                       <CheckCircle size={15} className="text-green-400 shrink-0 mt-0.5" />
                       {benefit}
                     </li>
                   ))}
                 </ul>
-                <div className="mt-8 pt-6 border-t border-white/6">
+                <div className="mt-8 pt-6 border-t border-ink-900/6">
                   <Link to="/contact" className="btn-primary w-full justify-center text-sm">
                     Start Now <ArrowRight size={16} />
                   </Link>
@@ -148,17 +148,17 @@ export default function ServiceDetailPage() {
         <section className="relative pt-36 pb-20 overflow-hidden">
           <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-brand-500/8 blur-[100px] pointer-events-none" />
           <div className="container-site relative z-10">
-            <nav className="flex items-center gap-2 text-sm text-white/30 mb-8">
-              <Link to="/services" className="hover:text-white/60 transition-colors">Solutions</Link>
+            <nav className="flex items-center gap-2 text-sm text-stone-400 mb-8">
+              <Link to="/services" className="hover:text-stone-600 transition-colors">Solutions</Link>
               <span>/</span>
-              <span className="text-white/60">{service.title}</span>
+              <span className="text-stone-600">{service.title}</span>
             </nav>
             <div className="max-w-3xl">
               <div className="w-14 h-14 rounded-2xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-6">
                 <Zap size={26} className="text-brand-400" />
               </div>
-              <h1 className="text-5xl md:text-6xl font-black text-white mb-6">{service.title}</h1>
-              <p className="text-xl text-white/55 leading-relaxed mb-8">{service.shortDescription}</p>
+              <h1 className="text-5xl md:text-6xl font-black text-ink-900 mb-6">{service.title}</h1>
+              <p className="text-xl text-stone-500 leading-relaxed mb-8">{service.shortDescription}</p>
               <Link to="/contact" className="btn-primary text-base px-8 py-3.5">
                 Get Started <ArrowRight size={18} />
               </Link>
@@ -169,8 +169,8 @@ export default function ServiceDetailPage() {
         <SectionWrapper className="container-site pb-24">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
-              <h2 className="text-3xl font-bold text-white mb-6">What's Included</h2>
-              <p className="text-white/55 leading-relaxed text-lg mb-10">{service.description}</p>
+              <h2 className="text-3xl font-bold text-ink-900 mb-6">What's Included</h2>
+              <p className="text-stone-500 leading-relaxed text-lg mb-10">{service.description}</p>
               {service.features?.length > 0 && (
                 <div className="space-y-5">
                   {service.features.map((feature, i) => (
@@ -181,8 +181,8 @@ export default function ServiceDetailPage() {
                         <CheckCircle size={16} className="text-brand-400" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-white mb-1">{feature.title}</h3>
-                        <p className="text-white/45 text-sm">{feature.description}</p>
+                        <h3 className="font-semibold text-ink-900 mb-1">{feature.title}</h3>
+                        <p className="text-stone-500 text-sm">{feature.description}</p>
                       </div>
                     </motion.div>
                   ))}
@@ -192,16 +192,16 @@ export default function ServiceDetailPage() {
             {service.benefits?.length > 0 && (
               <div className="lg:col-span-1">
                 <div className="glass-card p-7 sticky top-28">
-                  <h3 className="text-lg font-bold text-white mb-6">Why Choose Us</h3>
+                  <h3 className="text-lg font-bold text-ink-900 mb-6">Why Choose Us</h3>
                   <ul className="space-y-4">
                     {service.benefits.map((benefit, i) => (
-                      <li key={i} className="flex items-start gap-3 text-white/55 text-sm">
+                      <li key={i} className="flex items-start gap-3 text-stone-500 text-sm">
                         <CheckCircle size={15} className="text-green-400 shrink-0 mt-0.5" />
                         {benefit}
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-8 pt-6 border-t border-white/6">
+                  <div className="mt-8 pt-6 border-t border-ink-900/6">
                     <Link to="/contact" className="btn-primary w-full justify-center text-sm">
                       Start Now <ArrowRight size={16} />
                     </Link>
@@ -226,7 +226,7 @@ export default function ServiceDetailPage() {
   return (
     <PageWrapper>
       <div className="container-site pt-36 pb-24 text-center">
-        <h1 className="text-3xl font-bold text-white mb-4">Service Not Found</h1>
+        <h1 className="text-3xl font-bold text-ink-900 mb-4">Service Not Found</h1>
         <Link to="/services" className="btn-primary">Back to Solutions</Link>
       </div>
     </PageWrapper>

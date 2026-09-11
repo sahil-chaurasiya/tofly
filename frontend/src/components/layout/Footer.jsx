@@ -22,24 +22,29 @@ const footerLinks = {
   ],
 }
 
+// Light editorial footer — a shade darker than the page's paper bg so it
+// still reads as a distinct closing block, without going to black.
+const FOOTER_BG = '#EFEBE1'
+const INK = '#111111'
+const MUTED = '#6B6A65'
+const BORDER = '#D8D5CE'
+
 export default function Footer() {
   return (
-    <footer className="relative border-t border-white/5 bg-dark-900">
-      {/* Gradient top edge */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-brand-500/50 to-transparent" />
+    <footer className="relative" style={{ background: FOOTER_BG, color: INK }}>
+      <div className="container-site" style={{ paddingTop: 64, paddingBottom: 40 }}>
 
-      <div className="container-site py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12" style={{ marginBottom: 48 }}>
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center mb-5 w-fit">
+            <Link to="/" className="flex items-center w-fit" style={{ marginBottom: 20 }}>
               <img
                 src="/hero/logo.png"
                 alt="To Fly Media"
-                style={{ height: '45px', width: 'auto', objectFit: 'contain' }}
+                style={{ height: '40px', width: 'auto', objectFit: 'contain' }}
               />
             </Link>
-            <p className="text-white/50 text-sm leading-relaxed mb-6">
+            <p className="text-sm leading-relaxed" style={{ color: MUTED, marginBottom: 24 }}>
               Performance marketing agency serving Bhopal, Mumbai, Delhi & Ahmedabad. We help brands grow faster with data-driven digital marketing.
             </p>
             <div className="flex items-center gap-3">
@@ -54,7 +59,10 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-white/40 hover:text-white hover:bg-white/8 transition-all duration-200 border border-white/5"
+                  className="w-9 h-9 flex items-center justify-center transition-all duration-200"
+                  style={{ color: MUTED, border: `1px solid ${BORDER}`, borderRadius: '50%' }}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#F5F3EE'; e.currentTarget.style.background = INK; e.currentTarget.style.borderColor = INK }}
+                  onMouseLeave={e => { e.currentTarget.style.color = MUTED; e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = BORDER }}
                 >
                   <Icon size={16} />
                 </a>
@@ -65,13 +73,16 @@ export default function Footer() {
           {/* Links columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h4 className="text-sm font-semibold text-white/80 uppercase tracking-wider mb-5">{title}</h4>
-              <ul className="space-y-3">
+              <h4 className="eyebrow" style={{ color: MUTED, marginBottom: 20 }}>{title}</h4>
+              <ul style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {links.map((link) => (
                   <li key={link.href}>
                     <Link
                       to={link.href}
-                      className="text-sm text-white/45 hover:text-white/90 transition-colors duration-200 flex items-center gap-1 group"
+                      className="text-sm flex items-center gap-1 group transition-colors duration-200"
+                      style={{ color: '#3a3a38', textDecoration: 'none' }}
+                      onMouseEnter={e => { e.currentTarget.style.color = INK }}
+                      onMouseLeave={e => { e.currentTarget.style.color = '#3a3a38' }}
                     >
                       {link.label}
                       <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -84,24 +95,24 @@ export default function Footer() {
 
           {/* Contact column */}
           <div>
-            <h4 className="text-sm font-semibold text-white/80 uppercase tracking-wider mb-5">Contact</h4>
-            <ul className="space-y-4">
+            <h4 className="eyebrow" style={{ color: MUTED, marginBottom: 20 }}>Contact</h4>
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <li className="flex items-start gap-3">
-                <MapPin size={16} className="text-brand-400 mt-0.5 shrink-0" />
+                <MapPin size={16} style={{ color: '#3157FF', marginTop: 2, flexShrink: 0 }} />
                 <div>
-                  <p className="text-sm text-white/45">Bhopal (HQ), Mumbai,</p>
-                  <p className="text-sm text-white/45">Delhi & Ahmedabad</p>
+                  <p className="text-sm" style={{ color: '#3a3a38' }}>Bhopal (HQ), Mumbai,</p>
+                  <p className="text-sm" style={{ color: '#3a3a38' }}>Delhi & Ahmedabad</p>
                 </div>
               </li>
               <li className="flex items-center gap-3">
-                <Phone size={16} className="text-brand-400 shrink-0" />
-                <a href="tel:+919752523894" className="text-sm text-white/45 hover:text-white/80 transition-colors">
+                <Phone size={16} style={{ color: '#3157FF', flexShrink: 0 }} />
+                <a href="tel:+919752523894" className="text-sm transition-colors" style={{ color: '#3a3a38', textDecoration: 'none' }}>
                   +91 9752523894
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail size={16} className="text-brand-400 shrink-0" />
-                <a href="mailto:toflymedia@gmail.com" className="text-sm text-white/45 hover:text-white/80 transition-colors">
+                <Mail size={16} style={{ color: '#3157FF', flexShrink: 0 }} />
+                <a href="mailto:toflymedia@gmail.com" className="text-sm transition-colors" style={{ color: '#3a3a38', textDecoration: 'none' }}>
                   toflymedia@gmail.com
                 </a>
               </li>
@@ -112,11 +123,15 @@ export default function Footer() {
               href="https://wa.me/919752523894?text=Hi%2C%20I'd%20like%20to%20know%20more%20about%20your%20digital%20marketing%20services."
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 w-fit"
+              className="flex items-center gap-2 text-sm font-medium transition-all duration-200 w-fit"
               style={{
+                marginTop: 24,
+                padding: '10px 16px',
                 background: 'rgba(37, 211, 102, 0.1)',
-                border: '1px solid rgba(37, 211, 102, 0.25)',
-                color: '#25d366'
+                border: '1px solid rgba(37, 211, 102, 0.35)',
+                color: '#1a9c50',
+                borderRadius: 999,
+                textDecoration: 'none',
               }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -128,13 +143,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/30">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4" style={{ paddingTop: 32, borderTop: `1px solid ${BORDER}` }}>
+          <p className="text-xs" style={{ color: MUTED }}>
             © {new Date().getFullYear()} To Fly Media. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link to="/privacy" className="text-xs text-white/30 hover:text-white/60 transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="text-xs text-white/30 hover:text-white/60 transition-colors">Terms of Service</Link>
+            <Link to="/privacy" className="text-xs transition-colors" style={{ color: MUTED, textDecoration: 'none' }}>Privacy Policy</Link>
+            <Link to="/terms" className="text-xs transition-colors" style={{ color: MUTED, textDecoration: 'none' }}>Terms of Service</Link>
           </div>
         </div>
       </div>

@@ -200,11 +200,11 @@ export default function AboutPage() {
             {/* Left copy */}
             <div className="max-w-xl">
               <SectionTag icon={Users}>Our Story</SectionTag>
-              <h1 className="section-heading text-white text-5xl md:text-6xl xl:text-7xl mt-4 mb-6 leading-[1.05]">
+              <h1 className="section-heading text-ink-900 text-5xl md:text-6xl xl:text-7xl mt-4 mb-6 leading-[1.05]">
                 We Didn't Start an Agency.<br />
                 <span className="gradient-text">We Built a Growth Engine.</span>
               </h1>
-              <p className="text-xl text-white/55 leading-relaxed">
+              <p className="text-xl text-stone-500 leading-relaxed">
                 To Fly Media was founded in Bhopal with one belief: digital marketing should be accountable to one thing — your business results. Not vanity metrics. Not pretty dashboards. Revenue.
               </p>
             </div>
@@ -227,10 +227,10 @@ export default function AboutPage() {
       <SectionWrapper className="container-site pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 className="text-3xl font-bold text-white mb-6">How We Got Here</h2>
-            <div className="space-y-5 text-white/55 leading-relaxed">
+            <h2 className="text-3xl font-bold text-ink-900 mb-6">How We Got Here</h2>
+            <div className="space-y-5 text-stone-500 leading-relaxed">
               <p>
-                To Fly Media was started by <strong className="text-white/80">Aman Bhardwaj</strong> in Bhopal, while he was still studying commerce at Barkatullah University. What began as freelance design and social media work for local businesses grew into a proper in-house creative and digital marketing studio.
+                To Fly Media was started by <strong className="text-ink-800">Aman Bhardwaj</strong> in Bhopal, while he was still studying commerce at Barkatullah University. What began as freelance design and social media work for local businesses grew into a proper in-house creative and digital marketing studio.
               </p>
               <p>
                 Aman built the agency on a simple promise: no jargon-filled decks, no vanity reports — just work judged on whether it actually moves a client's business forward. That meant learning design, paid ads, content, and strategy well enough to run all of it in-house, under one roof.
@@ -258,8 +258,8 @@ export default function AboutPage() {
                 transition={{ delay: i * 0.1 }}
                 className="metric-card aspect-square flex flex-col items-center justify-center rounded-2xl"
               >
-                <div className="text-3xl font-black font-display gradient-text mb-2">{item.num}</div>
-                <div className="text-xs text-white/45 text-center">{item.label}</div>
+                <div className="text-3xl font-display gradient-text mb-2">{item.num}</div>
+                <div className="text-xs text-stone-500 text-center">{item.label}</div>
               </motion.div>
             ))}
           </div>
@@ -274,7 +274,7 @@ export default function AboutPage() {
           {/* Heading */}
           <div className="text-center mb-20">
             <SectionTag>Our Journey</SectionTag>
-            <h2 className="section-heading text-white mt-2">
+            <h2 className="section-heading text-ink-900 mt-2">
               Six Years of <span className="gradient-text">Compounding Growth</span>
             </h2>
           </div>
@@ -303,10 +303,10 @@ export default function AboutPage() {
                     {/* Card — alternates sides on desktop */}
                     <div className={`${isLeft ? 'lg:pr-16 lg:text-right lg:order-1' : 'lg:col-start-2 lg:pl-16 lg:order-2'}`}>
                       <div
-                        className="glass-card p-7 group cursor-default transition-all duration-300 hover:border-brand-500/30"
-                        style={{ borderColor: 'rgba(255,255,255,0.07)' }}
-                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(51,105,255,0.06)'}
-                        onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'}
+                        className="glass-card p-7 group cursor-default transition-all duration-300 hover:border-brand-500/40"
+                        style={{ borderColor: '#D8D5CE' }}
+                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(49,87,255,0.04)'}
+                        onMouseLeave={e => e.currentTarget.style.background = '#FBFAF7'}
                       >
                         {/* Year pill */}
                         <div
@@ -323,15 +323,15 @@ export default function AboutPage() {
                         >
                           {item.year}
                         </div>
-                        <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
-                        <p className="text-white/45 text-sm leading-relaxed">{item.desc}</p>
+                        <h3 className="text-lg font-bold text-ink-900 mb-2">{item.title}</h3>
+                        <p className="text-stone-500 text-sm leading-relaxed">{item.desc}</p>
                       </div>
                     </div>
 
                     {/* Centre dot on the spine (desktop only) */}
                     <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full items-center justify-center"
-                      style={{ background: '#03030a', border: '2px solid rgba(51,105,255,0.55)', boxShadow: '0 0 12px rgba(51,105,255,0.4)', zIndex: 2 }}>
-                      <div className="w-1.5 h-1.5 rounded-full bg-brand-400" />
+                      style={{ background: '#F5F3EE', border: '2px solid #3157FF', zIndex: 2 }}>
+                      <div className="w-1.5 h-1.5 rounded-full bg-brand-500" />
                     </div>
 
                     {/* Empty placeholder col for the opposite side */}
@@ -366,8 +366,8 @@ export default function AboutPage() {
                 <Target size={24} className="text-brand-400" />
               </div>
               <div className="text-xs font-semibold text-brand-400 uppercase tracking-widest mb-3">Our Mission</div>
-              <h3 className="text-2xl font-bold text-white mb-4">Make marketing accountable</h3>
-              <p className="text-white/50 leading-relaxed">
+              <h3 className="text-2xl font-bold text-ink-900 mb-4">Make marketing accountable</h3>
+              <p className="text-stone-500 leading-relaxed">
                 Every rupee you spend on marketing should have a measurable return. Our mission is to build marketing systems that are transparent, data-driven, and directly tied to your revenue — not to industry benchmarks or agency awards.
               </p>
             </div>
@@ -376,8 +376,8 @@ export default function AboutPage() {
                 <Eye size={24} className="text-accent-400" />
               </div>
               <div className="text-xs font-semibold text-accent-400 uppercase tracking-widest mb-3">Our Vision</div>
-              <h3 className="text-2xl font-bold text-white mb-4">Bhopal's go-to growth partner</h3>
-              <p className="text-white/50 leading-relaxed">
+              <h3 className="text-2xl font-bold text-ink-900 mb-4">Bhopal's go-to growth partner</h3>
+              <p className="text-stone-500 leading-relaxed">
                 We want to be the studio that Bhopal's founders and small business owners trust with their growth — not because we're the biggest agency, but because we're hands-on, transparent, and genuinely invested in every client's results.
               </p>
             </div>
@@ -389,7 +389,7 @@ export default function AboutPage() {
       <SectionWrapper className="container-site py-24">
         <div className="text-center mb-14">
           <SectionTag>What Drives Us</SectionTag>
-          <h2 className="section-heading text-white mt-2">Our Core <span className="gradient-text">Values</span></h2>
+          <h2 className="section-heading text-ink-900 mt-2">Our Core <span className="gradient-text">Values</span></h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {VALUES.map((v, i) => (
@@ -404,8 +404,8 @@ export default function AboutPage() {
               <div className="w-11 h-11 rounded-xl bg-brand-500/10 flex items-center justify-center mb-5">
                 <v.icon size={20} className="text-brand-400" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-3">{v.title}</h3>
-              <p className="text-white/45 text-sm leading-relaxed">{v.desc}</p>
+              <h3 className="text-lg font-bold text-ink-900 mb-3">{v.title}</h3>
+              <p className="text-stone-500 text-sm leading-relaxed">{v.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -418,17 +418,17 @@ export default function AboutPage() {
       <MapPin size={24} className="text-brand-400" />
     </div>
     <div className="space-y-4">
-      <h3 className="text-2xl font-bold text-white">
+      <h3 className="text-2xl font-bold text-ink-900">
         Rooted in Bhopal. <span className="gradient-text">Serving Everywhere.</span>
       </h3>
-      <p className="text-white/50 leading-relaxed max-w-2xl">
+      <p className="text-stone-500 leading-relaxed max-w-2xl">
         Bhopal is where we started, where our creative studio lives, and where our culture was built. 
         But we’re not confined by geography. With office hubs in Mumbai, Delhi, and Ahmedabad — 
         plus a remote‑first team — we work with brands across India and international markets. 
         Great marketing isn’t about where you sit; it’s about the clarity of your strategy and 
         the discipline of your execution.
       </p>
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-white/40 text-sm">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-stone-400 text-sm">
         <div className="flex items-center gap-1">
           <MapPin size={14} className="text-brand-400" />
           <span>HQ: Bhopal, MP – 462024</span>
