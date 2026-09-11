@@ -24,7 +24,6 @@ const navLinks = [
   },
   { label: 'Case Studies', path: '/case-studies' },
   { label: 'Blog', path: '/blog' },
-  { label: 'Bharat Tex 2026', path: '/bharat-tex-2026', badge: 'Live' },
   { label: 'Contact', path: '/contact' },
 ]
 
@@ -69,8 +68,8 @@ export default function Navbar() {
             zIndex: 45,
             display: 'flex',
             flexDirection: 'column',
+            backgroundColor: '#F5F3EE',
           }}
-          className="bg-paper"
         >
           {/* Scrollable links — top padding clears the header bar */}
           <nav
@@ -223,7 +222,12 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 6 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute top-full left-0 mt-2 w-72 bg-paper-50 border border-line shadow-editorial p-2"
+                      className="absolute top-full left-0 mt-2 w-72 border border-line p-2"
+                      style={{
+                        zIndex: 60,
+                        backgroundColor: '#FBFAF7',
+                        boxShadow: '0 12px 32px rgba(17,17,17,0.12)',
+                      }}
                     >
                       {link.children.map((child) => (
                         <NavLink
@@ -236,6 +240,7 @@ export default function Navbar() {
                                 : 'text-stone-500 hover:text-ink-900'
                             }`
                           }
+                          style={{ backgroundColor: 'transparent' }}
                         >
                           {child.label}
                         </NavLink>

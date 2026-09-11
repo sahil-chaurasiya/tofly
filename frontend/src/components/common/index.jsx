@@ -145,7 +145,10 @@ export function BlogCard({ blog, delay = 0 }) {
     >
       <Link to={`/blog/${blog.slug}`} className="block group">
         {/* Cover image */}
-        <div className="aspect-[4/3] bg-paper-200 overflow-hidden mb-5 relative">
+        <div
+          className="aspect-[4/3] overflow-hidden mb-5 relative"
+          style={!blog.coverImage ? { background: 'linear-gradient(145deg, #eef1ff 0%, #dce3ff 55%, #b6c2ff 100%)' } : undefined}
+        >
           {blog.coverImage ? (
             <img
               src={blog.coverImage}
@@ -155,7 +158,9 @@ export function BlogCard({ blog, delay = 0 }) {
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <TrendingUp size={28} className="text-stone-400" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'rgba(49, 87, 255, 0.14)' }}>
+                <TrendingUp size={22} className="text-brand-500" />
+              </div>
             </div>
           )}
         </div>
@@ -201,23 +206,23 @@ export function CaseStudyCard({ cs, delay = 0 }) {
       transition={{ duration: 0.5, delay }}
     >
       <Link to={`/case-studies/${cs.slug}`} className="block group">
-        <div className="aspect-[4/3] bg-ink-900 overflow-hidden relative mb-5">
+        <div className="aspect-[4/3] overflow-hidden relative mb-5" style={{ background: 'linear-gradient(155deg, #1c2340 0%, #2a3568 100%)' }}>
           {cs.coverImage ? (
             <img src={cs.coverImage} alt={cs.title} className="w-full h-full object-cover opacity-90 scale-[1.05] group-hover:scale-100 group-hover:opacity-100 transition-all duration-700 ease-out" loading="lazy" />
           ) : (
             <div className="w-full h-full flex items-center justify-center p-8">
               <div className="text-center">
-                <div className="font-display text-5xl text-paper">
+                <div className="font-display text-5xl" style={{ color: '#F5F3EE' }}>
                   {cs.results?.[0]?.value || '+300%'}
                 </div>
-                <div className="text-xs text-paper/40 mt-1">{cs.results?.[0]?.metric}</div>
+                <div className="text-xs mt-1" style={{ color: 'rgba(245,243,238,0.4)' }}>{cs.results?.[0]?.metric}</div>
               </div>
             </div>
           )}
           {cs.client?.industry && (
-            <div className="absolute top-4 left-4 eyebrow px-3 py-1 bg-paper text-ink-900 rounded-full">{cs.client.industry}</div>
+            <div className="absolute top-4 left-4 eyebrow px-3 py-1 rounded-full" style={{ backgroundColor: '#F5F3EE', color: '#111111' }}>{cs.client.industry}</div>
           )}
-          <div className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-paper flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute bottom-4 right-4 w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ backgroundColor: '#F5F3EE' }}>
             <ArrowUpRight size={18} className="text-ink-900" />
           </div>
         </div>

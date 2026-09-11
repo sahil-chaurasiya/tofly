@@ -142,6 +142,26 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Big brand mark */}
+        <div className="w-full flex items-center justify-center overflow-hidden" style={{ paddingBottom: 28 }}>
+          <h2
+            className="text-center font-serif select-none"
+            style={{
+              fontSize: 'clamp(40px, 10.5vw, 140px)',
+              lineHeight: 1,
+              letterSpacing: '-0.01em',
+              margin: 0,
+              whiteSpace: 'nowrap',
+              fontWeight: 600,
+              fontStyle: 'italic',
+              color: INK,
+              opacity: 0.07,
+            }}
+          >
+            To Fly Media
+          </h2>
+        </div>
+
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4" style={{ paddingTop: 32, borderTop: `1px solid ${BORDER}` }}>
           <p className="text-xs" style={{ color: MUTED }}>
