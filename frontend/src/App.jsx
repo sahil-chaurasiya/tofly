@@ -34,6 +34,7 @@ import AdminServices from './pages/admin/AdminServices'
 import AdminTestimonials from './pages/admin/AdminTestimonials'
 import AdminCaseStudies from './pages/admin/AdminCaseStudies'
 import AdminPayments from './pages/admin/AdminPayments'
+import AdminTflyPortfolio from './pages/admin/AdminTflyPortfolio'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 
 export default function App() {
@@ -107,6 +108,7 @@ export default function App() {
             <Route path="testimonials" element={<AdminTestimonials />} />
             <Route path="case-studies" element={<AdminCaseStudies />} />
             <Route path="payments" element={<AdminPayments />} />
+            <Route path="tofly-portfolio" element={<AdminTflyPortfolio />} />
           </Route>
 
         </Routes>

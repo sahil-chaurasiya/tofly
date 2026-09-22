@@ -1,4 +1,7 @@
 import { useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { publicAPI } from '../utils/api'
+import TFLY_PORTFOLIO_DEFAULTS from '../data/tflyPortfolioDefaults'
 
 // ─── Standalone page: converted 1:1 from the provided tofly-portfolio.html ───
 // All CSS below is copied verbatim from the source file (only the font
@@ -209,20 +212,25 @@ export default function TflyPortfolioPage() {
     }
   }, [])
 
+  // Every piece of copy on this page is fetched from the admin-editable
+  // content API. While it loads (or if it's ever unreachable) we fall back
+  // to TFLY_PORTFOLIO_DEFAULTS so the page always renders something sensible.
+  const { data } = useQuery({
+    queryKey: ['tofly-portfolio-content'],
+    queryFn: () => publicAPI.getPortfolio(),
+    select: (res) => res.data.content,
+  })
+
+  const c = data || TFLY_PORTFOLIO_DEFAULTS
+
   return (
     <div className="tfport-root">
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
 
-
       <nav className="rail" aria-label="Sections">
-        <a href="#who"><span className="mark">+24.0</span>Who we are</a>
-        <a href="#content"><span className="mark">+18.0</span>Content</a>
-        <a href="#ads"><span className="mark">+13.5</span>Ads</a>
-        <a href="#leads"><span className="mark">+09.0</span>Leads</a>
-        <a href="#web"><span className="mark">+04.5</span>Web</a>
-        <a href="#auto"><span className="mark">+02.0</span>Automation</a>
-        <a href="#work"><span className="mark">±00.0</span>Work</a>
-        <a href="#talk"><span className="mark">-02.0</span>Talk</a>
+        {(c.nav || []).map((item, i) => (
+          <a href={item.href} key={i}><span className="mark">{item.mark}</span>{item.label}</a>
+        ))}
       </nav>
 
       <main className="wrap">
@@ -230,444 +238,163 @@ export default function TflyPortfolioPage() {
         {/* HERO */}
         <section className="hero">
           <div className="brandline">
-            <span className="logo">To Fly Media</span>
+            <span className="logo">{c.brand?.logoText}</span>
             <span className="sep" aria-hidden="true"></span>
-            <span className="loc">Bhopal, Madhya Pradesh</span>
+            <span className="loc">{c.brand?.locationText}</span>
           </div>
 
-          <h1>We fill site visits, not just lead forms.</h1>
+          <h1>{c.hero?.title}</h1>
 
-          <p className="sub">A performance marketing and content studio built for developers, interior studios and construction firms. We handle the drone shoot, the script, the ad account, the follow-up calls and the CRM — so the only number you have to watch is bookings.</p>
+          <p className="sub">{c.hero?.subtitle}</p>
 
           <div className="heroCta">
-            <a className="btn" href="#talk">Book a 30-minute call</a>
-            <a className="btn ghost" href="#work">See the work</a>
+            {c.hero?.ctaPrimaryText && (
+              <a className="btn" href={c.hero.ctaPrimaryHref || '#talk'}>{c.hero.ctaPrimaryText}</a>
+            )}
+            {c.hero?.ctaSecondaryText && (
+              <a className="btn ghost" href={c.hero.ctaSecondaryHref || '#work'}>{c.hero.ctaSecondaryText}</a>
+            )}
           </div>
 
           <div className="creds">
-            <div><span className="n fill">Since 20––</span><span className="l">Building brands out of Bhopal, serving clients across India.</span></div>
-            <div><span className="n fill">––+</span><span className="l">Brands handled across real estate, interiors, retail and services.</span></div>
-            <div><span className="n fill">₹––L+</span><span className="l">Ad spend managed on Meta and Google.</span></div>
-            <div><span className="n">In-house</span><span className="l">Drone, camera and edit team. No shoot is outsourced and re-sold.</span></div>
+            {(c.hero?.credentials || []).map((cred, i) => (
+              <div key={i}>
+                <span className={cred.highlight !== false ? 'n fill' : 'n'}>{cred.value}</span>
+                <span className="l">{cred.label}</span>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* WHO */}
-        <section id="who">
-          <div className="sechead"><span className="lvl">+24.0</span><h2>A growth partner, not a posting service</h2></div>
+        <section id={c.who?.anchorId || 'who'}>
+          <div className="sechead"><span className="lvl">{c.who?.levelLabel}</span><h2>{c.who?.heading}</h2></div>
 
           <div className="twocol">
             <div>
-              <p className="lede" style={{marginTop: '0'}}>Most agencies hand a builder a content calendar and a monthly report full of reach and impressions. That is not what sells an apartment. Bookings come from a specific chain: the right person sees a credible piece of content, clicks, gets called within minutes, and actually turns up at the site.</p>
-              <p className="lede">We own that entire chain. One team, one point of contact, and one number we are accountable for — qualified site visits at a cost you can live with.</p>
-              <div className="note">We work with a limited number of projects per city at a time. Two competing developers in the same micro-market will not both be our clients — your audience, creatives and learnings stay yours.</div>
+              {(c.who?.paragraphs || []).map((p, i) => (
+                <p className="lede" style={i === 0 ? { marginTop: '0' } : undefined} key={i}>{p}</p>
+              ))}
+              {c.who?.note && <div className="note">{c.who.note}</div>}
             </div>
 
             <ul className="edgelist">
-              <li><span className="k" aria-hidden="true"></span><div><strong>Bhopal page network</strong><span>Established working relationships with the city's largest local pages and community accounts, for seeding launches and reaching local buyers organically.</span></div></li>
-              <li><span className="k" aria-hidden="true"></span><div><strong>Direct influencer access</strong><span>Direct contact with Bhopal's top creators — no agency middleman, no inflated rates. Property walkthroughs, interior reveals and site tours with faces the city already trusts.</span></div></li>
-              <li><span className="k" aria-hidden="true"></span><div><strong>Full production in-house</strong><span>Drone, cinema camera and iPhone-native content under one roof. Construction progress, elevation shots, model flat tours, founder pieces.</span></div></li>
-              <li><span className="k" aria-hidden="true"></span><div><strong>Complete visibility</strong><span>Your project shows up where your buyer already is — Instagram, Google Search, Maps, YouTube and WhatsApp — with a consistent story across all of them.</span></div></li>
-              <li><span className="k" aria-hidden="true"></span><div><strong>Built for this sector</strong><span>We understand booking cycles, channel partners, RERA-safe claims, inventory-wise targeting and why a 60-day lead is still a live lead.</span></div></li>
+              {(c.who?.edgelist || []).map((item, i) => (
+                <li key={i}>
+                  <span className="k" aria-hidden="true"></span>
+                  <div><strong>{item.title}</strong><span>{item.description}</span></div>
+                </li>
+              ))}
             </ul>
           </div>
         </section>
 
-        {/* SERVICE 1 : CONTENT + SOCIAL */}
-        <section id="content">
-          <div className="sechead"><span className="lvl">+18.0</span><h2>Content &amp; social media management</h2></div>
+        {/* SERVICE SECTIONS (Content, Ads, Leads, Web, Automation ...) */}
+        {(c.serviceSections || []).map((sec, si) => (
+          <section id={sec.anchorId} key={si}>
+            <div className="sechead"><span className="lvl">{sec.levelLabel}</span><h2>{sec.heading}</h2></div>
+            {sec.intro && <p className="lede" style={{ marginTop: '-18px' }}>{sec.intro}</p>}
 
-          <div className="svc">
-            <div>
-              <div className="no">Production</div>
-              <h3>We shoot it ourselves</h3>
-              <p className="desc">Drone for elevation and locality context, cinema camera for walkthroughs and brand films, iPhone for fast reels that actually perform. Monthly shoot days planned around your construction timeline.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>Drone aerials — site, elevation, locality and connectivity shots</span></div>
-              <div><i>▸</i><span>Model flat and sample interior walkthroughs</span></div>
-              <div><i>▸</i><span>Monthly construction progress films</span></div>
-              <div><i>▸</i><span>Founder, CEO and sales team authority content</span></div>
-              <div><i>▸</i><span>Customer handover and testimonial shoots</span></div>
-              <div><i>▸</i><span>Before / after interior transformation edits</span></div>
-              <div><i>▸</i><span>Material, finish and craftsmanship detail shots</span></div>
-              <div><i>▸</i><span>Models and influencers arranged on request</span></div>
-            </div>
-          </div>
-
-          <div className="svc">
-            <div>
-              <div className="no">Planning</div>
-              <h3>Scripts and content strategy</h3>
-              <p className="desc">Nothing is shot without a reason. Every month starts with a plan mapped to what you are trying to sell that month.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>Monthly content calendar approved before shoot day</span></div>
-              <div><i>▸</i><span>Reel scripts, hooks and voice-over copy</span></div>
-              <div><i>▸</i><span>Caption writing in Hindi, English or Hinglish</span></div>
-              <div><i>▸</i><span>Hashtag, location and keyword strategy</span></div>
-              <div><i>▸</i><span>Trend and audio research for local relevance</span></div>
-              <div><i>▸</i><span>Static creatives, carousels and offer posts</span></div>
-              <div><i>▸</i><span>Festive and launch campaign concepts</span></div>
-              <div><i>▸</i><span>Brand guideline and template system</span></div>
-            </div>
-          </div>
-
-          <div className="svc">
-            <div>
-              <div className="no">Management</div>
-              <h3>Daily handling and engagement</h3>
-              <p className="desc">Your page is a sales channel, so it is treated like one. Comments and DMs are answered by people who know your inventory and pricing.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>Scheduling and posting across Instagram, Facebook, YouTube and LinkedIn</span></div>
-              <div><i>▸</i><span>Story management — polls, behind the scenes, daily site updates</span></div>
-              <div><i>▸</i><span>Comment and DM replies within working hours</span></div>
-              <div><i>▸</i><span>Enquiries from DMs passed to your sales team, not left unread</span></div>
-              <div><i>▸</i><span>Review and reputation monitoring</span></div>
-              <div><i>▸</i><span>Negative comment and crisis handling protocol</span></div>
-              <div><i>▸</i><span>Competitor activity tracking</span></div>
-              <div><i>▸</i><span>Monthly performance report with next month's plan</span></div>
-            </div>
-            <div className="note">Models, influencers, actors and any paid page seeding are billed at actual cost with the invoice shared — we do not add a margin on top of talent fees.</div>
-          </div>
-        </section>
-
-        {/* SERVICE 2 : PERFORMANCE */}
-        <section id="ads">
-          <div className="sechead"><span className="lvl">+13.5</span><h2>Performance marketing</h2></div>
-          <p className="lede" style={{marginTop: '-18px'}}>Lead cost is easy to reduce and meaningless on its own. We optimise for cost per site visit and cost per booking, which means we cut audiences that produce cheap leads nobody can reach.</p>
-
-          <div className="svc" style={{marginTop: '34px'}}>
-            <div>
-              <div className="no">Setup</div>
-              <h3>Account and tracking foundation</h3>
-              <p className="desc">Built in your own ad accounts, under your Business Manager. You keep every asset, audience and learning if we ever part ways.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>Meta and Google Ads account structure</span></div>
-              <div><i>▸</i><span>Pixel, Conversions API and server-side tracking</span></div>
-              <div><i>▸</i><span>GA4, Google Tag Manager and call tracking setup</span></div>
-              <div><i>▸</i><span>Offline conversion upload — bookings fed back into the algorithm</span></div>
-              <div><i>▸</i><span>UTM convention so every lead is traceable to a creative</span></div>
-              <div><i>▸</i><span>Baseline report of your current numbers before we touch anything</span></div>
-            </div>
-          </div>
-
-          <div className="svc">
-            <div>
-              <div className="no">Creative</div>
-              <h3>Systematic A/B testing</h3>
-              <p className="desc">In this category the creative is the targeting. We run structured tests instead of guessing, and retire losers fast.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>Multiple creative variants live per campaign, every month</span></div>
-              <div><i>▸</i><span>Hook, thumbnail and first-three-second testing</span></div>
-              <div><i>▸</i><span>Offer and headline testing — price point, EMI, possession date</span></div>
-              <div><i>▸</i><span>Format testing across reel, carousel, static and collection</span></div>
-              <div><i>▸</i><span>Landing page vs instant form vs WhatsApp click testing</span></div>
-              <div><i>▸</i><span>Winning angles scaled, losing spend cut within the same week</span></div>
-            </div>
-          </div>
-
-          <div className="svc">
-            <div>
-              <div className="no">Targeting</div>
-              <h3>Reaching actual buyers</h3>
-              <p className="desc">Filtering out the window shoppers matters more than reach. Qualification starts in the ad, not in the call centre.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>Locality, pincode and radius targeting around your project</span></div>
-              <div><i>▸</i><span>Income, life-stage and behaviour layering</span></div>
-              <div><i>▸</i><span>Lookalikes built from your actual buyers, not from form fills</span></div>
-              <div><i>▸</i><span>Google Search capture for high-intent project and locality queries</span></div>
-              <div><i>▸</i><span>Retargeting across video viewers, page visitors and dropped leads</span></div>
-              <div><i>▸</i><span>NRI and out-of-city targeting where relevant</span></div>
-              <div><i>▸</i><span>Qualifying questions in-form to filter budget and timeline</span></div>
-              <div><i>▸</i><span>Channel partner and broker recruitment campaigns</span></div>
-            </div>
-          </div>
-
-          <div className="svc">
-            <div>
-              <div className="no">Reporting</div>
-              <h3>Numbers you can act on</h3>
-              <p className="desc">A live dashboard you can open any time, plus a monthly review call where we tell you what failed as clearly as what worked.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>Live dashboard — spend, leads, CPL, site visits, bookings</span></div>
-              <div><i>▸</i><span>Creative-level performance so you see which video sold</span></div>
-              <div><i>▸</i><span>Weekly snapshot on WhatsApp, monthly report and strategy call</span></div>
-              <div><i>▸</i><span>Daily budget pacing and anomaly checks</span></div>
-              <div><i>▸</i><span>Full ad spend reconciliation each month</span></div>
-              <div><i>▸</i><span>Quarterly business review with next-quarter plan</span></div>
-            </div>
-          </div>
-        </section>
-
-        {/* SERVICE 3 : LEAD MANAGEMENT */}
-        <section id="leads">
-          <div className="sechead"><span className="lvl">+09.0</span><h2>Lead management system</h2></div>
-          <p className="lede" style={{marginTop: '-18px'}}>Most developers lose more money to slow follow-up than to expensive ads. We give you a system — on web and mobile — where every enquiry has an owner, a status and a next action.</p>
-
-          <div className="svc" style={{marginTop: '34px'}}>
-            <div>
-              <div className="no">Capture</div>
-              <h3>Every lead in one place</h3>
-              <p className="desc">Nothing sits in a spreadsheet, a WhatsApp forward or somebody's personal inbox.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>Meta, Google, website, GMB, WhatsApp and walk-ins in one pipeline</span></div>
-              <div><i>▸</i><span>Instant alert to the assigned salesperson on new lead</span></div>
-              <div><i>▸</i><span>Automatic distribution by project, source or round-robin</span></div>
-              <div><i>▸</i><span>Duplicate detection so two people don't call the same buyer</span></div>
-              <div><i>▸</i><span>Source tagged on every lead, down to the exact creative</span></div>
-            </div>
-          </div>
-
-          <div className="svc">
-            <div>
-              <div className="no">Follow-up</div>
-              <h3>The full journey, tracked</h3>
-              <p className="desc">New → contacted → qualified → site visit scheduled → visited → negotiation → booked → lost. Every stage time-stamped.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>Click-to-call from the app with automatic call recording</span></div>
-              <div><i>▸</i><span>Follow-up reminders and task alerts for the sales team</span></div>
-              <div><i>▸</i><span>Site visit scheduling and attendance marking</span></div>
-              <div><i>▸</i><span>Lost reason capture — price, location, possession, competitor</span></div>
-              <div><i>▸</i><span>Notes, documents and quotations stored against the lead</span></div>
-              <div><i>▸</i><span>Automatic re-engagement of cold and dropped leads</span></div>
-            </div>
-          </div>
-
-          <div className="svc">
-            <div>
-              <div className="no">Control</div>
-              <h3>Visibility for the owner</h3>
-              <p className="desc">You see what your sales team is doing without asking for it.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>Salesperson-wise performance — calls, visits, conversions</span></div>
-              <div><i>▸</i><span>Response time report: how fast leads are actually being called</span></div>
-              <div><i>▸</i><span>Untouched and overdue lead alerts</span></div>
-              <div><i>▸</i><span>Source-wise ROI — which campaign produced real bookings</span></div>
-              <div><i>▸</i><span>Mobile app for the field team, web dashboard for management</span></div>
-              <div><i>▸</i><span>Team training and onboarding included in setup</span></div>
-            </div>
-            <div className="note">This closes the loop back into the ad account. Once bookings flow back into Meta and Google, the platforms start finding more people like your actual buyers instead of more people who fill forms.</div>
-          </div>
-        </section>
-
-        {/* SERVICE 4 : WEB */}
-        <section id="web">
-          <div className="sechead"><span className="lvl">+04.5</span><h2>Google Business, websites &amp; landing pages</h2></div>
-
-          <div className="svc">
-            <div>
-              <div className="no">Local search</div>
-              <h3>Google Business Profile</h3>
-              <p className="desc">For interior studios and contractors this is often the highest-intent, lowest-cost channel available — and it is usually neglected.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>Profile setup, verification and category optimisation</span></div>
-              <div><i>▸</i><span>Photo, video and project gallery management</span></div>
-              <div><i>▸</i><span>Weekly posts, offers and event updates</span></div>
-              <div><i>▸</i><span>Review generation system and reply management</span></div>
-              <div><i>▸</i><span>Local SEO and map pack ranking work</span></div>
-              <div><i>▸</i><span>Q&amp;A, service listing and booking link setup</span></div>
-            </div>
-          </div>
-
-          <div className="svc">
-            <div>
-              <div className="no">Build</div>
-              <h3>Websites and landing pages</h3>
-              <p className="desc">Fast, mobile-first pages built to convert traffic into enquiries — not brochure sites that take eight seconds to load.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>Project microsites and campaign landing pages</span></div>
-              <div><i>▸</i><span>Company websites with portfolio and project galleries</span></div>
-              <div><i>▸</i><span>Mobile-first, sub-three-second load targets</span></div>
-              <div><i>▸</i><span>Floor plans, pricing, location map and virtual tour integration</span></div>
-              <div><i>▸</i><span>Enquiry forms wired directly into the lead system</span></div>
-              <div><i>▸</i><span>WhatsApp and click-to-call buttons on every scroll position</span></div>
-              <div><i>▸</i><span>RERA details, disclaimers and compliance blocks</span></div>
-              <div><i>▸</i><span>Conversion rate testing after launch, not just handover</span></div>
-            </div>
-          </div>
-        </section>
-
-        {/* SERVICE 5 : AUTOMATION */}
-        <section id="auto">
-          <div className="sechead"><span className="lvl">+02.0</span><h2>WhatsApp &amp; AI automation</h2></div>
-          <p className="lede" style={{marginTop: '-18px'}}>A lead called within five minutes converts several times better than one called the next day. Automation makes sure the first response is instant, even at 11pm on a Sunday.</p>
-
-          <div className="svc" style={{marginTop: '34px'}}>
-            <div>
-              <div className="no">WhatsApp</div>
-              <h3>Official API setup</h3>
-              <p className="desc">Verified business number, green tick application, and message flows that run whether your team is at their desk or not.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>WhatsApp Business API setup and green tick application</span></div>
-              <div><i>▸</i><span>Instant auto-reply with brochure, price list and location pin</span></div>
-              <div><i>▸</i><span>Drip follow-up sequences for leads who go quiet</span></div>
-              <div><i>▸</i><span>Site visit reminders and confirmation messages</span></div>
-              <div><i>▸</i><span>Broadcast campaigns for launches, offers and price revisions</span></div>
-              <div><i>▸</i><span>Shared team inbox so no chat is stuck on one phone</span></div>
-              <div><i>▸</i><span>Click-to-WhatsApp ads that open a chat directly</span></div>
-            </div>
-          </div>
-
-          <div className="svc">
-            <div>
-              <div className="no">AI</div>
-              <h3>Qualification and workflow automation</h3>
-              <p className="desc">An AI assistant handles the repetitive first conversation and hands your salesperson a lead that is already qualified.</p>
-            </div>
-            <div className="grid2">
-              <div><i>▸</i><span>AI chat assistant answering FAQs 24×7 — price, size, possession, location</span></div>
-              <div><i>▸</i><span>Automatic budget, timeline and intent qualification before handover</span></div>
-              <div><i>▸</i><span>Conversations in Hindi and English</span></div>
-              <div><i>▸</i><span>Call recording transcription and summary against each lead</span></div>
-              <div><i>▸</i><span>Automated daily sales report to management on WhatsApp</span></div>
-              <div><i>▸</i><span>Review requests triggered automatically after handover</span></div>
-              <div><i>▸</i><span>Internal workflow automation across CRM, sheets and calendars</span></div>
-            </div>
-          </div>
-        </section>
+            {(sec.blocks || []).map((block, bi) => (
+              <div className="svc" style={bi === 0 && sec.intro ? { marginTop: '34px' } : undefined} key={bi}>
+                <div>
+                  {block.no && <div className="no">{block.no}</div>}
+                  <h3>{block.title}</h3>
+                  {block.description && <p className="desc">{block.description}</p>}
+                </div>
+                <div className="grid2">
+                  {(block.bullets || []).map((b, li) => (
+                    <div key={li}><i>▸</i><span>{b}</span></div>
+                  ))}
+                </div>
+                {block.note && <div className="note">{block.note}</div>}
+              </div>
+            ))}
+          </section>
+        ))}
 
         {/* WORK */}
-        <section id="work">
-          <div className="sechead"><span className="lvl">±00.0</span><h2>Selected work</h2></div>
-          <p className="lede" style={{marginTop: '-18px'}}>Tap any tile to open the full video or case study.</p>
+        <section id={c.work?.anchorId || 'work'}>
+          <div className="sechead"><span className="lvl">{c.work?.levelLabel}</span><h2>{c.work?.heading}</h2></div>
+          {c.work?.intro && <p className="lede" style={{ marginTop: '-18px' }}>{c.work.intro}</p>}
 
-          <div className="media" style={{marginTop: '32px'}}>
-            <a className="slot h wide" href="https://www.instagram.com/toflymedia/" target="_blank" rel="noopener">
-              <span className="tag">Showreel</span>
-              <span className="ti">Agency showreel — <span className="fill">add link</span></span>
-              <span className="su">Replace with your 60–90 second reel covering drone, walkthrough and interior work.</span>
-            </a>
-
-            <a className="slot v" href="https://www.instagram.com/toflymedia/" target="_blank" rel="noopener">
-              <span className="tag">Real estate</span>
-              <span className="ti"><span className="fill">Project name</span></span>
-              <span className="su">Drone elevation film. Add result: leads, cost per lead, site visits.</span>
-            </a>
-
-            <a className="slot v" href="https://www.instagram.com/toflymedia/" target="_blank" rel="noopener">
-              <span className="tag">Interiors</span>
-              <span className="ti"><span className="fill">Studio name</span></span>
-              <span className="su">Before / after transformation reel. Add reach and enquiry numbers.</span>
-            </a>
-
-            <a className="slot v" href="https://www.instagram.com/toflymedia/" target="_blank" rel="noopener">
-              <span className="tag">Construction</span>
-              <span className="ti"><span className="fill">Company name</span></span>
-              <span className="su">Monthly progress film. Add what it did for buyer confidence.</span>
-            </a>
-
-            <a className="slot v" href="https://www.instagram.com/toflymedia/" target="_blank" rel="noopener">
-              <span className="tag">Influencer</span>
-              <span className="ti"><span className="fill">Creator collaboration</span></span>
-              <span className="su">Bhopal creator walkthrough. Add views and enquiries generated.</span>
-            </a>
-
-            <a className="slot h" href="https://www.instagram.com/toflymedia/" target="_blank" rel="noopener">
-              <span className="tag">Ad creative</span>
-              <span className="ti"><span className="fill">Campaign name</span></span>
-              <span className="su">Screenshot of the ads manager result — spend, leads, cost per lead.</span>
-            </a>
-
-            <a className="slot h" href="https://www.instagram.com/toflymedia/" target="_blank" rel="noopener">
-              <span className="tag">Dashboard</span>
-              <span className="ti"><span className="fill">Lead system screenshot</span></span>
-              <span className="su">Show the pipeline view so clients understand what they get.</span>
-            </a>
-
-            <a className="slot h" href="https://www.toflymediaa.com/" target="_blank" rel="noopener">
-              <span className="tag">Website</span>
-              <span className="ti"><span className="fill">Landing page build</span></span>
-              <span className="su">Add the live URL and its conversion rate.</span>
-            </a>
+          <div className="media" style={{ marginTop: '32px' }}>
+            {(c.work?.items || []).map((item, i) => {
+              const cls = ['slot', item.orientation === 'horizontal' ? 'h' : 'v', item.wide ? 'wide' : '']
+                .filter(Boolean).join(' ')
+              return (
+                <a className={cls} href={item.href || '#'} target="_blank" rel="noopener" key={i}>
+                  {item.tag && <span className="tag">{item.tag}</span>}
+                  <span className="ti"><span className="fill">{item.title}</span></span>
+                  {item.description && <span className="su">{item.description}</span>}
+                </a>
+              )
+            })}
           </div>
         </section>
 
         {/* VERTICALS */}
         <section>
-          <div className="sechead"><span className="lvl">Sector</span><h2>What this looks like in your business</h2></div>
+          <div className="sechead"><span className="lvl">{c.verticals?.levelLabel}</span><h2>{c.verticals?.heading}</h2></div>
           <div className="vert">
-            <div>
-              <h3>Real estate developers</h3>
-              <p>Pre-launch interest, launch-day volume and steady site visits through the sales cycle.</p>
-              <ul>
-                <li>Pre-launch waitlist campaigns</li>
-                <li>Inventory-wise targeting by configuration</li>
-                <li>Channel partner recruitment</li>
-                <li>Cost per site visit as the headline metric</li>
-                <li>Construction progress content for buyer confidence</li>
-              </ul>
-            </div>
-            <div>
-              <h3>Interior designers &amp; studios</h3>
-              <p>A portfolio that does the selling before the first meeting, and enquiries with real budgets.</p>
-              <ul>
-                <li>Before / after and reveal-format content</li>
-                <li>Budget-qualified enquiry forms</li>
-                <li>Google Business and local search dominance</li>
-                <li>Material and craftsmanship detail films</li>
-                <li>Client testimonial and handover shoots</li>
-              </ul>
-            </div>
-            <div>
-              <h3>Construction &amp; contracting</h3>
-              <p>Credibility content for a business where trust decides the contract, plus B2B lead flow.</p>
-              <ul>
-                <li>Project capability and scale films</li>
-                <li>Timeline and delivery-record content</li>
-                <li>B2B targeting of developers and architects</li>
-                <li>Tender and credential documentation support</li>
-                <li>Safety, quality and team culture content</li>
-              </ul>
-            </div>
+            {(c.verticals?.items || []).map((v, i) => (
+              <div key={i}>
+                <h3>{v.title}</h3>
+                <p>{v.description}</p>
+                <ul>
+                  {(v.bullets || []).map((b, li) => <li key={li}>{b}</li>)}
+                </ul>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* PROCESS */}
         <section>
-          <div className="sechead"><span className="lvl">Process</span><h2>How we start</h2></div>
+          <div className="sechead"><span className="lvl">{c.process?.levelLabel}</span><h2>{c.process?.heading}</h2></div>
           <div className="steps">
-            <div className="step"><span className="sn">01</span><div><strong>Discovery call — 45 minutes</strong><p>Your projects, current marketing, what your booking cycle actually looks like and what has failed before. No pitch on this call.</p></div></div>
-            <div className="step"><span className="sn">02</span><div><strong>Free audit</strong><p>We review your ad accounts, page, website and Google listing, then present specific gaps and what fixing them is worth. Yours to keep whether you hire us or not.</p></div></div>
-            <div className="step"><span className="sn">03</span><div><strong>Proposal and scope</strong><p>Strategy, deliverables with quantities, timelines, team, pricing and what is explicitly not included. Sent within 48 hours of the audit.</p></div></div>
-            <div className="step"><span className="sn">04</span><div><strong>Agreement and kickoff</strong><p>Signed agreement, access to your own accounts, tracking setup, baseline numbers recorded and a 30-60-90 day roadmap presented to your team.</p></div></div>
-            <div className="step"><span className="sn">05</span><div><strong>First shoot and launch</strong><p>Content produced, campaigns live, lead system connected and your sales team trained on it — typically inside the first three weeks.</p></div></div>
-            <div className="step"><span className="sn">06</span><div><strong>Optimise and review</strong><p>Weekly optimisation, monthly reports and strategy calls, quarterly business reviews. You always know what we are doing and why.</p></div></div>
+            {(c.process?.steps || []).map((s, i) => (
+              <div className="step" key={i}>
+                <span className="sn">{s.number}</span>
+                <div><strong>{s.title}</strong><p>{s.description}</p></div>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* CTA */}
-        <section id="talk">
+        <section id={c.cta?.anchorId || 'talk'}>
           <div className="cta">
             <div>
-              <h2>Tell us what you're launching.</h2>
-              <p className="lede">Bring your current numbers to the first call — spend, lead cost, site visits, bookings. If we don't think we can improve them, we'll say so on the call.</p>
+              <h2>{c.cta?.heading}</h2>
+              <p className="lede">{c.cta?.description}</p>
             </div>
             <ul className="contactlist">
-              <li><span className="lab">Call / WhatsApp</span><a href="tel:" className="fill">+91 –– –––– ––––</a></li>
-              <li><span className="lab">Email</span><a href="mailto:" className="fill">hello@toflymedia.com</a></li>
-              <li><span className="lab">Instagram</span><a href="https://www.instagram.com/toflymedia/" target="_blank" rel="noopener">@toflymedia</a></li>
-              <li><span className="lab">Website</span><a href="https://www.toflymediaa.com/" target="_blank" rel="noopener">toflymediaa.com</a></li>
-              <li><span className="lab">Office</span><span className="fill">Bhopal, MP — add address</span></li>
+              {(c.cta?.contactList || []).map((item, i) => (
+                <li key={i}>
+                  <span className="lab">{item.label}</span>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      className="fill"
+                      target={item.external ? '_blank' : undefined}
+                      rel={item.external ? 'noopener' : undefined}
+                    >
+                      {item.value}
+                    </a>
+                  ) : (
+                    <span className="fill">{item.value}</span>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
         </section>
 
         <footer>
           <div className="fr">
-            <span>To Fly Media — growth partner for real estate, interiors and construction.</span>
-            <span>Bhopal · Serving clients across India</span>
+            <span>{c.footer?.line1}</span>
+            <span>{c.footer?.line2}</span>
           </div>
         </footer>
 

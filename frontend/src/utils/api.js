@@ -51,6 +51,9 @@ export const publicAPI = {
 
   // Leads
   submitLead: (data) => api.post('/leads', data),
+
+  // Tofly Portfolio page (fully dynamic content)
+  getPortfolio: () => api.get('/portfolio'),
 }
 
 // ── Admin API helpers ───────────────────────────────────────
@@ -90,6 +93,11 @@ export const adminAPI = {
   createCaseStudy: (data) => api.post('/case-studies', data),
   updateCaseStudy: (id, data) => api.put(`/case-studies/${id}`, data),
   deleteCaseStudy: (id) => api.delete(`/case-studies/${id}`),
+
+  // Tofly Portfolio page (fully dynamic content)
+  getPortfolio: () => api.get('/portfolio'),
+  updatePortfolio: (data) => api.put('/portfolio', data),
+  resetPortfolio: () => api.post('/portfolio/reset'),
 
   // Upload
   uploadImage: (file, type = 'misc') => {
