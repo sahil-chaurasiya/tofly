@@ -3,7 +3,7 @@ import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, Users, FileText, Briefcase, Star,
-  BookOpen, LogOut, Menu, X, ChevronRight, CreditCard, PlaneTakeoff
+  BookOpen, LogOut, Menu, X, ChevronRight, CreditCard, PlaneTakeoff, Tag
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { toast } from 'react-hot-toast'
@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { label: 'Testimonials',path: '/admin/testimonials',   icon: Star },
   { label: 'Case Studies',path: '/admin/case-studies',   icon: BookOpen },
   { label: 'Tofly Portfolio', path: '/admin/tofly-portfolio', icon: PlaneTakeoff },
+  { label: 'Tofly Pricing', path: '/admin/tofly-pricing', icon: Tag },
 ]
 
 function SidebarContent({ sidebarOpen, onClose, user, handleLogout, isDesktop }) {

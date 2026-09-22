@@ -19,6 +19,7 @@ const caseStudyRoutes = require('./routes/caseStudies');
 const uploadRoutes = require('./routes/upload');
 const paymentRoutes = require('./routes/payment');
 const portfolioRoutes = require('./routes/portfolio');
+const pricingRoutes = require('./routes/pricing');
 
 const app = express();
 
@@ -103,6 +104,7 @@ app.use('/api/case-studies', caseStudyRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/portfolio', portfolioRoutes);
+app.use('/api/pricing', pricingRoutes);
 
 
 // 404 handler

@@ -1,7 +1,13 @@
+import { useQuery } from '@tanstack/react-query'
+import { publicAPI } from '../utils/api'
+import TFLY_PRICING_DEFAULTS from '../data/tflyPricingDefaults'
+
 // ─── Standalone page: converted 1:1 from the provided tofly-pricing.html ───
 // All CSS below is copied verbatim from the source file (only the font
 // <link> tags were replaced with an equivalent @import) and scoped under
 // .tfprice-root so it cannot leak into / clash with any other page's styles.
+// Every piece of copy/pricing below is now fetched from the admin-editable
+// content API (Admin → Tofly Pricing) — nothing on this page is hardcoded.
 const STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap');
 
@@ -98,7 +104,61 @@ const STYLES = `
 
 `
 
+// Renders "some **bold** text" with the **...** segments wrapped in <b>,
+// so admins can highlight key phrases (e.g. "**18% GST**") from a plain
+// textarea in the admin panel without needing raw HTML.
+function Bold({ text }) {
+  const parts = String(text || '').split(/(\*\*[^*]+\*\*)/g)
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.startsWith('**') && part.endsWith('**')
+          ? <b key={i}>{part.slice(2, -2)}</b>
+          : <span key={i}>{part}</span>
+      )}
+    </>
+  )
+}
+
+// A single price card used across Track 1, Track 2 and the Bundle section.
+function PlanCard({ plan }) {
+  if (!plan) return null
+  return (
+    <div className={plan.highlight ? 'card hi' : 'card'}>
+      <div className="plan">{plan.planLabel}</div>
+      <div className="pricebox">
+        {plan.was && <span className="was">{plan.was}</span>}
+        <span className="now">{plan.now}</span>
+        {plan.per && <span className="per">{plan.per}</span>}
+      </div>
+      {plan.effective && <div className="eff">{plan.effective}</div>}
+      {plan.badge && <span className="badge">{plan.badge}</span>}
+    </div>
+  )
+}
+
 export default function TflyPricingPage() {
+  // Every piece of copy/pricing on this page is fetched from the
+  // admin-editable content API. While it loads (or if it's ever
+  // unreachable) we fall back to TFLY_PRICING_DEFAULTS so the page
+  // always renders something sensible.
+  const { data } = useQuery({
+    queryKey: ['tofly-pricing-content'],
+    queryFn: () => publicAPI.getPricing(),
+    select: (res) => res.data.content,
+  })
+
+  const c = data || TFLY_PRICING_DEFAULTS
+
+  const t1 = c.track1 || {}
+  const t2 = c.track2 || {}
+  const rateHeaders = t2.rateTableHeaders || {}
+  const bundle = c.bundle || {}
+  const onetime = c.onetime || {}
+  const addons = c.addons || {}
+  const terms = c.terms || {}
+  const footer = c.footer || {}
+
   return (
     <div className="tfprice-root">
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
@@ -107,191 +167,164 @@ export default function TflyPricingPage() {
 
         <header className="top">
           <div className="brandline">
-            <span className="logo">To Fly Media</span><span className="sep"></span><span className="loc">Bhopal, Madhya Pradesh</span>
+            <span className="logo">{c.brand?.logoText}</span><span className="sep"></span><span className="loc">{c.brand?.locationText}</span>
           </div>
-          <h1>Pricing &amp; Packages</h1>
-          <p className="sub">Pick the track that matches what you actually need — content, performance marketing, or both. Pay quarterly and lock in our deepest discount.</p>
-          <div className="validity">Offer prices valid for agreements signed within 15 days of this quote</div>
+          <h1>{c.header?.title}</h1>
+          <p className="sub">{c.header?.subtitle}</p>
+          {c.header?.validityText && <div className="validity">{c.header.validityText}</div>}
         </header>
 
         {/* TRACK 1 */}
         <section>
           <div className="track-head">
-            <div><span className="tag">Track 1</span></div>
+            <div><span className="tag">{t1.tag}</span></div>
           </div>
-          <h2>Content &amp; Social Media Management</h2>
-          <p className="lede">Full content engine across every active platform — shot, scripted, posted and engaged with, daily.</p>
+          <h2>{t1.heading}</h2>
+          {t1.lede && <p className="lede">{t1.lede}</p>}
 
           <div className="cardgrid">
-            <div className="card">
-              <div className="plan">Monthly plan</div>
-              <div className="pricebox"><span className="was">₹25,000</span><span className="now">₹20,000</span><span className="per">/month</span></div>
-              <span className="badge">20% off</span>
-            </div>
-            <div className="card hi">
-              <div className="plan">3-month plan · pay upfront</div>
-              <div className="pricebox"><span className="was">₹75,000</span><span className="now">₹50,000</span><span className="per">total</span></div>
-              <div className="eff">Effective ₹16,667/month</div>
-              <span className="badge">33% off</span>
-            </div>
+            {(t1.plans || []).map((plan, i) => <PlanCard plan={plan} key={i} />)}
           </div>
 
           <ul className="dl">
-            <li>12–15 reels/posts per month, plus daily status updates</li>
-            <li>Monthly content planning, scripting and posting across all active platforms</li>
-            <li>Engagement management — likes, comments, DM and review replies</li>
-            <li>Real site posts, testimonials, AI-generated videos and graphics</li>
-            <li>Minimum 200–300 new followers/engagement growth targeted per month</li>
-            <li>Brand and page collaborations for added visibility and credibility</li>
-            <li>Google Business Profile comment and review handling</li>
+            {(t1.bullets || []).map((b, i) => <li key={i}>{b}</li>)}
           </ul>
-          <div className="teamline"><strong>Team included:</strong> Dedicated Social Media Manager, Editor / Graphic Designer</div>
-          <div className="note">Excludes shoot days, influencer fees and printed materials — billed separately at actual cost (see Add-ons below).</div>
+          {t1.teamValue && (
+            <div className="teamline"><strong>{t1.teamLabel}</strong> {t1.teamValue}</div>
+          )}
+          {t1.note && <div className="note">{t1.note}</div>}
         </section>
 
         {/* TRACK 2 */}
         <section>
-          <div className="track-head"><span className="tag">Track 2</span></div>
-          <h2>Performance Marketing</h2>
-          <p className="lede">Ad creative, testing, targeting and a full lead management system — built to lower cost per site visit, not just cost per lead.</p>
+          <div className="track-head">
+            <div><span className="tag">{t2.tag}</span></div>
+          </div>
+          <h2>{t2.heading}</h2>
+          {t2.lede && <p className="lede">{t2.lede}</p>}
 
           <div className="scrollx">
             <table className="rate">
-              <thead><tr><th>Monthly ad budget</th><th>Regular fee</th><th>Offer fee</th><th>Billing</th></tr></thead>
+              <thead>
+                <tr>
+                  <th>{rateHeaders.budget}</th>
+                  <th>{rateHeaders.regularFee}</th>
+                  <th>{rateHeaders.offerFee}</th>
+                  <th>{rateHeaders.billing}</th>
+                </tr>
+              </thead>
               <tbody>
-                <tr><td>Up to ₹50,000</td><td className="was">₹20,000/mo</td><td className="now">₹15,000/mo</td><td>Flat monthly</td></tr>
-                <tr><td>Above ₹50,000</td><td className="was">38% of spend</td><td className="now">30% of spend</td><td>% of ad budget</td></tr>
+                {(t2.rateRows || []).map((row, i) => (
+                  <tr key={i}>
+                    <td>{row.budget}</td>
+                    <td className="was">{row.regularFee}</td>
+                    <td className="now">{row.offerFee}</td>
+                    <td>{row.billing}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
 
           <div className="cardgrid" style={{marginTop: '22px'}}>
-            <div className="card">
-              <div className="plan">3-month plan · budget ≤ ₹50k</div>
-              <div className="pricebox"><span className="was">₹60,000</span><span className="now">₹40,000</span><span className="per">total</span></div>
-              <div className="eff">Effective ₹13,333/month</div>
-              <span className="badge">33% off</span>
-            </div>
-            <div className="card hi">
-              <div className="plan">3-month plan · budget &gt; ₹50k</div>
-              <div className="pricebox"><span className="was">38%</span><span className="now">25%</span><span className="per">of ad spend</span></div>
-              <div className="eff">Locked in for the full quarter</div>
-              <span className="badge">34% off</span>
-            </div>
+            {(t2.plans || []).map((plan, i) => <PlanCard plan={plan} key={i} />)}
           </div>
 
           <ul className="dl">
-            <li>Engaging ad creatives, tested in multiple variants (A/B and A/B/n)</li>
-            <li>Continuous lead-quality improvement, not just lower cost per lead</li>
-            <li>Full Lead Management System — every lead tracked from new to converted</li>
-            <li>Follow-up tracking and lead-quality monitoring with your sales team</li>
-            <li>Sales script standardisation support for your calling team</li>
-            <li>Manager dashboard — real-time status of every lead and site visit</li>
-            <li>Weekly reports on ad spend and lead quality; regular creative and campaign testing</li>
-            <li>Your leads stay exclusive to you and confidential — always</li>
-            <li>We do not work with a direct competitor on the same project or micro-market</li>
+            {(t2.bullets || []).map((b, i) => <li key={i}>{b}</li>)}
           </ul>
-          <div className="teamline"><strong>Team included:</strong> Dedicated Ad Manager &nbsp;·&nbsp; Sales Lead Coordinator available as an add-on</div>
-          <div className="note">Ad spend itself is paid directly to Meta/Google by you (or reimbursed at actual) — this fee covers management only.</div>
+          {t2.teamValue && (
+            <div className="teamline"><strong>{t2.teamLabel}</strong> {t2.teamValue}</div>
+          )}
+          {t2.note && <div className="note">{t2.note}</div>}
         </section>
 
         {/* BUNDLE */}
         <section>
-          <div className="track-head"><span className="tag">Best value</span></div>
+          <div className="track-head"><span className="tag">{bundle.tag}</span></div>
           <div className="bundle-wrap">
             <div className="bundle">
               <div className="top">
                 <div>
-                  <h3>Growth Bundle — Content + Performance</h3>
-                  <p className="lede" style={{marginTop: '8px'}}>Both tracks under one retainer, one point of contact, one unified report. Recommended for developers and studios running always-on marketing. (Ad budget up to ₹50,000/month; higher budgets add the % fee from Track 2 above.)</p>
+                  <h3>{bundle.heading}</h3>
+                  {bundle.lede && <p className="lede" style={{marginTop: '8px'}}>{bundle.lede}</p>}
                 </div>
-                <span className="recommend">Recommended</span>
+                {bundle.recommendBadge && <span className="recommend">{bundle.recommendBadge}</span>}
               </div>
 
               <div className="bundlegrid">
-                <div className="bp">
-                  <div className="plan">Monthly</div>
-                  <div className="pricebox"><span className="was">₹50,000</span><span className="now">₹38,000</span><span className="per">/month</span></div>
-                  <span className="badge">24% off</span>
-                </div>
-                <div className="bp">
-                  <div className="plan">3-month plan · pay upfront</div>
-                  <div className="pricebox"><span className="was">₹1,50,000</span><span className="now">₹1,00,000</span><span className="per">total</span></div>
-                  <div className="eff">Effective ₹33,333/month</div>
-                  <span className="badge">33% off</span>
-                </div>
+                {(bundle.plans || []).map((plan, i) => (
+                  <div className="bp" key={i}>
+                    <div className="plan">{plan.planLabel}</div>
+                    <div className="pricebox">
+                      {plan.was && <span className="was">{plan.was}</span>}
+                      <span className="now">{plan.now}</span>
+                      {plan.per && <span className="per">{plan.per}</span>}
+                    </div>
+                    {plan.effective && <div className="eff">{plan.effective}</div>}
+                    {plan.badge && <span className="badge">{plan.badge}</span>}
+                  </div>
+                ))}
               </div>
-              <p className="savenote">Includes everything in Track 1 and Track 2 — one dedicated account team, no coordination gap between content and ads.</p>
+              {bundle.savenote && <p className="savenote">{bundle.savenote}</p>}
             </div>
           </div>
         </section>
 
         {/* ONE-TIME */}
         <section>
-          <div className="track-head"><span className="tag">One-time setup</span></div>
-          <h2>Website, GMB &amp; Automation</h2>
-          <p className="lede">Built once, owned by you. Not a monthly retainer.</p>
+          <div className="track-head"><span className="tag">{onetime.tag}</span></div>
+          <h2>{onetime.heading}</h2>
+          {onetime.lede && <p className="lede">{onetime.lede}</p>}
 
           <div className="cardgrid" style={{marginTop: '26px'}}>
-            <div className="card">
-              <div className="plan">Website + Landing Page + GMB setup</div>
-              <div className="pricebox"><span className="was">₹25,000</span><span className="now">₹20,000</span><span className="per">one-time</span></div>
-              <span className="badge">20% off</span>
-              <ul className="dl">
-                <li>Custom-built on Next.js + MongoDB — not WordPress or a template</li>
-                <li>Dynamic 4–5 page website with admin panel for self-editing content</li>
-                <li>Dedicated landing page for your sales funnel</li>
-                <li>Domain + hosting included for 1 year</li>
-                <li>Full source code handed over for future development</li>
-                <li>1 month of free changes and support after launch</li>
-                <li>Google Business Profile setup and optimisation</li>
-              </ul>
-              <div className="note">Website SEO is scoped and quoted separately after a free audit of your keywords and competition.</div>
-            </div>
-
-            <div className="card">
-              <div className="plan">WhatsApp Business + Automation setup</div>
-              <div className="pricebox"><span className="was">₹10,000</span><span className="now">₹8,000</span><span className="per">one-time</span></div>
-              <span className="badge">20% off</span>
-              <ul className="dl">
-                <li>WhatsApp Business API setup and green-tick application</li>
-                <li>Instant auto-reply with brochure, price list and location</li>
-                <li>Drip follow-up flows and site-visit reminders</li>
-                <li>Shared team inbox — no chat stuck on one phone</li>
-              </ul>
-            </div>
+            {(onetime.cards || []).map((card, i) => (
+              <div className="card" key={i}>
+                <div className="plan">{card.planLabel}</div>
+                <div className="pricebox">
+                  {card.was && <span className="was">{card.was}</span>}
+                  <span className="now">{card.now}</span>
+                  {card.per && <span className="per">{card.per}</span>}
+                </div>
+                {card.badge && <span className="badge">{card.badge}</span>}
+                <ul className="dl">
+                  {(card.bullets || []).map((b, bi) => <li key={bi}>{b}</li>)}
+                </ul>
+                {card.note && <div className="note">{card.note}</div>}
+              </div>
+            ))}
           </div>
         </section>
 
         {/* ADD-ONS */}
         <section>
-          <div className="track-head"><span className="tag">Add-ons</span></div>
-          <h2>Billed at actual cost — zero markup</h2>
-          <p className="lede">Invoice shared for every one of these. You only pay what it actually costs.</p>
+          <div className="track-head"><span className="tag">{addons.tag}</span></div>
+          <h2>{addons.heading}</h2>
+          {addons.lede && <p className="lede">{addons.lede}</p>}
 
           <div className="addon-grid">
-            <div><span className="an">Professional camera + drone shoot day</span><span className="av">₹5,000<small>per day</small></span></div>
-            <div><span className="an">iPhone-native content shoot day</span><span className="av">₹3,000<small>per day</small></span></div>
-            <div><span className="an">Influencers / models</span><span className="av">At cost<small>invoice shared</small></span></div>
-            <div><span className="an">Standees, brochures &amp; printed collateral</span><span className="av">At cost<small>invoice shared</small></span></div>
+            {(addons.items || []).map((item, i) => (
+              <div key={i}>
+                <span className="an">{item.name}</span>
+                <span className="av">{item.value}<small>{item.sub}</small></span>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* TERMS */}
         <section>
-          <div className="track-head"><span className="tag">Terms</span></div>
+          <div className="track-head"><span className="tag">{terms.tag}</span></div>
           <ul className="termslist">
-            <li>All prices are exclusive of <b>18% GST</b>.</li>
-            <li>Offer prices are valid for agreements signed within <b>15 days</b> of this quote; regular pricing applies after.</li>
-            <li>3-month plans require <b>100% payment in advance</b>; monthly plans require the current month in advance.</li>
-            <li>Ad spend (where applicable) is separate from the management fee and paid directly to the platform.</li>
-            <li>Scope not listed above — additional shoot days, extra platforms, paid influencer campaigns — is quoted separately before starting.</li>
+            {(terms.items || []).map((item, i) => (
+              <li key={i}><Bold text={item} /></li>
+            ))}
           </ul>
         </section>
 
         <footer>
-          <span>To Fly Media — growth partner for real estate, interiors and construction.</span>
-          <span>Valid as on <span style={{color: 'var(--brass-soft)'}}>20 September 2026</span></span>
+          <span>{footer.line1}</span>
+          <span>{footer.validPrefix} <span style={{color: 'var(--brass-soft)'}}>{footer.validDate}</span></span>
         </footer>
 
       </div>

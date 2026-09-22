@@ -54,6 +54,9 @@ export const publicAPI = {
 
   // Tofly Portfolio page (fully dynamic content)
   getPortfolio: () => api.get('/portfolio'),
+
+  // Tofly Pricing page (fully dynamic content)
+  getPricing: () => api.get('/pricing'),
 }
 
 // ── Admin API helpers ───────────────────────────────────────
@@ -98,6 +101,11 @@ export const adminAPI = {
   getPortfolio: () => api.get('/portfolio'),
   updatePortfolio: (data) => api.put('/portfolio', data),
   resetPortfolio: () => api.post('/portfolio/reset'),
+
+  // Tofly Pricing page (fully dynamic content)
+  getPricing: () => api.get('/pricing'),
+  updatePricing: (data) => api.put('/pricing', data),
+  resetPricing: () => api.post('/pricing/reset'),
 
   // Upload
   uploadImage: (file, type = 'misc') => {
