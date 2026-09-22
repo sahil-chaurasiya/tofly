@@ -20,6 +20,8 @@ import PricingPage from './pages/PricingPage'
 import BharatTexPage from './pages/BharatTexPage'
 import DoctorPricingPage from './pages/DoctorPricingPage'
 import WebDevPricingPage from './pages/WebDevPricingPage'
+import TflyPortfolioPage from './pages/TflyPortfolioPage'
+import TflyPricingPage from './pages/TflyPricingPage'
 
 // Admin
 import AdminLayout from './components/admin/AdminLayout'
@@ -83,6 +85,8 @@ export default function App() {
           <Route path="/astrology-pricing" element={<PricingPage />} />
           <Route path="/doctor-pricing" element={<DoctorPricingPage />} />
           <Route path="/webdev-pricing" element={<WebDevPricingPage />} />
+          <Route path="/tofly-portfolio" element={<TflyPortfolioPage />} />
+          <Route path="/tofly-pricing" element={<TflyPricingPage />} />
 
           {/* ── Admin Routes ── */}
           <Route path="/admin/login" element={<AdminLogin />} />
