@@ -38,6 +38,8 @@ const allowedOrigins = [
   'https://tofly.vercel.app',
   'https://www.toflymediaa.com',
   'https://toflymediaa.com',
+  'https://toflymedia.com',
+  'https://www.toflymedia.com',
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
